@@ -5,6 +5,49 @@ $categories = \App\Category::getHomeCategories(6);
 
 
 ?>
+    <nav class="navbar navbar-expand-md navbar-dark au-navbar d-none d-sm-block">
+        <ul class="navbar-nav nav-inner au-nav-inner mr-auto">
+            <li class="nav-item au-items text-light pt-2">
+                @if (Auth::check())
+                    Hello 
+                    <span class="font-weight-bold">
+                        {{Auth::user()->name}}!
+                    </span>
+                @endif
+            </li>
+        {{-- </ul>
+        <ul class="navbar-nav nav-inner au-nav-inner ml-auto text-light"> --}}
+           <li class="nav-item au-items ml-auto">
+                @if (Auth::check())
+                    @include('bidder.common.notifications')
+                @endif
+           </li>
+            <li class="nav-item au-items">
+                <a class="au-custom nav-link nav-press scroll text-light" href="{{URL_CONTACT_US}}" title="Contact Us"> 
+                    {{getPhrase('contact_us')}} 
+                </a>
+            </li>
+            @if (Auth::check())
+                <li>
+                    <a href="{{URL_DASHBOARD}}" title="Dashboard" class="nav-link nav-press scroll text-light"> 
+                        {{getPhrase('dashboard')}} 
+                    </a>
+                </li>
+                <li>
+                    <a href="{{URL_LOGOUT}}" title="Logout" class="nav-link nav-press scroll text-light">
+                        {{getPhrase('logout')}}
+                    </a>
+                </li>
+            @endif
+            @if (!Auth::check())
+                <li>
+                    <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Login" class="nav-link nav-press scroll" >
+                        {{getPhrase('login')}}
+                    </a>
+                </li>
+            @endif
+        </ul>
+    </nav>
     <nav class="navbar navbar-expand-md navbar-light nav-custom">
       <div class="container">
         <a class="navbar-brand" href="{{PREFIX}}">
@@ -13,24 +56,64 @@ $categories = \App\Category::getHomeCategories(6);
         <a href="#off-canvas" class="js-offcanvas-trigger navbar-toggle collapsed" data-toggle="collapse" data-offcanvas-trigger="off-canvas" aria-expanded="false"></a>
         <button class="navbar-toggler js-offcanvas-trigger wb-btnn" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" data-offcanvas-trigger="off-canvas"> <span class="navbar-toggler-icon"></span> </button>
             <div class="collapse navbar-collapse d-none justify-content-end" id="navbarCollapse">
-                <ul class="navbar-nav nav-inner au-nav-inner">
-
-                   @if (Auth::check())
+                <ul class="navbar-nav nav-inner au-nav-inner ">
+                    {{-- 
+                        Search box on homepage css is isnide 
+                        home/css/styles.css line 5736
+                    --}}
+                    <div class="ml-auto">
+                        <div class="row searchFilter" >
+                            <div class="" >
+                            <div class="input-group col-12" >
+                            <input id="table_filter" type="text" class="form-control search-input" aria-label="Text input with segmented button dropdown" placeholder="Search for anything" >
+                            <div class="input-group-btn" >
+                                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >
+                                    Category</span> 
+                                    <span class="caret" ></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" >
+                                <ul class="category_filters" >
+                                    <li >
+                                        <input class="cat_type category-input" data-label="All" id="all" value="" name="radios" type="radio" ><label for="all" >All</label>
+                                    </li>
+                                    @if ($categories)
+                                        @foreach ($categories as $category)
+                                            <?php $sub_categories = $category->get_sub_catgories()->get();?>
+                                            @if (count($sub_categories))
+                                                <li >
+                                                    <input class="cat_type category-input" data-label="{{$category->category}}" id="{{$category->category}}" value="{{$category->category}}" name="radios" type="radio" ><label for="{{$category->category}}" >
+                                                        {{$category->category}}
+                                                    </label>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </ul>
+                                </div>
+                                <button id="searchBtn" type="button" class="btn btn-search" >
+                                    <span class="label-icon" >
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                   {{-- @if (Auth::check())
                    @include('bidder.common.notifications')
-                   @endif
+                   @endif --}}
 
-                   <li class="nav-item au-items"><a class="au-custom nav-link nav-press scroll" href="{{URL_CONTACT_US}}" title="Contact Us"> {{getPhrase('contact_us')}} </a></li>
+                   {{-- <li class="nav-item au-items"><a class="au-custom nav-link nav-press scroll" href="{{URL_CONTACT_US}}" title="Contact Us"> {{getPhrase('contact_us')}} </a></li>
 
                    @if (Auth::check())
                    <li><a href="{{URL_DASHBOARD}}" title="Dashboard" class="nav-link nav-press scroll"> {{getPhrase('dashboard')}} </a></li>
-                   @endif
+                   @endif --}}
 
 
-                   @if (!Auth::check())
+                   {{-- @if (!Auth::check())
                    <li><a href="javascript:void(0);" onclick="showModal('loginModal')" title="Login" class="nav-link nav-press scroll" >{{getPhrase('login')}}</a></li>
-                   @endif
-
-
+                   @endif --}}
                 </ul>
             </div>
         </div>
@@ -46,47 +129,51 @@ $categories = \App\Category::getHomeCategories(6);
 
                         <li><a href="{{URL_HOME}}"> {{getPhrase('home')}} </a></li>
 
-                        <li><a href="{{URL_HOME_AUCTIONS}}"> {{getPhrase('auctions')}} </a></li>
+                        <li>
+                            <a href="{{URL_HOME_AUCTIONS}}"> 
+                                {{getPhrase('auctions')}} 
+                            </a>
+                        </li>
 
                         @if ($categories)
                         @foreach ($categories as $category)
-
-                        <?php $sub_categories = $category->get_sub_catgories()->get();?>
-
-                        @if (count($sub_categories))
-                        <li class="single-dropdown"><span class="menu-mobile-grover au-listts"><i class="fa fa-chevron-circle-down au-icon"></i></span>
-
-
-                            <a href="javascript:void(0)"> {{$category->category}} </a>
-
-                            <ul class="submenu-container clearfix first-in-line-xs menu-mobile">
-                                <li>
-                                    <ul>
-                            @foreach ($sub_categories as $sub)
-
-                            <?php $auctions_count = $sub->getMenuSubCategoryAuctions()->count();?>
-
-                                <li>
-                                    <a href="javascript:void(0)" onclick="window.location.href='{{URL_HOME_AUCTIONS}}?category={{$category->slug}}&subcategory={{$sub->slug}}';"> {{$sub->sub_category}} ({{$auctions_count}}) </a>
-                                </li>
-                            @endforeach
+                            <?php $sub_categories = $category->get_sub_catgories()->get();?>
+                            @if (count($sub_categories))
+                                <li class="single-dropdown">
+                                    <span class="menu-mobile-grover au-listts">
+                                        <i class="fa fa-chevron-circle-down au-icon"></i>
+                                    </span>
+                                    <a href="javascript:void(0)"> {{$category->category}} </a>
+                                    <ul class="submenu-container clearfix first-in-line-xs menu-mobile">
+                                        <li>
+                                            <ul>
+                                                @foreach ($sub_categories as $sub)
+                                                    <?php $auctions_count = $sub->getMenuSubCategoryAuctions()->count();?>
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="window.location.href='{{URL_HOME_AUCTIONS}}?category={{$category->slug}}&subcategory={{$sub->slug}}';"> 
+                                                            {{$sub->sub_category}} ({{$auctions_count}}) 
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                        <li id="category-thumbnails"></li>
                                     </ul>
                                 </li>
-                                <li id="category-thumbnails"></li>
-                            </ul>
-                        </li>
-                        @else
-
-
-                        <li><a href="javascript:void(0)" onclick="window.location.href='{{URL_HOME_AUCTIONS}}?category={{$category->slug}}';"> {{$category->category}} </a></li>
-                        @endif
-
-
+                            @else
+                                <li>
+                                    <a href="javascript:void(0)" onclick="window.location.href='{{URL_HOME_AUCTIONS}}?category={{$category->slug}}';"> 
+                                        {{$category->category}} 
+                                    </a>
+                                </li>
+                            @endif
                         @endforeach
                         @endif
-
-                        <li><a href="{{URL_LIVE_AUCTIONS}}"> {{getPhrase('live_auctions')}} </a></li>
-
+                        <li>
+                            <a href="{{URL_LIVE_AUCTIONS}}"> 
+                                {{getPhrase('live_auctions')}} 
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -95,18 +182,23 @@ $categories = \App\Category::getHomeCategories(6);
     <!-- /Navbar-->
 
     @if (isset($breadcrumb))
-     <!--BREADCRUMBS SECTION-->
-    <section class="au-bread-crumbs">
-      <div class="container">
-         <div class="row">
-            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6 au-crumbs">
-                <h5>{{isset($title) ? $title : ''}}</h5>
+        <!--BREADCRUMBS SECTION-->
+        <section class="au-bread-crumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6 au-crumbs">
+                        <h5>{{isset($title) ? $title : ''}}</h5>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 au-bread">
+                        <a href="javascript:void(0);" class="justify-content-end">
+                            {{getPhrase('home')}} &nbsp; 
+                            <span> 
+                                / {{isset($title) ? $title : ''}} 
+                            </span>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 au-bread">
-                <a href="javascript:void(0);" class="justify-content-end">{{getPhrase('home')}} &nbsp; <span> / {{isset($title) ? $title : ''}} </span></a>
-            </div>
-         </div>
-      </div>
-    </section>
-    <!--BREADCRUMBS SECTION-->
+        </section>
+        <!--BREADCRUMBS SECTION-->
     @endif

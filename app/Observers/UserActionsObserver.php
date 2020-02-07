@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\UserAction;
 
 class UserActionsObserver

@@ -27,7 +27,7 @@
 
 
  <!-- Color Swicher -->
-<div class="theme-settings" id="switcher"> 
+{{-- <div class="theme-settings" id="switcher"> 
     <span class="theme-click"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></span> 
 
 
@@ -65,7 +65,7 @@
     <a class="theme theme-fifteen" href="{{CHANGE_THEME}}/fifteen.css"></a>
   
 
-</div>
+</div> --}}
 <!-- /Color Swicher -->
 
 

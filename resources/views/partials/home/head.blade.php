@@ -33,6 +33,7 @@
 
 
 <link rel="stylesheet" type="text/css" href="{{CSS_HOME}}bootstrap.min.css">
+{{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> --}}
 <link rel="stylesheet" type="text/css" href="{{CSS_HOME}}animate.css">
 <link rel="stylesheet" type="text/css" href="{{CSS_HOME}}font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{{CSS_HOME}}bootstrap.offcanvas.css">
@@ -54,6 +55,9 @@
 
 <link href="{{CSS_HOME}}{{getActiveTheme()}}" id="style_theme" rel="stylesheet">
 
+{{-- Yellow Color Theme --}}
+<link href="{{CSS_HOME}}yellow.css" id="style_theme" rel="stylesheet">
+
 <link href="{{CSS_HOME}}datatables.min.css" rel="stylesheet">
 
 
@@ -63,12 +67,6 @@
 <link rel="stylesheet" href="{{ALERTIFY}}css/alertify.min.css">
 <link rel="stylesheet" href="{{ALERTIFY}}css/themes/default.css">
 <link rel="stylesheet" href="{{ALERTIFY}}css/themes/alertify.core.css">
-
-
-
-
-
-
 
 @yield('header_scripts')
 
@@ -85,7 +83,3 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.css"/>
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/> -->
-
-
-
-

@@ -3,14 +3,8 @@
 @section('content')
 
 @include('bidder.leftmenu')
-
-
     <!--Dashboard section -->
-
-
     <div class="col-lg-8 col-md-8 col-sm-12 au-onboard">
-
-
             <a href="{{URL_HOME}}" class="au-middles justify-content-start"> {{getPhrase('home')}} &nbsp;<span> / {{$title}} </span></a>
              <div class="row au-left-side">
                <div class="col-lg-4 col-md-4 col-sm-4 au-primary">

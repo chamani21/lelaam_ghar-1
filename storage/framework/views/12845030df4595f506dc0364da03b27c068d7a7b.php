@@ -34,6 +34,7 @@
 
 
 <link rel="stylesheet" type="text/css" href="<?php echo e(CSS_HOME); ?>bootstrap.min.css">
+
 <link rel="stylesheet" type="text/css" href="<?php echo e(CSS_HOME); ?>animate.css">
 <link rel="stylesheet" type="text/css" href="<?php echo e(CSS_HOME); ?>font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="<?php echo e(CSS_HOME); ?>bootstrap.offcanvas.css">
@@ -55,6 +56,9 @@
 
 <link href="<?php echo e(CSS_HOME); ?><?php echo e(getActiveTheme()); ?>" id="style_theme" rel="stylesheet">
 
+
+<link href="<?php echo e(CSS_HOME); ?>yellow.css" id="style_theme" rel="stylesheet">
+
 <link href="<?php echo e(CSS_HOME); ?>datatables.min.css" rel="stylesheet">
 
 
@@ -64,12 +68,6 @@
 <link rel="stylesheet" href="<?php echo e(ALERTIFY); ?>css/alertify.min.css">
 <link rel="stylesheet" href="<?php echo e(ALERTIFY); ?>css/themes/default.css">
 <link rel="stylesheet" href="<?php echo e(ALERTIFY); ?>css/themes/alertify.core.css">
-
-
-
-
-
-
 
 <?php echo $__env->yieldContent('header_scripts'); ?>
 
@@ -86,7 +84,3 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.css"/>
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/> -->
-
-
-
-

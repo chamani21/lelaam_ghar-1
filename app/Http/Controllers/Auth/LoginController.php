@@ -54,29 +54,27 @@ class LoginController extends Controller
     {
 
 
-      if (env('DB_DATABASE')=="") {
-        return redirect('install');
-      }
+        if (env('DB_DATABASE') == "") {
+            return redirect('install');
+        }
 
-      $user = \Auth::user();
-      if (isset($user) && $user->role_id!=getRoleData('bidder'))
-          return redirect(URL_DASHBOARD);
-      
+        $user = \Auth::user();
+        if (isset($user) && $user->role_id != getRoleData('bidder'))
+            return redirect(URL_DASHBOARD);
+
 
         $data['active_class']   = 'dashboard';
         $data['layout']         = getLayout();
         $data['title']          = getPhrase('home');
-
         return view('home.index', $data);
     }
-    
+
     public function redirectToSocial($driver)
     {
         //return Socialite::driver($driver)->redirect();
-         if (!getSetting($driver.'_login', 'module'))
-        {
-            flash('Ooops..!', $driver.'_login_is_disabled','error');
-             return redirect(PREFIX);
+        if (!getSetting($driver . '_login', 'module')) {
+            flash('Ooops..!', $driver . '_login_is_disabled', 'error');
+            return redirect(PREFIX);
         }
 
         // dd(Socialite::driver($driver)->redirect());
@@ -86,7 +84,7 @@ class LoginController extends Controller
 
     public function handleSocialCallback($driver)
     {
-       /* try
+        /* try
         {
             $social_user = Socialite::driver($driver)->user();
             $user = User::where('email', '=', $social_user->getEmail())->first();
@@ -101,18 +99,16 @@ class LoginController extends Controller
         }*/
 
 
-        try
-        {
+        try {
             $user = Socialite::driver($driver)->user();
 
-            if ($user)
-            {
-                
+            if ($user) {
+
                 if ($this->checkIsUserAvailable($user)) {
 
                     Auth::login($this->dbuser, true);
                     flash('Success...!', 'log_in_success', 'success');
-                    return redirect(PREFIX);    
+                    return redirect(PREFIX);
                 }
 
                 flash('Ooops...!', 'failed_to_login', 'error');
@@ -127,8 +123,6 @@ class LoginController extends Controller
             } else {
                 return redirect()->back()->withErrors(trans('auth.failed'));
             }*/
-
-
         } catch (Exception $e) {
 
             return redirect(PREFIX);
@@ -136,54 +130,53 @@ class LoginController extends Controller
     }
 
 
-     /**
+    /**
      * This method checks for the user availability
      * @param  [type] $user [description]
      * @return [type]       [description]
      */
     public function checkIsUserAvailable($user)
     {
-        
+
         $id         = $user->getId();
         $nickname   = $user->getNickname();
         $name       = $user->getName();
         $email      = $user->getEmail();
         $avatar     = $user->getAvatar();
 
-        $this->dbuser = User::where('email', '=',$email)->first();
-        
-        if($this->dbuser) {
+        $this->dbuser = User::where('email', '=', $email)->first();
+
+        if ($this->dbuser) {
             //User already available return true
             return TRUE;
         }
-        
+
         $newUser = array(
-                            'name' => $name,
-                            'email'=>$email,
-                        );
-        $newUser = (object)$newUser;
+            'name' => $name,
+            'email' => $email,
+        );
+        $newUser = (object) $newUser;
 
         $userObj = new User();
 
-       $this->dbuser = $this->registerWithSocialLogin($newUser);
+        $this->dbuser = $this->registerWithSocialLogin($newUser);
 
-       $this->dbuser = User::where('slug','=',$this->dbuser->slug)->first();
+        $this->dbuser = User::where('slug', '=', $this->dbuser->slug)->first();
 
-      
-       return TRUE;
-     
+
+        return TRUE;
     }
 
 
-      /**
-      * This method accepts the user object from social login methods 
-      * Registers the user with the db
-      * Sends Email with credentials list 
-      * @param  User   $user [description]
-      * @return [type]       [description]
-      */
-     public function registerWithSocialLogin($receivedData = '')
-     {
+    /**
+     * This method accepts the user object from social login methods 
+     * Registers the user with the db
+     * Sends Email with credentials list 
+     * @param  User   $user [description]
+     * @return [type]       [description]
+     */
+    public function registerWithSocialLogin($receivedData = '')
+    {
         $user             = new User();
         $password         = str_random(8);
         $user->password   = bcrypt($password);
@@ -192,40 +185,37 @@ class LoginController extends Controller
         $user->slug       = $slug;
 
         $role_id        = getRoleData('bidder');
-        
+
         $user->name     = $receivedData->name;
         $user->email    = $receivedData->email;
         $user->role_id  = $role_id;
         $user->login_enabled  = 1;
         $user->approved = 1;
-        
+
         $user->save();
-        
+
         try {
 
             if (!env('DEMO_MODE')) {
 
                 $user->roles()->attach($user->role_id);
 
-                 //send db and email notification to admin - when user registered
-                $admin = User::where('role_id',getRoleData('admin'))->first();
+                //send db and email notification to admin - when user registered
+                $admin = User::where('role_id', getRoleData('admin'))->first();
                 if ($admin)
-                $admin->notify(new \App\Notifications\NewUserRegistration($user,'admin'));
+                    $admin->notify(new \App\Notifications\NewUserRegistration($user, 'admin'));
 
 
-                $registered_user = User::where('id',$user->id)->first();
+                $registered_user = User::where('id', $user->id)->first();
                 //error
                 //send email notification to user - when user registered
-                $registered_user->notify(new \App\Notifications\NewUserRegistration($user,'user',$password));
-
+                $registered_user->notify(new \App\Notifications\NewUserRegistration($user, 'user', $password));
             }
-
-        } catch(Exception $ex) {
-
+        } catch (Exception $ex) {
         }
-        
+
         return $user;
-     }
+    }
 
 
 
@@ -237,11 +227,11 @@ class LoginController extends Controller
 
         $data['title'] = 'Login';
         $data['breadcrumb'] = TRUE;
-        return view('auth.login',$data); 
+        return view('auth.login', $data);
     }
 
 
-     /**
+    /**
      * This is method is override from Authenticate Users class
      * This validates the user with username or email with the sent password
      * @param  Request $request [description]
@@ -250,17 +240,14 @@ class LoginController extends Controller
     public function postLogin(Request $request)
     {
         $login_status = FALSE;
-        if (Auth::attempt(['username' => $request->email, 'password' => $request->password, 'approved'=>1])) {
-                // return redirect(PREFIX);
-                $login_status = TRUE;
-        } 
-
-        elseif (Auth::attempt(['email'=> $request->email, 'password' => $request->password, 'approved'=>1])) {
+        if (Auth::attempt(['username' => $request->email, 'password' => $request->password, 'approved' => 1])) {
+            // return redirect(PREFIX);
+            $login_status = TRUE;
+        } elseif (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'approved' => 1])) {
             $login_status = TRUE;
         }
 
-        if(!$login_status) 
-        {
+        if (!$login_status) {
 
             $message = getPhrase('please_check_your_details_or_contact_admin_to_approve_your_account');
             flash('Ooops...!', $message, 'error');
@@ -278,8 +265,8 @@ class LoginController extends Controller
          * if seller check if admin enabled the seller module
          * if not enabled show the message to user and logout the user
          */
-        
-       /* if($login_status) {
+
+        /* if($login_status) {
             if(checkRole(getUserGrade(7)))  {
                if(!getSetting('parent', 'module')) {
                 return redirect(URL_PARENT_LOGOUT);
@@ -290,28 +277,26 @@ class LoginController extends Controller
         /**
          * The logged in user is seller/bidder/admin/owner
          */
-            if($login_status)
-            {
-                return redirect('home');
-            } 
-        
+        if ($login_status) {
+            return redirect('home');
+        }
     }
 
 
-     /**
+    /**
      * [updateAuctionStatus cronjob]
      * @return [type] [description]
      */
     public function updateAuctionStatus()
     {
-        $timezone   = getSetting('system_timezone','site_settings');
-        $dateformat = getSetting('date_format','site_settings');
-        $cronjob    = getSetting('update_auction_status','auction_settings');
+        $timezone   = getSetting('system_timezone', 'site_settings');
+        $dateformat = getSetting('date_format', 'site_settings');
+        $cronjob    = getSetting('update_auction_status', 'auction_settings');
 
-        if ($cronjob=='Yes') {
+        if ($cronjob == 'Yes') {
 
             $live_auctions = \App\Auction::getLiveAuctions();
-            
+
             //start date time,end date time
             $now = strtotime(date('Y-m-d H:i:s'));
 
@@ -322,20 +307,16 @@ class LoginController extends Controller
                     $start_date = strtotime($auction->start_date);
                     $end_date   = strtotime($auction->end_date);
 
-                    if ($start_date<=$now && $end_date>=$now) {
-
+                    if ($start_date <= $now && $end_date >= $now) {
                     } else {
                         //auction time is over
                         $auction->auction_status = 'closed';
 
                         $auction->save();
                     }
-
                 }
             }
-        
         }
-        
     }
 
 
@@ -351,5 +332,4 @@ class LoginController extends Controller
         $response = new Response();
         return back()->withCookie(cookie('selected_theme', $theme));
     }
-
 }

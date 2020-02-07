@@ -12,8 +12,8 @@ $user = Auth::user();
 
 ?>
 
- <section class="au-dashboard">
-      <div class="container">
+ <section class="container-fluid py-3">
+      <div class="container-fluid">
          <div class="row">
 
             <div class="col-lg-3 col-md-4 col-sm-12 au-aside-dashboard">
@@ -27,25 +27,15 @@ $user = Auth::user();
                    <!-- <p>User Login: 28/02/2018 16:50:55</p> -->
                   </div>
                  </div>
-
-
-
-
-
               <ul id="accordion" class="accordion">
-
                 <!--Dashboard-->
                   <li class="{{ isActive($active_class,'dashboard')}}">
                     <a href="{{URL_DASHBOARD}}" title="Dashboard">
                      <div class="link"><i class="fa fa-tachometer"></i>{{getPhrase('dashboard')}}</div>
                     </a>
                   </li>
-
-
-
                   <!--Account-->
                   <li class="{{ bidderActive($active_class,'user_management')}}">
-
                     <div class="link"><i class="fa fa-globe"></i>{{getPhrase('account')}}<i class="fa fa-chevron-down"></i></div>
                     <ul class="submenu">
 
@@ -59,10 +49,6 @@ $user = Auth::user();
                       <li class="{{ $request->segment(2) == 'change-password' ? 'active active-sub' : '' }}"><a href="{{URL_USERS_CHANGE_PASSWORD}}{{$user->slug}}" title="Change Password">{{getPhrase('change_password')}}</a></li>
                     </ul>
                   </li>
-
-
-
-
                   <!--Auctions-->
                   <li class="{{ bidderActive($active_class,'auctions')}}">
 

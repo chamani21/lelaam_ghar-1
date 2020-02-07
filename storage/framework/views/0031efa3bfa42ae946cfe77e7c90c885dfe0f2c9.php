@@ -140,4 +140,7 @@ $networks = \App\Settings::getSettingRecord('social_networks');
 <?php echo $__env->make('common.alertify', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 <?php echo $__env->make('home.pages.auctions.auctions-js-script', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+
+
 <?php $__env->stopSection(); ?> 
