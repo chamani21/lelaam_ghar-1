@@ -30,30 +30,37 @@
         <div class="slider">
 
             @if ($slider_one_path)
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{$slider_one_path}});position:relative;background-position:center;background-size: cover;"></div>
+            {{-- linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)),  --}}
+                <div class="image au-hero" style="background:url({{$slider_one_path}});position:relative;background-position:center;background-size: cover;"></div>
             @else
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{IMAGES_HOME}}slider-one.png);position:relative;background-position:center;background-size: cover;"></div>
+            {{-- linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)),  --}}
+                <div class="image au-hero" style="background:url({{IMAGES_HOME}}slider-one.png);position:relative;background-position:center;background-size: cover;"></div>
             @endif
 
 
             @if ($slider_two_path)
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{$slider_two_path}});position:relative;background-position:center;background-size: cover;"></div>
+            {{-- linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)),  --}}
+                <div class="image au-hero" style="background:url({{$slider_two_path}});position:relative;background-position:center;background-size: cover;"></div>
             @else
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{IMAGES_HOME}}slider-two.png);position:relative;background-position:center;background-size: cover;"></div>
+            {{-- linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)),  --}}
+                <div class="image au-hero" style="background:url({{IMAGES_HOME}}slider-two.png);position:relative;background-position:center;background-size: cover;"></div>
             @endif
 
-
+{{-- background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{$slider_three_path}});position:relative;background --}}
             @if ($slider_three_path)
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{$slider_three_path}});position:relative;background-position:center;background-size: cover;"></div>
+                <div class="image au-hero" style="-position:center;background-size: cover;"></div>
             @else
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{IMAGES_HOME}}slider-three.png);position:relative;background-position:center;background-size: cover;"></div>
+            {{-- linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)),  --}}
+                <div class="image au-hero" style="background:url({{IMAGES_HOME}}slider-three.png);position:relative;background-position:center;background-size: cover;"></div>
             @endif
 
 
             @if ($slider_four_path)
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{$slider_four_path}});position:relative;background-position:center;background-size: cover;"></div>
+            {{-- linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)),  --}}
+                <div class="image au-hero" style="background:url({{$slider_four_path}});position:relative;background-position:center;background-size: cover;"></div>
             @else
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{IMAGES_HOME}}slider-four.png);position:relative;background-position:center;background-size: cover;"></div>
+            {{-- linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)),  --}}
+                <div class="image au-hero" style="background:url({{IMAGES_HOME}}slider-four.png);position:relative;background-position:center;background-size: cover;"></div>
             @endif
         </div>
         <!--Search Box-->

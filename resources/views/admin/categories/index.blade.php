@@ -3,13 +3,9 @@
 
 @section('content')
     <h3 class="page-title"> {{$title}}</h3>
-    
-
-
     <div class="panel panel-default">
         <div class="panel-heading">
             {{ getPhrase('list')}}
-
 
             @can('category_create')
                 <a href="{{ URL_CATEGORIES_ADD }}" class="btn btn-success btn-add pull-right">{{getPhrase('add_new')}}</a>

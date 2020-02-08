@@ -53,23 +53,23 @@ $networks = \App\Settings::getSettingRecord('social_networks');
 
 
                     <?php if($networks->facebook->value): ?>
-                    <a href="<?php echo e($networks->facebook->value); ?>" target="_blank"> <i class="fa fa-facebook-f"></i> </a>
+                    <a href="<?php echo e($networks->facebook->value); ?>" target="_blank"> <i class="fab fa-facebook-f"></i> </a>
                     <?php endif; ?>
 
                     <?php if($networks->google_plus->value): ?>
-                    <a href="<?php echo e($networks->google_plus->value); ?>" target="_blank"> <i class="fa fa-google"></i> </a>
+                    <a href="<?php echo e($networks->google_plus->value); ?>" target="_blank"> <i class="fab fa-google"></i> </a>
                     <?php endif; ?>
 
                     <?php if($networks->twitter->value): ?>
-                    <a href="<?php echo e($networks->twitter->value); ?>" target="_blank"> <i class="fa fa-twitter"></i> </a>
+                    <a href="<?php echo e($networks->twitter->value); ?>" target="_blank"> <i class="fab fa-twitter"></i> </a>
                     <?php endif; ?>
 
                     <?php if($networks->instagram->value): ?>
-                    <a href="<?php echo e($networks->instagram->value); ?>" target="_blank"> <i class="fa fa-instagram"></i> </a>
+                    <a href="<?php echo e($networks->instagram->value); ?>" target="_blank"> <i class="fab fa-instagram"></i> </a>
                     <?php endif; ?>
 
                     <?php if($networks->linkedin->value): ?>
-                    <a href="<?php echo e($networks->linkedin->value); ?>" target="_blank"> <i class="fa fa-linkedin"></i> </a>
+                    <a href="<?php echo e($networks->linkedin->value); ?>" target="_blank"> <i class="fab fa-linkedin"></i> </a>
                     <?php endif; ?>
 
                 </div>

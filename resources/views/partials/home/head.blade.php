@@ -19,7 +19,7 @@
     
 </title>
 
-
+<script src="https://kit.fontawesome.com/2e8d291374.js" crossorigin="anonymous"></script>
 
 <link href="{{CSS_HOME_ONLINE}}googleapis.css" rel="stylesheet">
 <link href="{{CSS_HOME_ONLINE}}googleapis_rammetto.css" rel="stylesheet">

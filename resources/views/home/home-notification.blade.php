@@ -9,7 +9,83 @@ $total_bidders = \App\User::getTotalBidders();
 
  ?>
  <!-- NOTIFICATION SECTION-->
-    <section class="au-notification">
+<div class="bg-light">
+  <div class="container pb-5">
+  <hr>
+    <div class="row pt-5">
+        <div class="col-lg-12 col-md-12 col-sm-12 au-deals">
+            <h2 class="text-center font-weight-bold"> 
+                Insider
+            </h2> 
+        </div>
+    </div>
+    <div class="row d-flex  justify-content-center">
+        <div class="col-md-3">
+            <div class="rounded-circle how-it-works pt-3 text-center">
+              <i class="fa-3x">
+                {{$total_auctions}}
+              </i>
+              <br>
+                <i class="fa fa-box-open fa-5x "></i>
+            </div>
+            <h2 class="text-bold py-2">
+                Total Auctions
+            </h2>
+            {{-- <p class=" text-justify">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique quia in animi cum? Dolorem libero non unde, cum delectus ipsum suscipit ducimus quisquam sint dolor. Ipsa corporis illum accusamus accusantium!
+            </p> --}}
+        </div>
+        <div class="col-md-3">
+            <div class="rounded-circle how-it-works pt-3 text-center">
+              <i class="fa-3x">
+                {{$total_bidders}}
+              </i>
+              <br>
+                <i class="fa fa-users fa-5x "></i>
+            </div>
+            <h2 class="text-bold py-2">
+                Total Bidders
+            </h2>
+            {{-- <p class=" text-justify">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique quia in animi cum? Dolorem libero non unde, cum delectus ipsum suscipit ducimus quisquam sint dolor. Ipsa corporis illum accusamus accusantium!
+            </p> --}}
+        </div>
+        <div class="col-md-3">
+            <div class="rounded-circle how-it-works pt-3 text-center">
+              <i class="fa-3x">
+                {{$total_sale_auctions}}
+              </i>
+              <br>
+                <i class="fa fa-money-check-alt fa-5x "></i>
+            </div>
+            <h2 class="text-bold py-2">
+                Sale Auctions
+            </h2>
+            {{-- <p class=" text-justify">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique quia in animi cum? Dolorem libero non unde, cum delectus ipsum suscipit ducimus quisquam sint dolor. Ipsa corporis illum accusamus accusantium!
+            </p> --}}
+        </div>
+        <div class="col-md-3">
+            <div class="rounded-circle how-it-works pt-3 text-center">
+              <i class="fa-3x">
+                {{$total_live_auctions}}
+              </i>
+              <br>
+                <i class="fa fa-signal fa-5x "></i>
+            </div>
+            <h2 class="text-bold py-2">
+                Live Auctions
+            </h2>
+            {{-- <p class=" text-justify">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique quia in animi cum? Dolorem libero non unde, cum delectus ipsum suscipit ducimus quisquam sint dolor. Ipsa corporis illum accusamus accusantium!
+            </p> --}}
+        </div>
+    </div>
+</div>
+</div>
+
+{{-- Old View --}}
+    {{-- <section class="au-notification">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-12 au-media">
@@ -55,5 +131,5 @@ $total_bidders = \App\User::getTotalBidders();
                
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- NOTIFICATION SECTION-->

@@ -50,6 +50,8 @@
 
 
 <!-- Font Awesome -->
+
+
 <link rel="stylesheet" href="{{CSS_ADMINLTE_ONLINE}}font-awesome.min.css">
 
 

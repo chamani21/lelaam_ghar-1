@@ -30,30 +30,37 @@
         <div class="slider">
 
             <?php if($slider_one_path): ?>
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url(<?php echo e($slider_one_path); ?>);position:relative;background-position:center;background-size: cover;"></div>
+            
+                <div class="image au-hero" style="background:url(<?php echo e($slider_one_path); ?>);position:relative;background-position:center;background-size: cover;"></div>
             <?php else: ?>
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url(<?php echo e(IMAGES_HOME); ?>slider-one.png);position:relative;background-position:center;background-size: cover;"></div>
+            
+                <div class="image au-hero" style="background:url(<?php echo e(IMAGES_HOME); ?>slider-one.png);position:relative;background-position:center;background-size: cover;"></div>
             <?php endif; ?>
 
 
             <?php if($slider_two_path): ?>
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url(<?php echo e($slider_two_path); ?>);position:relative;background-position:center;background-size: cover;"></div>
+            
+                <div class="image au-hero" style="background:url(<?php echo e($slider_two_path); ?>);position:relative;background-position:center;background-size: cover;"></div>
             <?php else: ?>
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url(<?php echo e(IMAGES_HOME); ?>slider-two.png);position:relative;background-position:center;background-size: cover;"></div>
+            
+                <div class="image au-hero" style="background:url(<?php echo e(IMAGES_HOME); ?>slider-two.png);position:relative;background-position:center;background-size: cover;"></div>
             <?php endif; ?>
 
 
             <?php if($slider_three_path): ?>
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url(<?php echo e($slider_three_path); ?>);position:relative;background-position:center;background-size: cover;"></div>
+                <div class="image au-hero" style="-position:center;background-size: cover;"></div>
             <?php else: ?>
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url(<?php echo e(IMAGES_HOME); ?>slider-three.png);position:relative;background-position:center;background-size: cover;"></div>
+            
+                <div class="image au-hero" style="background:url(<?php echo e(IMAGES_HOME); ?>slider-three.png);position:relative;background-position:center;background-size: cover;"></div>
             <?php endif; ?>
 
 
             <?php if($slider_four_path): ?>
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url(<?php echo e($slider_four_path); ?>);position:relative;background-position:center;background-size: cover;"></div>
+            
+                <div class="image au-hero" style="background:url(<?php echo e($slider_four_path); ?>);position:relative;background-position:center;background-size: cover;"></div>
             <?php else: ?>
-                <div class="image au-hero" style="background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url(<?php echo e(IMAGES_HOME); ?>slider-four.png);position:relative;background-position:center;background-size: cover;"></div>
+            
+                <div class="image au-hero" style="background:url(<?php echo e(IMAGES_HOME); ?>slider-four.png);position:relative;background-position:center;background-size: cover;"></div>
             <?php endif; ?>
         </div>
         <!--Search Box-->

@@ -884,12 +884,6 @@ class AuctionController extends Controller
         }
 
         $data['bidding_history'] = $auctionbidders;
-
-
-
-
-
-
         //buynow condition
         $data['is_already_sold'] = 'No';
         if ($auction->is_buynow == 1 && $auction->buy_now_price) {

@@ -20,7 +20,7 @@
     
 </title>
 
-
+<script src="https://kit.fontawesome.com/2e8d291374.js" crossorigin="anonymous"></script>
 
 <link href="<?php echo e(CSS_HOME_ONLINE); ?>googleapis.css" rel="stylesheet">
 <link href="<?php echo e(CSS_HOME_ONLINE); ?>googleapis_rammetto.css" rel="stylesheet">

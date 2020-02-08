@@ -53,23 +53,23 @@ $networks = \App\Settings::getSettingRecord('social_networks');
 
 
                     @if ($networks->facebook->value)
-                    <a href="{{$networks->facebook->value}}" target="_blank"> <i class="fa fa-facebook-f"></i> </a>
+                    <a href="{{$networks->facebook->value}}" target="_blank"> <i class="fab fa-facebook-f"></i> </a>
                     @endif
 
                     @if ($networks->google_plus->value)
-                    <a href="{{$networks->google_plus->value}}" target="_blank"> <i class="fa fa-google"></i> </a>
+                    <a href="{{$networks->google_plus->value}}" target="_blank"> <i class="fab fa-google"></i> </a>
                     @endif
 
                     @if ($networks->twitter->value)
-                    <a href="{{$networks->twitter->value}}" target="_blank"> <i class="fa fa-twitter"></i> </a>
+                    <a href="{{$networks->twitter->value}}" target="_blank"> <i class="fab fa-twitter"></i> </a>
                     @endif
 
                     @if ($networks->instagram->value)
-                    <a href="{{$networks->instagram->value}}" target="_blank"> <i class="fa fa-instagram"></i> </a>
+                    <a href="{{$networks->instagram->value}}" target="_blank"> <i class="fab fa-instagram"></i> </a>
                     @endif
 
                     @if ($networks->linkedin->value)
-                    <a href="{{$networks->linkedin->value}}" target="_blank"> <i class="fa fa-linkedin"></i> </a>
+                    <a href="{{$networks->linkedin->value}}" target="_blank"> <i class="fab fa-linkedin"></i> </a>
                     @endif
 
                 </div>

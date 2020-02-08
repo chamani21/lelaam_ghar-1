@@ -768,16 +768,6 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
     </section>
     <!--AUCTION DETAILS SECTION END-->
 
-
-
-
-
-
-
-
-
-
-
     <!--SAME CATEGORY AUCTIONS SECTION-->
     @include('home.pages.auctions.category-auctions')
 

@@ -8,11 +8,13 @@
     
     <?php echo $__env->make('home/ads', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     
-    
-    
-    <?php echo $__env->make('home/live-auctions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('home/how-it-works', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+    <?php echo $__env->make('home/upcoming-auctions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     
     <?php echo $__env->make('home/testimonials', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+    <?php echo $__env->make('home/live-auctions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     
     <?php echo $__env->make('home/home-notification', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 

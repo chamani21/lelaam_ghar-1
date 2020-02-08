@@ -10,11 +10,13 @@
     
     @include('home/ads')
     
-    {{-- @include('home/upcoming-auctions') --}}
-    
-    @include('home/live-auctions')
+    @include('home/how-it-works')
+
+    @include('home/upcoming-auctions')
     
     @include('home/testimonials')
+
+    @include('home/live-auctions')
     
     @include('home/home-notification')
 

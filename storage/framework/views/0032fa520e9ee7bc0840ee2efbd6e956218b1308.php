@@ -30,14 +30,14 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                         <div class="nav au-nav-tabs nav-tabs justify-content-center" id="nav-tab" role="tablist"> 
 
-                          <a class="nav-item au-nav-item nav-link active" id="nav-sale-tab" data-toggle="tab" href="#onsale-auctions" role="tab" aria-controls="nav-sale" aria-selected="true"> <?php echo e(getPhrase('on_sale')); ?> </a> 
+                          <a class="nav-item au-nav-item nav-link active animated-button" id="nav-sale-tab" data-toggle="tab" href="#onsale-auctions" role="tab" aria-controls="nav-sale" aria-selected="true"> <?php echo e(getPhrase('on_sale')); ?> </a> 
 
-                          <a class="nav-item au-nav-item nav-link" id="nav-latest-tab" data-toggle="tab" href="#latest-auctions" role="tab" aria-controls="nav-latest" aria-selected="false"> <?php echo e(getPhrase('latest')); ?> </a> 
+                          <a class="nav-item au-nav-item nav-link animated-button" id="nav-latest-tab" data-toggle="tab" href="#latest-auctions" role="tab" aria-controls="nav-latest" aria-selected="false"> <?php echo e(getPhrase('latest')); ?> </a> 
 
-                          <a class="nav-item au-nav-item nav-link" id="nav-past-tab" data-toggle="tab" href="#past-auctions" role="tab" aria-controls="nav-past" aria-selected="false"> <?php echo e(getPhrase('past')); ?> </a> 
+                          <a class="nav-item au-nav-item nav-link animated-button" id="nav-past-tab" data-toggle="tab" href="#past-auctions" role="tab" aria-controls="nav-past" aria-selected="false"> <?php echo e(getPhrase('past')); ?> </a> 
 
                           <?php if($featured_enable=='Yes'): ?> 
-                          <a class="nav-item au-nav-item nav-link" id="nav-feature-tab" data-toggle="tab" href="#featured-auctions" role="tab" aria-controls="nav-featured" aria-selected="false"> <?php echo e(getPhrase('featured')); ?> </a> 
+                          <a class="nav-item au-nav-item nav-link animated-button" id="nav-feature-tab" data-toggle="tab" href="#featured-auctions" role="tab" aria-controls="nav-featured" aria-selected="false"> <?php echo e(getPhrase('featured')); ?> </a> 
                           <?php endif; ?> 
 
                         </div>
@@ -56,7 +56,9 @@ $past_records     = Auction::getHomePastAuctions(8);
                               <?php $__currentLoopData = $buynow_records; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $auction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="col-lg-3 col-md-6 col-sm-6">
                                     <div class="au-accordina">
-                                        <div class="au-thumb"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"> <img src="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" alt="<?php echo e($auction->title); ?>" class="img-fluid premium-img"></a> </div>
+                                        <div class="au-thumb">
+                                          <a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"> 
+                                            <img src="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" alt="<?php echo e($auction->title); ?>" class="img-thumbnail img-fluid premium-img"></a> </div>
 
                                         <div class="au-acord-secret">
                                             <h6 class="card-title text-center" data-toggle="tooltip" title="<?php echo e($auction->title); ?>" data-placement="bottom"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"><?php echo str_limit($auction->title,25,'..'); ?></a></h6>
@@ -107,7 +109,7 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                         <div class="col-lg-12 col-md-12 col-sm-12"> 
                           <div class="text-center">
-                            <a href="<?php echo e(URL_HOME_AUCTIONS); ?>" class="btn btn-primary login-bttn"><?php echo e(getPhrase('view_more')); ?> </a> 
+                            <a href="<?php echo e(URL_HOME_AUCTIONS); ?>" class="btn btn-primary login-bttn view-more-btn view-more-btn-animation-1"><?php echo e(getPhrase('view_more')); ?> </a> 
                           </div>
                         </div>
 
@@ -122,12 +124,6 @@ $past_records     = Auction::getHomePastAuctions(8);
                           <?php endif; ?> 
                         </div>
                         <!--sale auctions tab end-->
-
-
-
-
-
-
                         <!--latest auctions start-->
                         <div class="tab-pane fade" id="latest-auctions" role="tabpanel" aria-labelledby="nav-latest-tab"> 
 
@@ -136,14 +132,11 @@ $past_records     = Auction::getHomePastAuctions(8);
                              <?php $__currentLoopData = $new_records; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $auction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="col-lg-3 col-md-6 col-sm-6">
                                     <div class="au-accordina">
-                                        <div class="au-thumb"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"> <img src="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" alt="<?php echo e($auction->title); ?>" class="img-fluid premium-img"></a> </div>
+                                        <div class="au-thumb"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"> <img src="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" alt="<?php echo e($auction->title); ?>" class="img-thumbnail img-fluid premium-img"></a> </div>
                                         <div class="au-acord-secret">
                                             <h6 class="card-title text-center" data-toggle="tooltip" title="<?php echo e($auction->title); ?>" data-placement="bottom"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"><?php echo str_limit($auction->title,25,'..'); ?></a></h6>
                                             <!-- <p class="au-card-text text-center"><?php echo str_limit($auction->description,60,'...'); ?></p> -->
                                         </div>
-                                        
-                                            
-
                               <!--Hover Section-->
                               <ul class="au-list-ietem au-list-ietems">
                                             
@@ -184,7 +177,7 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                                    <div class="col-lg-12 col-md-12 col-sm-12"> 
                                     <div class="text-center">
-                                      <a href="<?php echo e(URL_HOME_AUCTIONS); ?>" class="btn btn-primary login-bttn"><?php echo e(getPhrase('view_more')); ?></a> 
+                                      <a href="<?php echo e(URL_HOME_AUCTIONS); ?>" class="btn btn-primary login-bttn view-more-btn view-more-btn-animation-1"><?php echo e(getPhrase('view_more')); ?></a> 
                                     </div>
                                   </div>
 
@@ -218,7 +211,7 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                                     <div class="au-accordina">
 
-                                        <div class="au-thumb"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"> <img src="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" alt="<?php echo e($auction->title); ?>" class="img-fluid premium-img"></a> </div>
+                                        <div class="au-thumb"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"> <img src="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" alt="<?php echo e($auction->title); ?>" class="img-thumbnail img-fluid premium-img"></a> </div>
 
                                         <div class="au-acord-secret">
                                             <h6 class="card-title text-center" data-toggle="tooltip" title="<?php echo e($auction->title); ?>" data-placement="bottom"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"><?php echo str_limit($auction->title,25,'..'); ?></a></h6>
@@ -267,7 +260,7 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                                  <div class="col-lg-12 col-md-12 col-sm-12"> 
                                   <div class="text-center">
-                                    <a href="<?php echo e(URL_HOME_AUCTIONS); ?>" class="btn btn-primary login-bttn"><?php echo e(getPhrase('view_more')); ?></a> 
+                                    <a href="<?php echo e(URL_HOME_AUCTIONS); ?>" class="btn btn-primary login-bttn view-more-btn view-more-btn-animation-1"><?php echo e(getPhrase('view_more')); ?></a> 
                                   </div>
                                  </div>
 
@@ -302,7 +295,7 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                                     <div class="au-accordina">
 
-                                        <div class="au-thumb"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"> <img src="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" alt="<?php echo e($auction->title); ?>" class="img-fluid premium-img"></a> </div>
+                                        <div class="au-thumb"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"> <img src="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" alt="<?php echo e($auction->title); ?>" class="img-thumbnail img-fluid premium-img"></a> </div>
 
                                         <div class="au-acord-secret">
                                             <h6 class="card-title text-center" data-toggle="tooltip" title="<?php echo e($auction->title); ?>" data-placement="bottom"><a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"><?php echo str_limit($auction->title,25,'..'); ?></a></h6>
@@ -351,7 +344,7 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                                 <div class="col-lg-12 col-md-12 col-sm-12"> 
                                   <div class="text-center">
-                                    <a href="<?php echo e(URL_HOME_AUCTIONS); ?>" class="btn btn-primary login-bttn"><?php echo e(getPhrase('view_more')); ?></a> 
+                                    <a href="<?php echo e(URL_HOME_AUCTIONS); ?>" class="btn btn-primary login-bttn view-more-btn view-more-btn-animation-1"><?php echo e(getPhrase('view_more')); ?></a> 
                                   </div>
                                 </div>
 
