@@ -79,13 +79,13 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                                       <div class="dropdown-menu">
 
-                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <i class="fa fa-facebook-f au-common"></i></a>
+                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <i class="fab fa-facebook-f au-common"></i></a>
 
-                                        <a href="https://twitter.com/intent/tweet?text={{getSetting('site_title','site_settings')}}&amp;url={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"><i class="fa fa-twitter au-common"></i></a>
+                                        <a href="https://twitter.com/intent/tweet?text={{getSetting('site_title','site_settings')}}&amp;url={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"><i class="fab fa-twitter au-common"></i></a>
 
-                                        <a href="https://plus.google.com/share?url={{PREFIX}}"><i class="fa fa-google au-common"></i></a>
+                                        <a href="https://plus.google.com/share?url={{PREFIX}}"><i class="fab fa-google au-common"></i></a>
 
-                                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{PREFIX}}&amp;title={{getSetting('site_title','site_settings')}}&amp;summary={{$auction->title}}"><i class="fa fa-linkedin au-common"></i></a>
+                                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{PREFIX}}&amp;title={{getSetting('site_title','site_settings')}}&amp;summary={{$auction->title}}"><i class="fab fa-linkedin au-common"></i></a>
 
                                       </div>
 
@@ -147,13 +147,13 @@ $past_records     = Auction::getHomePastAuctions(8);
                                 <div class="dropdown-menu">
 
 
-                                  <a href="https://www.facebook.com/sharer/sharer.php?u={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <i class="fa fa-facebook-f au-common"></i></a>
+                                  <a href="https://www.facebook.com/sharer/sharer.php?u={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <i class="fab fa-facebook-f au-common"></i></a>
 
-                                  <a href="https://twitter.com/intent/tweet?text={{getSetting('site_title','site_settings')}}&amp;url={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"><i class="fa fa-twitter au-common"></i></a>
+                                  <a href="https://twitter.com/intent/tweet?text={{getSetting('site_title','site_settings')}}&amp;url={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"><i class="fab fa-twitter au-common"></i></a>
 
-                                  <a href="https://plus.google.com/share?url={{PREFIX}}"><i class="fa fa-google au-common"></i></a>
+                                  <a href="https://plus.google.com/share?url={{PREFIX}}"><i class="fab fa-google au-common"></i></a>
 
-                                  <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{PREFIX}}&amp;title={{getSetting('site_title','site_settings')}}&amp;summary={{$auction->title}}"><i class="fa fa-linkedin au-common"></i></a>
+                                  <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{PREFIX}}&amp;title={{getSetting('site_title','site_settings')}}&amp;summary={{$auction->title}}"><i class="fab fa-linkedin au-common"></i></a>
 
                                 </div>
 
@@ -229,13 +229,13 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                                   <div class="dropdown-menu">
 
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <i class="fa fa-facebook-f au-common"></i></a>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <i class="fab fa-facebook-f au-common"></i></a>
 
-                                    <a href="https://twitter.com/intent/tweet?text={{getSetting('site_title','site_settings')}}&amp;url={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"><i class="fa fa-twitter au-common"></i></a>
+                                    <a href="https://twitter.com/intent/tweet?text={{getSetting('site_title','site_settings')}}&amp;url={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"><i class="fab fa-twitter au-common"></i></a>
 
-                                    <a href="https://plus.google.com/share?url={{PREFIX}}"><i class="fa fa-google au-common"></i></a>
+                                    <a href="https://plus.google.com/share?url={{PREFIX}}"><i class="fab fa-google au-common"></i></a>
 
-                                    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{PREFIX}}&amp;title={{getSetting('site_title','site_settings')}}&amp;summary={{$auction->title}}"><i class="fa fa-linkedin au-common"></i></a>
+                                    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{PREFIX}}&amp;title={{getSetting('site_title','site_settings')}}&amp;summary={{$auction->title}}"><i class="fab fa-linkedin au-common"></i></a>
 
                                   </div>
                                 </li>
@@ -313,13 +313,13 @@ $past_records     = Auction::getHomePastAuctions(8);
 
                                   <div class="dropdown-menu">
 
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <i class="fa fa-facebook-f au-common"></i></a>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <i class="fab fa-facebook-f au-common"></i></a>
 
-                                    <a href="https://twitter.com/intent/tweet?text={{getSetting('site_title','site_settings')}}&amp;url={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"><i class="fa fa-twitter au-common"></i></a>
+                                    <a href="https://twitter.com/intent/tweet?text={{getSetting('site_title','site_settings')}}&amp;url={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"><i class="fab fa-twitter au-common"></i></a>
 
-                                    <a href="https://plus.google.com/share?url={{PREFIX}}"><i class="fa fa-google au-common"></i></a>
+                                    <a href="https://plus.google.com/share?url={{PREFIX}}"><i class="fab fa-google au-common"></i></a>
 
-                                    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{PREFIX}}&amp;title={{getSetting('site_title','site_settings')}}&amp;summary={{$auction->title}}"><i class="fa fa-linkedin au-common"></i></a>
+                                    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{PREFIX}}&amp;title={{getSetting('site_title','site_settings')}}&amp;summary={{$auction->title}}"><i class="fab fa-linkedin au-common"></i></a>
 
                                   </div>
                                 </li>

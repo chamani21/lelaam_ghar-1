@@ -11,7 +11,7 @@
     padding-left: 15px;
 }
 
-.top-profile-menu > div {
+.top-profile-menu>div {
     display: inline-block;
     vertical-align: middle;
     margin: 10px 5px;
@@ -21,7 +21,7 @@
     text-align: right;
 }
 
-.top-profile-menu > div {
+.top-profile-menu>div {
     display: inline-block;
     vertical-align: middle;
     margin: 10px 5px;
@@ -63,27 +63,27 @@
     white-space: normal;
 }
 
-.top-nav > .open > .dropdown-menu {
+.top-nav>.open>.dropdown-menu {
     border: none;
     border-radius: 0px;
     padding: 0;
     box-shadow: 0 7px 10px rgba(0, 0, 0, .1)
 }
 
-.top-nav > .open > .dropdown-menu> li * {
+.top-nav>.open>.dropdown-menu>li * {
     transition: all .2s ease-in-out;
 }
 
-.top-nav > .open.profile-menu > .dropdown-menu> li > a {
+.top-nav>.open.profile-menu>.dropdown-menu>li>a {
     padding: 12px 15px;
     color: #6f7d91;
 }
 
-.top-nav > .open.profile-menu > .dropdown-menu> li > a:hover {
+.top-nav>.open.profile-menu>.dropdown-menu>li>a:hover {
     color: #656f7d;
 }
 
-.top-nav > .open.profile-menu > .dropdown-menu> li > a> span.badge {
+.top-nav>.open.profile-menu>.dropdown-menu>li>a>span.badge {
     display: inline-block;
     margin: 0 0 0 40px;
 }
@@ -188,7 +188,7 @@
     color: #a9c2ca;
 }
 
-.top-nav>li>a > .badge {
+.top-nav>li>a>.badge {
     float: right;
     margin: -7px 0 0 5px;
 }
@@ -230,27 +230,27 @@
     position: relative;
 }
 
-.top-nav > .open > .dropdown-menu {
+.top-nav>.open>.dropdown-menu {
     border: none;
     border-radius: 0px;
     padding: 0;
     box-shadow: 0 7px 10px rgba(0, 0, 0, .1)
 }
 
-.top-nav > .open > .dropdown-menu> li * {
+.top-nav>.open>.dropdown-menu>li * {
     transition: all .2s ease-in-out;
 }
 
-.top-nav > .open.profile-menu > .dropdown-menu> li > a {
+.top-nav>.open.profile-menu>.dropdown-menu>li>a {
     padding: 12px 15px;
     color: #6f7d91;
 }
 
-.top-nav > .open.profile-menu > .dropdown-menu> li > a:hover {
+.top-nav>.open.profile-menu>.dropdown-menu>li>a:hover {
     color: #656f7d;
 }
 
-.top-nav > .open.profile-menu > .dropdown-menu> li > a> span.badge {
+.top-nav>.open.profile-menu>.dropdown-menu>li>a>span.badge {
     display: inline-block;
     margin: 0 0 0 40px;
 }
@@ -496,19 +496,20 @@ ul.files-list {
 }
 
 .logo-lg img,
-.logo-mini img{
-    width:209px;
-    max-width: 209px;
+.logo-mini img {
+    width: 109px;
+    max-width: 109px;
+    height: 60px;
 }
 
 
 /*-------------------------------------
     ADMIN DATATABLE
 ---------------------------------------*/
+
 .dataTables_wrapper .dataTables_length {
     margin: 1rem;
 }
-
 
 label.btn {
     font-size: 11px;

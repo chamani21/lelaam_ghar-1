@@ -276,13 +276,13 @@ $google_login = getSetting('google_plus_login','module');
 
                             <?php if($google_login): ?>
                             <a href="<?php echo e(route('auth.login.social', 'google')); ?>" class="btn btn-primary login-bttn" data-toggle="tooltip" title="Google Login Only For Bidder">
-                                <i class="fa fa-google"></i>
+                                <i class="fab fa-google"></i>
                             </a>
                             <?php endif; ?>
 
                             <?php if($fb_login): ?>
                             <a href="<?php echo e(route('auth.login.social', 'facebook')); ?>" class="btn btn-primary login-bttn" data-toggle="tooltip" title="Facebook Login Only For Bidder">
-                                <i class="fa fa-facebook"></i>
+                                <i class="fab fa-facebook"></i>
                             </a>
                             <?php endif; ?>
                     </div>

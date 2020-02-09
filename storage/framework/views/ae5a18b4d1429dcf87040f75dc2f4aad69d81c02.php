@@ -1,6 +1,4 @@
-@extends('layouts.home')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 
 <!---LOGIN TABS-->
@@ -20,11 +18,11 @@ $google_login = getSetting('google_plus_login','module');
                     <div class="row">
                         <div class="col-md-6">
                             <h4>
-                <a href="#" class="active" id="login-form-link">{{getPhrase('login')}}</a>
+                <a href="#" class="active" id="login-form-link"><?php echo e(getPhrase('login')); ?></a>
                   </h4> </div>
                         <div class="col-md-6">
                             <h4>
-                <a href="#" id="register-form-link">{{getPhrase('register')}}</a>
+                <a href="#" id="register-form-link"><?php echo e(getPhrase('register')); ?></a>
                 </h4> </div>
                     </div>
                      </div>
@@ -35,14 +33,15 @@ $google_login = getSetting('google_plus_login','module');
 
                 <!--form id="login-form" action="https://phpoll.com/login/process" method="post" role="form" style="display: block;"-->
 
-                   @include('errors.errors')
+                   <?php echo $__env->make('errors.errors', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-                   {!! Form::open(array('url' => URL_USERS_LOGIN, 'method' => 'POST', 'novalidate'=>'', 'class'=>"form-horizontal", 'name'=>"loginForm",'id'=>'login-form', 'style'=>'display:block')) !!}
+                   <?php echo Form::open(array('url' => URL_USERS_LOGIN, 'method' => 'POST', 'novalidate'=>'', 'class'=>"form-horizontal", 'name'=>"loginForm",'id'=>'login-form', 'style'=>'display:block')); ?>
+
   <div class="row">
                    <div class="form-group col-lg-12">
 
 
-                            {{ Form::text('email', $value = null , $attributes = array('class'=>'form-control',
+                            <?php echo e(Form::text('email', $value = null , $attributes = array('class'=>'form-control',
 
                                 'ng-model'=>'email',
 
@@ -54,14 +53,17 @@ $google_login = getSetting('google_plus_login','module');
 
                                 'ng-class'=>'{"has-error": loginForm.email.$touched && loginForm.email.$invalid}',
 
-                            )) }}
+                            ))); ?>
+
 
 
                         <div class="validation-error" ng-messages="loginForm.email.$error" >
 
-                            {!! getValidationMessage()!!}
+                            <?php echo getValidationMessage(); ?>
 
-                            {!! getValidationMessage('email')!!}
+
+                            <?php echo getValidationMessage('email'); ?>
+
 
                         </div>
 
@@ -76,7 +78,7 @@ $google_login = getSetting('google_plus_login','module');
 
 
 
-                                   {{ Form::password('password', $attributes = array('class'=>'form-control instruction-call',
+                                   <?php echo e(Form::password('password', $attributes = array('class'=>'form-control instruction-call',
 
                                         'placeholder' => getPhrase("password"),
 
@@ -90,13 +92,16 @@ $google_login = getSetting('google_plus_login','module');
 
                                         'ng-minlength' => 5
 
-                                    )) }}
+                                    ))); ?>
+
 
                              <div class="validation-error" ng-messages="loginForm.password.$error" >
 
-                                {!! getValidationMessage()!!}
+                                <?php echo getValidationMessage(); ?>
 
-                                {!! getValidationMessage('password')!!}
+
+                                <?php echo getValidationMessage('password'); ?>
+
 
                             </div>
 
@@ -110,7 +115,8 @@ $google_login = getSetting('google_plus_login','module');
                        <button type="submit"
                                     class="btn btn-primary login-bttn"
                                     style="margin-right: 15px;" ng-disabled='!loginForm.$valid'>
-                                {{getPhrase('login')}}
+                                <?php echo e(getPhrase('login')); ?>
+
                             </button>
                     </div>
                     <hr>
@@ -122,7 +128,7 @@ $google_login = getSetting('google_plus_login','module');
 
 
 
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal"> {{getPhrase('forgot_password')}} ? </a>
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal"> <?php echo e(getPhrase('forgot_password')); ?> ? </a>
 
 
 
@@ -134,17 +140,17 @@ $google_login = getSetting('google_plus_login','module');
                       <div class="text-right login-icons">
 
 
-                           @if ($google_login)
-                            <a href="{{ route('auth.login.social', 'google') }}" class="btn btn-primary login-bttn" data-toggle="tooltip" title="Google Login Only For Bidder">
-                                <i class="fab fa-google"></i>
+                           <?php if($google_login): ?>
+                            <a href="<?php echo e(route('auth.login.social', 'google')); ?>" class="btn btn-primary login-bttn" data-toggle="tooltip" title="Google Login Only For Bidder">
+                                <i class="fa fa-google"></i>
                             </a>
-                            @endif
+                            <?php endif; ?>
 
-                            @if ($fb_login)
-                            <a href="{{ route('auth.login.social', 'facebook') }}" class="btn btn-primary login-bttn" data-toggle="tooltip" title="Facebook Login Only For Bidder">
-                                <i class="fab fa-facebook"></i>
+                            <?php if($fb_login): ?>
+                            <a href="<?php echo e(route('auth.login.social', 'facebook')); ?>" class="btn btn-primary login-bttn" data-toggle="tooltip" title="Facebook Login Only For Bidder">
+                                <i class="fa fa-facebook"></i>
                             </a>
-                            @endif
+                            <?php endif; ?>
 
 
                       </div>
@@ -162,21 +168,23 @@ $google_login = getSetting('google_plus_login','module');
                   
               </div>
 
-                {!! Form::close() !!}
+                <?php echo Form::close(); ?>
+
 
 
 
 
                 <!--form id="register-form" action="https://phpoll.com/register/process" method="post" role="form" style="display: none;"-->
 
-                 {!! Form::open(array('url' => URL_USERS_REGISTER, 'method' => 'POST', 'novalidate'=>'', 'class'=>"form-horizontal", 'name'=>"registrationForm",'id'=>'register-form', 'style'=>'display:none')) !!}
+                 <?php echo Form::open(array('url' => URL_USERS_REGISTER, 'method' => 'POST', 'novalidate'=>'', 'class'=>"form-horizontal", 'name'=>"registrationForm",'id'=>'register-form', 'style'=>'display:none')); ?>
+
 
   <div class="row">
                  <div class="form-group col-lg-12">
 
 
 
-                                    {{ Form::text('name', old('name') , $attributes = array('class'=>'form-control',
+                                    <?php echo e(Form::text('name', old('name') , $attributes = array('class'=>'form-control',
 
                                         'placeholder' => 'Name',
 
@@ -190,16 +198,20 @@ $google_login = getSetting('google_plus_login','module');
 
                                         'ng-minlength' => '4',
 
-                                    )) }}
+                                    ))); ?>
+
 
 
                                     <div class="validation-error" ng-messages="registrationForm.name.$error" >
 
-                                        {!! getValidationMessage()!!}
+                                        <?php echo getValidationMessage(); ?>
 
-                                        {!! getValidationMessage('minlength')!!}
 
-                                        {!! getValidationMessage('pattern')!!}
+                                        <?php echo getValidationMessage('minlength'); ?>
+
+
+                                        <?php echo getValidationMessage('pattern'); ?>
+
 
                                     </div>
 
@@ -214,7 +226,7 @@ $google_login = getSetting('google_plus_login','module');
 
 
 
-                                    {{ Form::text('username', old('username') , $attributes = array('class'=>'form-control',
+                                    <?php echo e(Form::text('username', old('username') , $attributes = array('class'=>'form-control',
 
                                         'placeholder' => 'Username',
 
@@ -226,16 +238,20 @@ $google_login = getSetting('google_plus_login','module');
 
                                         'ng-minlength' => '4',
 
-                                    )) }}
+                                    ))); ?>
+
 
 
                                     <div class="validation-error" ng-messages="registrationForm.username.$error" >
 
-                                        {!! getValidationMessage()!!}
+                                        <?php echo getValidationMessage(); ?>
 
-                                        {!! getValidationMessage('minlength')!!}
 
-                                        {!! getValidationMessage('pattern')!!}
+                                        <?php echo getValidationMessage('minlength'); ?>
+
+
+                                        <?php echo getValidationMessage('pattern'); ?>
+
 
                                     </div>
 
@@ -248,7 +264,7 @@ $google_login = getSetting('google_plus_login','module');
 
 
 
-                                   {{ Form::email('email', $value = null , $attributes = array('class'=>'form-control',
+                                   <?php echo e(Form::email('email', $value = null , $attributes = array('class'=>'form-control',
 
                                         'placeholder' => getPhrase("email"),
 
@@ -260,16 +276,19 @@ $google_login = getSetting('google_plus_login','module');
 
                                         'ng-class'=>'{"has-error": registrationForm.email.$touched && registrationForm.email.$invalid}',
 
-                                    )) }}
+                                    ))); ?>
+
 
 
 
 
                                     <div class="validation-error" ng-messages="registrationForm.email.$error" >
 
-                                            {!! getValidationMessage()!!}
+                                            <?php echo getValidationMessage(); ?>
 
-                                            {!! getValidationMessage('email')!!}
+
+                                            <?php echo getValidationMessage('email'); ?>
+
 
                                      </div>
 
@@ -286,7 +305,7 @@ $google_login = getSetting('google_plus_login','module');
 
 
 
-                                    {{ Form::password('password', $attributes = array('class'=>'form-control instruction-call',
+                                    <?php echo e(Form::password('password', $attributes = array('class'=>'form-control instruction-call',
 
                                         'placeholder' => getPhrase("password"),
 
@@ -300,15 +319,18 @@ $google_login = getSetting('google_plus_login','module');
 
                                         'ng-minlength' => 5
 
-                                    )) }}
+                                    ))); ?>
+
 
 
 
                                    <div class="validation-error" ng-messages="registrationForm.password.$error" >
 
-                                        {!! getValidationMessage()!!}
+                                        <?php echo getValidationMessage(); ?>
 
-                                        {!! getValidationMessage('password')!!}
+
+                                        <?php echo getValidationMessage('password'); ?>
+
 
                                     </div>
 
@@ -320,7 +342,7 @@ $google_login = getSetting('google_plus_login','module');
 
 
 
-                                    {{ Form::password('password_confirmation', $attributes = array('class'=>'form-control instruction-call',
+                                    <?php echo e(Form::password('password_confirmation', $attributes = array('class'=>'form-control instruction-call',
 
                                         'placeholder' => getPhrase("password_confirmation"),
 
@@ -334,15 +356,19 @@ $google_login = getSetting('google_plus_login','module');
 
                                         'compare-to' =>"registration.password"
 
-                                    )) }}
+                                    ))); ?>
+
 
                                         <div class="validation-error" ng-messages="registrationForm.password_confirmation.$error" >
 
-                                            {!! getValidationMessage()!!}
+                                            <?php echo getValidationMessage(); ?>
 
-                                            {!! getValidationMessage('minlength')!!}
 
-                                            {!! getValidationMessage('confirmPassword')!!}
+                                            <?php echo getValidationMessage('minlength'); ?>
+
+
+                                            <?php echo getValidationMessage('confirmPassword'); ?>
+
 
                                         </div>
 
@@ -355,13 +381,16 @@ $google_login = getSetting('google_plus_login','module');
 
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                    {{ Form::radio('user_type','seller', true, array('id'=>'seller', 'name'=>'user_type')) }}
+                                    <?php echo e(Form::radio('user_type','seller', true, array('id'=>'seller', 'name'=>'user_type'))); ?>
 
-                                        <label for="seller"><!-- <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> -->{{getPhrase('seller')}}</label>
+
+                                        <label for="seller"><!-- <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> --><?php echo e(getPhrase('seller')); ?></label>
                                     </div>
                                     <div class="col-md-6">
-                                    {{ Form::radio('user_type','bidder', false, array('id'=>'bidder', 'name'=>'user_type')) }}
-                                        <label for="bidder"><!-- <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span>--> {{getPhrase('bidder')}}
+                                    <?php echo e(Form::radio('user_type','bidder', false, array('id'=>'bidder', 'name'=>'user_type'))); ?>
+
+                                        <label for="bidder"><!-- <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span>--> <?php echo e(getPhrase('bidder')); ?>
+
                                         </label>
                                     </div>
                                 </div>
@@ -373,13 +402,15 @@ $google_login = getSetting('google_plus_login','module');
                   <div class="form-group col-lg-12">
                     <div class="text-center  login-btn">
                         <button type="submit" class="btn btn-primary login-bttn" ng-disabled='!registrationForm.$valid'>
-                                       {{getPhrase('register_now')}}
+                                       <?php echo e(getPhrase('register_now')); ?>
+
                                     </button>
                       </div>
 
                   </div>
               </div>
-                {!! Form::close() !!}
+                <?php echo Form::close(); ?>
+
 
 
 
@@ -393,6 +424,8 @@ $google_login = getSetting('google_plus_login','module');
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
+
+<?php echo $__env->make('layouts.home', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

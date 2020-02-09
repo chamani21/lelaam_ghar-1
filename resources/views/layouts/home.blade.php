@@ -301,13 +301,13 @@ $google_login = getSetting('google_plus_login','module');
 
                             @if ($google_login)
                             <a href="{{ route('auth.login.social', 'google') }}" class="btn btn-primary login-bttn" data-toggle="tooltip" title="Google Login Only For Bidder">
-                                <i class="fa fa-google"></i>
+                                <i class="fab fa-google"></i>
                             </a>
                             @endif
 
                             @if ($fb_login)
                             <a href="{{ route('auth.login.social', 'facebook') }}" class="btn btn-primary login-bttn" data-toggle="tooltip" title="Facebook Login Only For Bidder">
-                                <i class="fa fa-facebook"></i>
+                                <i class="fab fa-facebook"></i>
                             </a>
                             @endif
                     </div>

@@ -51,7 +51,7 @@ $categories = \App\Category::getHomeCategories(6);
     <nav class="navbar navbar-expand-md navbar-light nav-custom">
       <div class="container">
         <a class="navbar-brand" href="{{PREFIX}}">
-          <img class="img-fluid" src="{{IMAGE_PATH_SETTINGS.getSetting('site_logo', 'site_settings')}}" alt="Auction Logo">
+          <img src="{{IMAGE_PATH_SETTINGS.getSetting('site_logo', 'site_settings')}}" alt="Auction Logo">
         </a>
         <a href="#off-canvas" class="js-offcanvas-trigger navbar-toggle collapsed" data-toggle="collapse" data-offcanvas-trigger="off-canvas" aria-expanded="false"></a>
         <button class="navbar-toggler js-offcanvas-trigger wb-btnn" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" data-offcanvas-trigger="off-canvas"> <span class="navbar-toggler-icon"></span> </button>
@@ -61,7 +61,7 @@ $categories = \App\Category::getHomeCategories(6);
                         Search box on homepage css is isnide 
                         home/css/styles.css line 5736
                     --}}
-                    <div class="ml-auto">
+                    <div class="ml-auto mt-3">
                         <div class="row searchFilter" >
                             <div class="" >
                             <div class="input-group col-12" >

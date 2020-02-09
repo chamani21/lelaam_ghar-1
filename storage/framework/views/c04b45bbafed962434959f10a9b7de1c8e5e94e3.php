@@ -1,11 +1,9 @@
-@extends($layout)
-
-@section('header_scripts')
+<?php $__env->startSection('header_scripts'); ?>
 <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <?php
 $today = DATE('Y-m-d');
 $currency_code = getSetting('currency_code','site_settings');
@@ -78,38 +76,38 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                     <div class="sm-product-show">
                       
                         <div class="sm-product-slider-img">
-                            <img src="{{getAuctionImage($auction->image)}}" id="sm-product-zoom" class="img-responsive" data-zoom-image="{{getAuctionImage($auction->image,'auction')}}" alt="">
+                            <img src="<?php echo e(getAuctionImage($auction->image)); ?>" id="sm-product-zoom" class="img-responsive" data-zoom-image="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" alt="">
                             <i class="sm-zoom-icn fa fa-expand"></i>
                         </div>
 
 
-                        @if ($active_picture_gallary=='Yes')
+                        <?php if($active_picture_gallary=='Yes'): ?>
                         <ul class="product-slider-thumbs" id="gallery_01">
 
                             <li>
-                                <a href="#" class="elevatezoom-gallery active" data-image="{{getAuctionImage($auction->image,'auction')}}">
-                                    <img id="img_01" src="{{getAuctionImage($auction->image)}}" alt="">
+                                <a href="#" class="elevatezoom-gallery active" data-image="<?php echo e(getAuctionImage($auction->image,'auction')); ?>">
+                                    <img id="img_01" src="<?php echo e(getAuctionImage($auction->image)); ?>" alt="">
                                 </a>
                             </li>
 
-                          @if ($auction_images)
+                          <?php if($auction_images): ?>
                           <?php $i=0;?>
-                          @foreach ($auction_images as $image)
+                          <?php $__currentLoopData = $auction_images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                           <?php $i=$i+1;
                           
                           if ($i==$max_number_of_pictures)
                             break;
                           ?>
-                          @if ($image->filename && file_exists(AUCTION_IMAGES_PATH.$image->filename))
+                          <?php if($image->filename && file_exists(AUCTION_IMAGES_PATH.$image->filename)): ?>
                             <li>
-                                <a href="#" class="elevatezoom-gallery active" data-image="{{AUCTION_IMAGES_PATH_URL}}{{$image->filename}}">
-                                    <img id="img_01" src="{{AUCTION_IMAGES_PATH_URL}}{{$image->filename}}" alt="">
+                                <a href="#" class="elevatezoom-gallery active" data-image="<?php echo e(AUCTION_IMAGES_PATH_URL); ?><?php echo e($image->filename); ?>">
+                                    <img id="img_01" src="<?php echo e(AUCTION_IMAGES_PATH_URL); ?><?php echo e($image->filename); ?>" alt="">
                                 </a>
                             </li>
-                            @endif
+                            <?php endif; ?>
                           
 
-                          @endforeach
+                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
                             <!-- <li>
@@ -129,10 +127,10 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                                     <img id="img_04" src="http://via.placeholder.com/120x74" alt="">
                                 </a>
                             </li> -->
-                            @endif
+                            <?php endif; ?>
                         </ul>
 
-                        @endif
+                        <?php endif; ?>
 
 
                     </div>
@@ -141,80 +139,83 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
 
 
                     <!-- /Product-gallery-container-->
-               <!-- <img id="zoom_01" src="{{getAuctionImage($auction->image,'auction')}}" data-zoom-image="{{IMAGES_HOME}}large/image1.jpg" class="img-fluid"> -->
+               <!-- <img id="zoom_01" src="<?php echo e(getAuctionImage($auction->image,'auction')); ?>" data-zoom-image="<?php echo e(IMAGES_HOME); ?>large/image1.jpg" class="img-fluid"> -->
             </div>
 
 
             <div class="col-lg-6">
 
-                <h4>{{$auction->title}}</h4>
+                <h4><?php echo e($auction->title); ?></h4>
 
-                @if (!$live_auction) <!--normal auction happening-->
+                <?php if(!$live_auction): ?> <!--normal auction happening-->
                   <p title="Auction End Date"> Regular auction ends on <?php echo date(getSetting('date_format','site_settings').' H:i:s', strtotime($auction->end_date));?> </p>
-                @endif
+                <?php endif; ?>
 
               
 
-                @if ($live_auction_starts)
-                  <p title="Auction End Date"> Live auction starts at <i class="fa fa-clock-o"></i>{{$auction->live_auction_start_time}}, Be ready to participate</p>
-                @endif
+                <?php if($live_auction_starts): ?>
+                  <p title="Auction End Date"> Live auction starts at <i class="fa fa-clock-o"></i><?php echo e($auction->live_auction_start_time); ?>, Be ready to participate</p>
+                <?php endif; ?>
 
 
 
-              @if ($live_auction) <!--live auction happening-->
+              <?php if($live_auction): ?> <!--live auction happening-->
 
               <div>
-                  <p title="Auction End Date"> Live auction happening now! from <i class="fa fa-clock-o"></i>{{$auction->live_auction_start_time}} to <i class="fa fa-clock-o"></i>{{$auction->live_auction_end_time}}</p>
+                  <p title="Auction End Date"> Live auction happening now! from <i class="fa fa-clock-o"></i><?php echo e($auction->live_auction_start_time); ?> to <i class="fa fa-clock-o"></i><?php echo e($auction->live_auction_end_time); ?></p>
               </div>
 
               <div class="">
-                @if (!Auth::check())  
-                  <a class="btn btn-info au-btn-modren login-bttn" href="javascript:void(0);" onclick="showModal('loginModal')">{{getPhrase('participate_in_live_auction')}}</a>
-                @else
-                  <a class="btn btn-info au-btn-modren login-bttn" href="javascript:void(0);" onclick="liveAuction('{{$auction->slug}}')">{{getPhrase('participate_in_live_auction')}}</a>
-                @endif
+                <?php if(!Auth::check()): ?>  
+                  <a class="btn btn-info au-btn-modren login-bttn" href="javascript:void(0);" onclick="showModal('loginModal')"><?php echo e(getPhrase('participate_in_live_auction')); ?></a>
+                <?php else: ?>
+                  <a class="btn btn-info au-btn-modren login-bttn" href="javascript:void(0);" onclick="liveAuction('<?php echo e($auction->slug); ?>')"><?php echo e(getPhrase('participate_in_live_auction')); ?></a>
+                <?php endif; ?>
               </div> 
-              @endif
+              <?php endif; ?>
 
 
 
 
-              @if (!$live_auction)<!--if live auction not happening normal auction-->
+              <?php if(!$live_auction): ?><!--if live auction not happening normal auction-->
 
-                @if ($auction->auction_status=='open' && $auction->start_date<=now() && $auction->end_date>=now())
+                <?php if($auction->auction_status=='open' && $auction->start_date<=now() && $auction->end_date>=now()): ?>
                 <!--if auction status is live start-->
                  <!--product with border content-->
-                 @if ($bid_div)
+                 <?php if($bid_div): ?>
                 <div class="product-border">
                     <p class="text-blue"><b><i class="pe-7s-timer"> </i>
-                        {{strtoUpper(getAuctionDaysLeft($auction->start_date,$auction->end_date))}}</b></p>
+                        <?php echo e(strtoUpper(getAuctionDaysLeft($auction->start_date,$auction->end_date))); ?></b></p>
 
                     <h4>
-                      {{$currency_code}}{{$auction->reserve_price}}  
+                      <?php echo e($currency_code); ?><?php echo e($auction->reserve_price); ?>  
                       <span class="badge"> 
-                        @if ($total_bids>1) 
-                            {{$total_bids}} {{getPhrase('bids')}}
-                        @elseif ($total_bids==1) 
-                            {{$total_bids}} {{getPhrase('bid')}}
-                        @else 
-                            0 {{getPhrase('bids')}} 
-                        @endif
+                        <?php if($total_bids>1): ?> 
+                            <?php echo e($total_bids); ?> <?php echo e(getPhrase('bids')); ?>
+
+                        <?php elseif($total_bids==1): ?> 
+                            <?php echo e($total_bids); ?> <?php echo e(getPhrase('bid')); ?>
+
+                        <?php else: ?> 
+                            0 <?php echo e(getPhrase('bids')); ?> 
+                        <?php endif; ?>
                       </span>
                       
                     </h4>
 
-                  @if ($bid_options)
+                  <?php if($bid_options): ?>
 
-                  <p>{{getPhrase('select_maximum_bid')}}</p>
+                  <p><?php echo e(getPhrase('select_maximum_bid')); ?></p>
                   <div class="row">
                   <div class="col-lg-6">
 
-                    {!! Form::open(array('url' => URL_SAVE_BID, 'method' => 'POST','name'=>'formBid', 'files'=>'true', 'novalidate'=>'')) !!}
+                    <?php echo Form::open(array('url' => URL_SAVE_BID, 'method' => 'POST','name'=>'formBid', 'files'=>'true', 'novalidate'=>'')); ?>
+
 
 
                     <div class="form-group">
 
-                          {{Form::select('bid_amount', $bid_options, null, ['placeholder'=>'select',
+                          <?php echo e(Form::select('bid_amount', $bid_options, null, ['placeholder'=>'select',
 
                             'class'=>'form-control',
 
@@ -224,7 +225,8 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
 
                             'ng-class'=>'{"has-error": formBid.bid_amount.$touched && formBid.bid_amount.$invalid}'
 
-                         ])}}
+                         ])); ?>
+
 
 
                         <div class="validation-error" ng-messages="formBid.bid_amount.$error" >
@@ -239,30 +241,32 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                     <div class="col-lg-6">
                      <div class="form-group">
 
-                        <input type="hidden" name="bid_auction_id" value="{{$auction->id}}">
+                        <input type="hidden" name="bid_auction_id" value="<?php echo e($auction->id); ?>">
 
-                        <button class="btn btn-primary login-bttn au-btn-modren" ng-disabled='!formBid.$valid'>{{getPhrase('place_bid')}}</button>
+                        <button class="btn btn-primary login-bttn au-btn-modren" ng-disabled='!formBid.$valid'><?php echo e(getPhrase('place_bid')); ?></button>
 
                      </div>
 
 
-                      {!! Form::close() !!}
+                      <?php echo Form::close(); ?>
+
 
                     </div>
 
                     </div>
-                    @else
+                    <?php else: ?>
                 <div class="row">
                     <div class="col-lg-6">
 
 
 
-                    {!! Form::open(array('url' => URL_SAVE_BID, 'method' => 'POST','name'=>'formBid', 'files'=>'true', 'novalidate'=>'')) !!}
+                    <?php echo Form::open(array('url' => URL_SAVE_BID, 'method' => 'POST','name'=>'formBid', 'files'=>'true', 'novalidate'=>'')); ?>
+
 
 
                     <div class="form-group">
 
-                         {{ Form::number('bid_amount', null, $attributes =
+                         <?php echo e(Form::number('bid_amount', null, $attributes =
 
                                 array('class' => 'form-control',
 
@@ -274,7 +278,8 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
 
                                 'ng-class'=>'{"has-error": formBid.bid_amount.$touched && formBid.bid_amount.$invalid}',
 
-                                )) }}
+                                ))); ?>
+
 
 
                         <div class="validation-error" ng-messages="formBid.bid_amount.$error" >
@@ -288,57 +293,60 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                     <div class="col-lg-6">
                      <div class="form-group">
 
-                        <input type="hidden" name="bid_auction_id" value="{{$auction->id}}">
+                        <input type="hidden" name="bid_auction_id" value="<?php echo e($auction->id); ?>">
 
-                        <button class="btn btn-primary login-bttn au-btn-modren" ng-disabled='!formBid.$valid'>{{getPhrase('place_bid')}}</button>
+                        <button class="btn btn-primary login-bttn au-btn-modren" ng-disabled='!formBid.$valid'><?php echo e(getPhrase('place_bid')); ?></button>
 
                      </div>
 
-                     {!! Form::close() !!}
+                     <?php echo Form::close(); ?>
+
 
 
 
                     </div>
                     </div>
-                    @endif
+                    <?php endif; ?>
 
 
 
                 </div>
-                @endif
+                <?php endif; ?>
 
                 <!--/product with border content-->
                 <!--if auction status is live end-->
-                @elseif ($auction->auction_status=='new' && $auction->start_date<=now() && $auction->end_date>=now())
+                <?php elseif($auction->auction_status=='new' && $auction->start_date<=now() && $auction->end_date>=now()): ?>
                 <!--if auction status is upcoming start-->
                 <div>
-                    <p class="text-blue"><b><i class="pe-7s-timer"></i> {{strtoUpper(getAuctionDaysLeft($auction->start_date,$auction->end_date))}}</b></p>
+                    <p class="text-blue"><b><i class="pe-7s-timer"></i> <?php echo e(strtoUpper(getAuctionDaysLeft($auction->start_date,$auction->end_date))); ?></b></p>
 
                      <h4>
-                      {{$currency_code}}{{$auction->reserve_price}}  
+                      <?php echo e($currency_code); ?><?php echo e($auction->reserve_price); ?>  
                       <span class="badge"> 
-                       {{$auction->getAuctionBiddersCount()}} {{getPhrase('bids')}}
+                       <?php echo e($auction->getAuctionBiddersCount()); ?> <?php echo e(getPhrase('bids')); ?>
+
                       </span>
                     </h4>
                 </div>
                 <!--if auction status is upcoming end-->
-                @elseif ($auction->auction_status=='closed')
+                <?php elseif($auction->auction_status=='closed'): ?>
                 <!--if auction status is closed start-->
                  <div>
-                     <p class="text-blue"><b> {{getPhrase('auction_ended')}} </b></p>
+                     <p class="text-blue"><b> <?php echo e(getPhrase('auction_ended')); ?> </b></p>
 
-                    <h4>{{$currency_code}}{{$auction->reserve_price}}  
+                    <h4><?php echo e($currency_code); ?><?php echo e($auction->reserve_price); ?>  
                       <span class="badge">
-                        {{$auction->getAuctionBiddersCount()}} {{getPhrase('bids')}}
+                        <?php echo e($auction->getAuctionBiddersCount()); ?> <?php echo e(getPhrase('bids')); ?>
+
                       </span> 
                     </h4>
 
                 </div>
                 <!--if auction status is closed end-->
-                @endif
+                <?php endif; ?>
 
 
-                @endif <!--if live auction not happening-->
+                <?php endif; ?> <!--if live auction not happening-->
 
 
                 <br>
@@ -346,50 +354,45 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
 
                 <div>
 
-                  @if (Auth::user())
-                    <a href="javascript:void(0);" ng-click="addtoFavourites({{$auction->id}})" title="Add to Wishlist" class="btn btn-info au-btn-modren login-bttn"><i class="pe-7s-plus"></i> 
-                    {{getPhrase('add_to_wish_list')}}</a>
-                  @else
-                   <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Add to Wishlist" class="btn btn-info au-btn-modren login-bttn"><i class="pe-7s-plus"></i> {{getPhrase('add_to_wish_list')}} </a>
-                  @endif
+                  <?php if(Auth::user()): ?>
+                    <a href="javascript:void(0);" ng-click="addtoFavourites(<?php echo e($auction->id); ?>)" title="Add to Wishlist" class="btn btn-info au-btn-modren login-bttn"><i class="pe-7s-plus"></i> 
+                    <?php echo e(getPhrase('add_to_wish_list')); ?></a>
+                  <?php else: ?>
+                   <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Add to Wishlist" class="btn btn-info au-btn-modren login-bttn"><i class="pe-7s-plus"></i> <?php echo e(getPhrase('add_to_wish_list')); ?> </a>
+                  <?php endif; ?>
 
 
-                  @if ($auction->is_buynow==1 && $auction->buy_now_price && $is_already_sold=='No')
-                  @if ($bid_div)
-                  @if (Auth::user())
-                    <a href="{{URL_BID_AUCTION_PAYMENT}}/{{$auction->slug}}" title="Buy Auction" class="btn btn-info au-btn-modren login-bttn"> {{getPhrase('buy_now')}}</a>
-                  @else
-                   <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Buy Auction" class="btn btn-info au-btn-modren login-bttn"> {{getPhrase('buy_now')}} </a>
-                  @endif
-                  @endif
-                  @endif
+                  <?php if($auction->is_buynow==1 && $auction->buy_now_price && $is_already_sold=='No'): ?>
+                  <?php if($bid_div): ?>
+                  <?php if(Auth::user()): ?>
+                    <a href="<?php echo e(URL_BID_AUCTION_PAYMENT); ?>/<?php echo e($auction->slug); ?>" title="Buy Auction" class="btn btn-info au-btn-modren login-bttn"> <?php echo e(getPhrase('buy_now')); ?></a>
+                  <?php else: ?>
+                   <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Buy Auction" class="btn btn-info au-btn-modren login-bttn"> <?php echo e(getPhrase('buy_now')); ?> </a>
+                  <?php endif; ?>
+                  <?php endif; ?>
+                  <?php endif; ?>
 
 
-                 {{--
-                 {!! Share::page('http://phpstack-127012-364033.cloudwaysapps.com/', getSetting('site_title','site_settings'))
-  ->facebook()
-  ->twitter()
-  ->googlePlus()
-  ->linkedin('Extra linkedin summary can be passed here'); !!} --}}
+                 
 
 
 
                  <ul class="list-inline au-social-links">
 
                    <li class="list-inline-item">
-                     <a href="https://www.facebook.com/sharer/sharer.php?u={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <i class="fab fa-facebook-f au-common"></i></a>
+                     <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"> <i class="fab fa-facebook-f au-common"></i></a>
                    </li>
 
                    <li class="list-inline-item">
-                     <a href="https://twitter.com/intent/tweet?text={{getSetting('site_title','site_settings')}}&amp;url={{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"><i class="fab fa-twitter au-common"></i></a>
+                     <a href="https://twitter.com/intent/tweet?text=<?php echo e(getSetting('site_title','site_settings')); ?>&amp;url=<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>"><i class="fab fa-twitter au-common"></i></a>
                    </li>
 
                     <li class="list-inline-item">
-                     <a href="https://plus.google.com/share?url={{PREFIX}}"><i class="fab fa-google au-common"></i></a>
+                     <a href="https://plus.google.com/share?url=<?php echo e(PREFIX); ?>"><i class="fab fa-google au-common"></i></a>
                    </li>
 
                    <li class="list-inline-item">
-                     <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{PREFIX}}&amp;title={{getSetting('site_title','site_settings')}}&amp;summary={{$auction->title}}"><i class="fab fa-linkedin au-common"></i></a>
+                     <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=<?php echo e(PREFIX); ?>&amp;title=<?php echo e(getSetting('site_title','site_settings')); ?>&amp;summary=<?php echo e($auction->title); ?>"><i class="fab fa-linkedin au-common"></i></a>
                    </li>
                  </ul>
                 </div>
@@ -418,13 +421,13 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                     <nav class="au-tabs">
                       <div class="nav au-product-tabs nav-tabs" id="nav-tab" role="tablist">
 
-                        <a class="nav-item au-product-nav nav-link active" id="nav-auction-tab" data-toggle="tab" href="#nav-auction" role="tab" aria-controls="nav-auction" aria-selected="true"> {{getPhrase('auction_details')}} </a>
+                        <a class="nav-item au-product-nav nav-link active" id="nav-auction-tab" data-toggle="tab" href="#nav-auction" role="tab" aria-controls="nav-auction" aria-selected="true"> <?php echo e(getPhrase('auction_details')); ?> </a>
 
-                        <a class="nav-item au-product-nav nav-link" id="nav-shipping-tab" data-toggle="tab" href="#nav-shipping" role="tab" aria-controls="nav-shipping" aria-selected="false"> {{getPhrase('shipping')}} & {{getPhrase('payment')}}</a>
+                        <a class="nav-item au-product-nav nav-link" id="nav-shipping-tab" data-toggle="tab" href="#nav-shipping" role="tab" aria-controls="nav-shipping" aria-selected="false"> <?php echo e(getPhrase('shipping')); ?> & <?php echo e(getPhrase('payment')); ?></a>
 
-                        <a class="nav-item au-product-nav nav-link" id="nav-terms-tab" data-toggle="tab" href="#nav-terms" role="tab" aria-controls="nav-terms" aria-selected="false"> {{getPhrase('auction_terms')}} & {{getPhrase('info')}} </a>
+                        <a class="nav-item au-product-nav nav-link" id="nav-terms-tab" data-toggle="tab" href="#nav-terms" role="tab" aria-controls="nav-terms" aria-selected="false"> <?php echo e(getPhrase('auction_terms')); ?> & <?php echo e(getPhrase('info')); ?> </a>
 
-                        <a class="nav-item au-product-nav nav-link" id="nav-bid-tab" data-toggle="tab" href="#nav-bid" role="tab" aria-controls="nav-bid" aria-selected="false"> {{getPhrase('bid_history')}} </a>
+                        <a class="nav-item au-product-nav nav-link" id="nav-bid-tab" data-toggle="tab" href="#nav-bid" role="tab" aria-controls="nav-bid" aria-selected="false"> <?php echo e(getPhrase('bid_history')); ?> </a>
 
                       </div>
                     </nav>
@@ -442,7 +445,7 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                               <div class="col-lg-12">
                                   <!-- <h5><b>Description</b></h5> -->
 
-                                  <p>{!! $auction->description !!}</p>
+                                  <p><?php echo $auction->description; ?></p>
 
                               </div>
 
@@ -452,133 +455,149 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                                 <ul class="list-group">
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('start_date')}}
+                                      <?php echo e(getPhrase('start_date')); ?>
+
                                       <span> <?php echo date(getSetting('date_format','site_settings').' H:i:s', strtotime($auction->start_date));?></span>
                                     </li>
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('end_date')}}
+                                      <?php echo e(getPhrase('end_date')); ?>
+
                                       <span> <?php echo date(getSetting('date_format','site_settings').' H:i:s', strtotime($auction->end_date));?> </span>
                                     </li>
 
 
                                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('reserve_price')}}
-                                      <span>@if($auction->reserve_price) {{$currency_code}}{{$auction->reserve_price}} @endif</span>
+                                      <?php echo e(getPhrase('reserve_price')); ?>
+
+                                      <span><?php if($auction->reserve_price): ?> <?php echo e($currency_code); ?><?php echo e($auction->reserve_price); ?> <?php endif; ?></span>
                                      </li>
 
 
 
                                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('bid_start')}}
-                                      <span>@if ($auction->minimum_bid) {{$currency_code}}{{$auction->minimum_bid}} @endif</span>
+                                      <?php echo e(getPhrase('bid_start')); ?>
+
+                                      <span><?php if($auction->minimum_bid): ?> <?php echo e($currency_code); ?><?php echo e($auction->minimum_bid); ?> <?php endif; ?></span>
                                      </li>
 
 
                                       <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('is_bid_incremental')}}
+                                      <?php echo e(getPhrase('is_bid_incremental')); ?>
+
                                         <span> 
-                                        @if ($auction->is_bid_increment==1) 
-                                            {{getPhrase('yes')}} 
-                                        @else 
-                                            {{getPhrase('no')}}
-                                        @endif
+                                        <?php if($auction->is_bid_increment==1): ?> 
+                                            <?php echo e(getPhrase('yes')); ?> 
+                                        <?php else: ?> 
+                                            <?php echo e(getPhrase('no')); ?>
+
+                                        <?php endif; ?>
                                         </span>
                                      </li>
 
 
                                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('bid_increment')}}
-                                      <span>@if ($auction->bid_increment) {{$currency_code}}{{$auction->bid_increment}} @endif</span>
+                                      <?php echo e(getPhrase('bid_increment')); ?>
+
+                                      <span><?php if($auction->bid_increment): ?> <?php echo e($currency_code); ?><?php echo e($auction->bid_increment); ?> <?php endif; ?></span>
                                     </li>
 
 
                                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('is_it_buynow_item')}}
+                                      <?php echo e(getPhrase('is_it_buynow_item')); ?>
+
                                         <span> 
-                                        @if ($auction->is_buynow==1) 
-                                            {{getPhrase('yes')}} 
-                                        @else 
-                                            {{getPhrase('no')}}
-                                        @endif
+                                        <?php if($auction->is_buynow==1): ?> 
+                                            <?php echo e(getPhrase('yes')); ?> 
+                                        <?php else: ?> 
+                                            <?php echo e(getPhrase('no')); ?>
+
+                                        <?php endif; ?>
                                         </span>
                                      </li>
 
 
-                                     @if ($auction->is_buynow==1)
+                                     <?php if($auction->is_buynow==1): ?>
                                       <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        {{getPhrase('buy_now_price')}}
-                                        <span>@if ($auction->buy_now_price) {{$currency_code}}{{$auction->buy_now_price}} @endif</span>
+                                        <?php echo e(getPhrase('buy_now_price')); ?>
+
+                                        <span><?php if($auction->buy_now_price): ?> <?php echo e($currency_code); ?><?php echo e($auction->buy_now_price); ?> <?php endif; ?></span>
                                       </li>
 
-                                     @endif
+                                     <?php endif; ?>
                                    
                                   </ul>
                               </div>
 
 
-                              @if (isset($seller) && !empty($seller))
+                              <?php if(isset($seller) && !empty($seller)): ?>
 
                                <div class="col-lg-6 col-md-6 col-sm-12 au-terms">
 
                                 <ul class="list-group">
 
-                                    <li class="list-group-item"><strong>{{getPhrase('seller_information')}}</strong></li>
+                                    <li class="list-group-item"><strong><?php echo e(getPhrase('seller_information')); ?></strong></li>
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('seller_name')}}
-                                      <span>{{$seller->username}}</span>
+                                      <?php echo e(getPhrase('seller_name')); ?>
+
+                                      <span><?php echo e($seller->username); ?></span>
                                     </li>
 
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('email')}}
-                                      <span>{{$seller->email}}</span>
+                                      <?php echo e(getPhrase('email')); ?>
+
+                                      <span><?php echo e($seller->email); ?></span>
                                     </li>
 
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('phone')}}
-                                      <span>{{$seller->phone}}</span>
+                                      <?php echo e(getPhrase('phone')); ?>
+
+                                      <span><?php echo e($seller->phone); ?></span>
                                     </li>
 
 
                                     <!--live auction date&time-->
-                                    @if ($auction->live_auction_date)
-                                    <li class="list-group-item"><strong>{{getPhrase('live_auction')}}</strong></li>
+                                    <?php if($auction->live_auction_date): ?>
+                                    <li class="list-group-item"><strong><?php echo e(getPhrase('live_auction')); ?></strong></li>
 
                                       <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        {{getPhrase('date')}}
-                                        @if ($auction->live_auction_date)
+                                        <?php echo e(getPhrase('date')); ?>
+
+                                        <?php if($auction->live_auction_date): ?>
                                         <span>
                                           <?php echo date(getSetting('date_format','site_settings'),  strtotime($auction->live_auction_date));?>
                                         </span>
-                                        @endif
+                                        <?php endif; ?>
                                       </li>
 
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('start_time')}}
-                                      @if ($auction->live_auction_start_time)
-                                      <span>{{$auction->live_auction_start_time}}</span>
-                                      @endif
+                                      <?php echo e(getPhrase('start_time')); ?>
+
+                                      <?php if($auction->live_auction_start_time): ?>
+                                      <span><?php echo e($auction->live_auction_start_time); ?></span>
+                                      <?php endif; ?>
                                     </li>
 
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      {{getPhrase('end_time')}}
-                                      @if ($auction->live_auction_end_time)
-                                      <span>{{$auction->live_auction_end_time}}</span>
-                                      @endif
+                                      <?php echo e(getPhrase('end_time')); ?>
+
+                                      <?php if($auction->live_auction_end_time): ?>
+                                      <span><?php echo e($auction->live_auction_end_time); ?></span>
+                                      <?php endif; ?>
                                     </li>
-                                    @endif
+                                    <?php endif; ?>
                                     <!--live auction date&time-->
 
 
                                 </ul>
                                </div>
 
-                              @endif
+                              <?php endif; ?>
 
 
 
@@ -601,34 +620,34 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                                      <tbody>
                                       <tr>
                                        <td>Start Date</td>
-                                       <td> {{$auction->start_date}}</td>
+                                       <td> <?php echo e($auction->start_date); ?></td>
                                       </tr>
 
                                       <tr>
                                        <td>End Date</td>
-                                       <td> {{$auction->end_date}}</td>
+                                       <td> <?php echo e($auction->end_date); ?></td>
                                       </tr>
 
                                       <tr>
                                        <td>Reserve Price </td>
-                                       <td> @if($auction->reserve_price) {{$currency_code}}{{$auction->reserve_price}} @endif</td>
+                                       <td> <?php if($auction->reserve_price): ?> <?php echo e($currency_code); ?><?php echo e($auction->reserve_price); ?> <?php endif; ?></td>
                                       </tr>
 
 
                                       <tr>
                                        <td>Bid Start </td>
-                                       <td> @if ($auction->minimum_bid) {{$currency_code}}{{$auction->minimum_bid}} @endif</td>
+                                       <td> <?php if($auction->minimum_bid): ?> <?php echo e($currency_code); ?><?php echo e($auction->minimum_bid); ?> <?php endif; ?></td>
                                       </tr>
 
 
                                        <tr>
                                        <td>Bid Increment </td>
-                                       <td> @if ($auction->bid_increment) {{$currency_code}}{{$auction->bid_increment}} @endif</td>
+                                       <td> <?php if($auction->bid_increment): ?> <?php echo e($currency_code); ?><?php echo e($auction->bid_increment); ?> <?php endif; ?></td>
                                       </tr>
 
                                        <tr>
                                        <td>Buy Now Price </td>
-                                       <td> @if ($auction->buy_now_price) {{$currency_code}}{{$auction->buy_now_price}} @endif</td>
+                                       <td> <?php if($auction->buy_now_price): ?> <?php echo e($currency_code); ?><?php echo e($auction->buy_now_price); ?> <?php endif; ?></td>
                                       </tr>
 
 
@@ -639,7 +658,7 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
 
 
                                   <!-- <div class="col-lg-5 col-md-5 col-sm-12 au-terms">
-                                  @if (isset($seller) && !empty($seller))
+                                  <?php if(isset($seller) && !empty($seller)): ?>
                                   <table class="table table-responsive-xl table-bordered">
                                     <tbody>
                                       <thead>
@@ -650,22 +669,22 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                                       </thead>
                                       <tr>
                                        <td>Seller Name</td>
-                                       <td>{{$seller->username}}</td>
+                                       <td><?php echo e($seller->username); ?></td>
                                       </tr>
 
                                       <tr>
                                        <td>Email</td>
-                                       <td>{{$seller->email}}</td>
+                                       <td><?php echo e($seller->email); ?></td>
                                       </tr>
 
                                       <tr>
                                        <td>Phone</td>
-                                       <td>{{$seller->phone}}</td>
+                                       <td><?php echo e($seller->phone); ?></td>
                                       </tr>
 
                                     </tbody>
                                   </table>
-                                  @endif
+                                  <?php endif; ?>
                                 </div> -->
 
 
@@ -686,7 +705,7 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                               <div class="col-lg-12 col-md-12 col-sm-12 au-terms">
                               <div class="col-lg-12 col-md-12 col-sm-12 au-policy">
 
-                                <p>{!! $auction->shipping_conditions !!}</p>
+                                <p><?php echo $auction->shipping_conditions; ?></p>
                              </div>
                            </div>
 
@@ -711,7 +730,7 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                             <div class="col-lg-12 col-md-12 col-sm-12 au-terms">
 
                                 <div class="col-lg-12 col-md-12 col-sm-12 au-policy">
-                                  <p>{!! $auction->shipping_terms !!}</p>
+                                  <p><?php echo $auction->shipping_terms; ?></p>
                                 </div>
 
                               </div>
@@ -733,21 +752,21 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                             <div class="col-lg-12 col-md-12 col-sm-12 au-terms">
                                 <div class=" au-policy">
 
-                                  @if (isset($bidding_history) && count($bidding_history))
+                                  <?php if(isset($bidding_history) && count($bidding_history)): ?>
                                   <ul class="list-group z-depth-0">
 
                                       <li class="list-group-item justify-content-between">
-                                          <span><b>{{getPhrase('username')}}</b></span>
-                                          <span style="float:right;"><b>{{getPhrase('bid_amount')}}</b></span>
+                                          <span><b><?php echo e(getPhrase('username')); ?></b></span>
+                                          <span style="float:right;"><b><?php echo e(getPhrase('bid_amount')); ?></b></span>
                                       </li>
-                                      @foreach ($bidding_history as $bid)
+                                      <?php $__currentLoopData = $bidding_history; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bid): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                       <li class="list-group-item justify-content-between">
-                                        <span>{{$bid->username}}</span>
-                                        <span style="float:right;">{{$currency_code}}{{$bid->bid_amount}}</span>
+                                        <span><?php echo e($bid->username); ?></span>
+                                        <span style="float:right;"><?php echo e($currency_code); ?><?php echo e($bid->bid_amount); ?></span>
                                       </li>
-                                      @endforeach
+                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                   </ul>
-                                  @endif
+                                  <?php endif; ?>
 
 
                                 </div>
@@ -769,33 +788,33 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
     <!--AUCTION DETAILS SECTION END-->
 
     <!--SAME CATEGORY AUCTIONS SECTION-->
-    @include('home.pages.auctions.category-auctions')
+    <?php echo $__env->make('home.pages.auctions.category-auctions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <!--SAME CATEGORY AUCTIONS SECTION-->
 
 
     <!--SELLER AUCTIONS SECTION-->
-    @include('home.pages.auctions.seller-auctions')
+    <?php echo $__env->make('home.pages.auctions.seller-auctions', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <!--SELLER AUCTIONS SECTION-->
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('footer_scripts')
+<?php $__env->startSection('footer_scripts'); ?>
 
-@include('common.validations')
-@include('common.alertify')
-@include('home.pages.auctions.auctions-js-script')
+<?php echo $__env->make('common.validations', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('common.alertify', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('home.pages.auctions.auctions-js-script', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
- <script src="{{JS_HOME}}jquery.elevatezoom.js"></script> 
-  <script src="{{JS_HOME}}elevationzoom.js"></script>  
+ <script src="<?php echo e(JS_HOME); ?>jquery.elevatezoom.js"></script> 
+  <script src="<?php echo e(JS_HOME); ?>elevationzoom.js"></script>  
 
 
 <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
 
-<script src="{{JS}}share.js"></script>
+<script src="<?php echo e(JS); ?>share.js"></script>
 
 <script type="text/javascript">
   
@@ -810,8 +829,8 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
     }
 </script>
 
-<!-- <script src="{{JS_HOME}}prefixfree.min.js"></script> -->
-<!-- <script src="{{JS_HOME}}zoom-slideshow.js"></script> -->
+<!-- <script src="<?php echo e(JS_HOME); ?>prefixfree.min.js"></script> -->
+<!-- <script src="<?php echo e(JS_HOME); ?>zoom-slideshow.js"></script> -->
 
 <!-- <script>
 
@@ -832,7 +851,9 @@ $(document).ready(function() {
  <script>
   function liveAuction(auction_slug) {
     
-    window.open("{{URL_LIVE_AUCTION}}/"+auction_slug, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=300,width=800,height=500");
+    window.open("<?php echo e(URL_LIVE_AUCTION); ?>/"+auction_slug, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=300,width=800,height=500");
   }
  </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
