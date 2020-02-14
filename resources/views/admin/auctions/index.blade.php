@@ -115,10 +115,16 @@ $date_format = getSetting('date_format','site_settings');
     </div>
 @stop
 
+
 @section('footer_scripts') 
 
 
     @can('content_page_delete') 
-        @include('common.deletescript', array('route'=>URL_AUCTIONS_DELETE))
+    @include('common.deletescript', array('route'=>URL_AUCTIONS_DELETE))
     @endcan
+
+
+
+
+
 @endsection        

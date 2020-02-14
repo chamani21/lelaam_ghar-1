@@ -54,9 +54,9 @@ class LoginController extends Controller
     {
 
 
-        if (env('DB_DATABASE') == "") {
-            return redirect('install');
-        }
+        // if (env('DB_DATABASE') == "") {
+        //     return redirect('install');
+        // }
 
         $user = \Auth::user();
         if (isset($user) && $user->role_id != getRoleData('bidder'))
@@ -71,7 +71,7 @@ class LoginController extends Controller
 
     public function redirectToSocial($driver)
     {
-        //return Socialite::driver($driver)->redirect();
+        // return Socialite::driver($driver)->redirect();
         if (!getSetting($driver . '_login', 'module')) {
             flash('Ooops..!', $driver . '_login_is_disabled', 'error');
             return redirect(PREFIX);

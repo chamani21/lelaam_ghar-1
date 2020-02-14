@@ -6,6 +6,7 @@
 
 @section('content')
     <h3 class="page-title">{{getPhrase('sms')}}</h3>
+
      <div class="panel panel-default">
         <div class="panel-heading">
             {{ isset($title) ? $title : ''}}

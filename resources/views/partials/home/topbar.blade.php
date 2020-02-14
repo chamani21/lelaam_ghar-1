@@ -62,11 +62,19 @@ $categories = \App\Category::getHomeCategories(6);
                         home/css/styles.css line 5736
                     --}}
                     <div class="ml-auto mt-3">
-                        <div class="row searchFilter" >
-                            <div class="" >
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mt-3">
+                                    <div class="gcse-search"></div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Old Searchbar --}}
+                        <div class="row searchFilter" style="visibility: hidden">
+                            <div class="">
                             <div class="input-group col-12" >
                             <input id="table_filter" type="text" class="form-control search-input" aria-label="Text input with segmented button dropdown" placeholder="Search for anything" >
-                            <div class="input-group-btn" >
+                            <div class="input-group-btn " >
                                 <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >
                                     Category</span> 
                                     <span class="caret" ></span>

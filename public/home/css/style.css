@@ -5734,8 +5734,8 @@ BIDDING PROCESS PAGE
 /* Search Box */
 
 .searchFilter {
-    margin-bottom: 20px;
-    margin-top: 10px;
+    /* margin-bottom: 20px;
+    margin-top: 10px; */
 }
 
 .search-input {

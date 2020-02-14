@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 
 use App;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use DB;
 use Artisan;
@@ -56,7 +56,7 @@ class HomeController extends Controller
 
     $role = getRole();
     if ($role == 'admin') {
-
+      // dd(Auth::user()->roles()->first()->permission()->get()->pluck('title'));
       $data['auctions_auction_status_data'] = (object) $this->getAuctionStatistics();
 
       $data['seller_auctions'] = (object) $this->sellerAuctionsStatistics();

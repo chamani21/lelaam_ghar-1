@@ -9,6 +9,7 @@
         </div>
 
         {{--@include('errors.errors')--}}
+
         <div class="panel-body form-auth-style" id="app">
 
         	<div class="row">

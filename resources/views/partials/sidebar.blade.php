@@ -13,24 +13,27 @@ $active_class='';
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <ul class="sidebar-menu">
-
-             
-
             <li class="{{ isActive($active_class,'dashboard')}}">
                 <a href="{{ PREFIX }}index">
                     <i class="fa fa-cloud"></i>
                     <span class="title"> {{getPhrase('dashboard')}} </span>
                 </a>
             </li>
-
-
-            @can('user_access')
-            <li class="{{ isActive($active_class,'user_management')}}">
-                <a href="{{ route('users.index') }}">
-                    <i class="fa fa-users"></i>
-                    <span class="title"> {{getPhrase('user_management')}} </span>
-                </a>
-            </li>
+             {{-- @if (checkPermission(['user_management_access']))
+                <li class="{{ isActive($active_class,'languages')}}">
+                    <a href="{{ URL_LANGUAGES_LIST }}">
+                        <i class="fa fa-language"></i>
+                        <span>{{getPhrase('languages')}}</span>
+                    </a>
+                </li>
+            @endif --}}
+            @can('user_management_access')
+                <li class="{{ isActive($active_class,'user_management')}}">
+                    <a href="{{ route('users.index') }}">
+                        <i class="fa fa-users"></i>
+                        <span class="title"> {{getPhrase('user_management')}} </span>
+                    </a>
+                </li>
             @endcan
 
 
@@ -152,12 +155,12 @@ $active_class='';
 
 
             @if (checkRole(['admin']))
-            <li class="{{ isActive($active_class,'languages')}}">
-                <a href="{{ URL_LANGUAGES_LIST }}">
-                    <i class="fa fa-language"></i>
-                    <span>{{getPhrase('languages')}}</span>
-                </a>
-            </li>
+                <li class="{{ isActive($active_class,'languages')}}">
+                    <a href="{{ URL_LANGUAGES_LIST }}">
+                        <i class="fa fa-language"></i>
+                        <span>{{getPhrase('languages')}}</span>
+                    </a>
+                </li>
             @endif
 
 

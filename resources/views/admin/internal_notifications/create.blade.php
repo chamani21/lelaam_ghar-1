@@ -3,6 +3,7 @@
 @section('content')
     <h3 class="page-title">@lang('global.internal-notifications.title')</h3>
     {!! Form::open(['method' => 'POST', 'route' => ['internal_notifications.store']]) !!}
+
     <div class="panel panel-default">
         <div class="panel-heading">
             @lang('global.app_create')
