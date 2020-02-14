@@ -11,10 +11,10 @@ use App\Http\Requests\Admin\UpdateRolesRequest;
 
 class RolesController extends Controller
 {
-    
+
     public function __construct()
     {
-         $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -24,8 +24,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        if (!checkRole(getUserGrade(1)))
-        {
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -47,15 +46,14 @@ class RolesController extends Controller
     public function create()
     {
 
-        if (!checkRole(getUserGrade(1)))
-        {
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
 
         $data['title']              = getPhrase('roles');
         $data['active_class']       = 'user_management';
-        
+
         $permissions = \App\Permission::get()->pluck('title', 'id');
 
         $data['permissions']        = $permissions;
@@ -71,14 +69,13 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        if (!checkRole(getUserGrade(1)))
-        {
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
 
         $role = Role::create($request->all());
-        $role->permission()->sync(array_filter((array)$request->input('permission')));
+        $role->permission()->sync(array_filter((array) $request->input('permission')));
 
 
 
@@ -94,9 +91,8 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        
-        if (!checkRole(getUserGrade(1)))
-        {
+
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -123,19 +119,18 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!checkRole(getUserGrade(1)))
-        {
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
 
         $role = Role::findOrFail($id);
         $role->update($request->all());
-        $role->permission()->sync(array_filter((array)$request->input('permission')));
+        $role->permission()->sync(array_filter((array) $request->input('permission')));
 
 
 
-        return redirect()->route('admin.roles.index');
+        return redirect(url('roles'));
     }
 
 
@@ -147,18 +142,19 @@ class RolesController extends Controller
      */
     public function show($id)
     {
-        
-        if (!checkRole(getUserGrade(1)))
-        {
+
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
 
         $permissions = \App\Permission::get()->pluck('title', 'id');
-        $users = \App\User::whereHas('role',
-                    function ($query) use ($id) {
-                        $query->where('users.id', $id);
-                    })->get();
+        $users = \App\User::whereHas(
+            'role',
+            function ($query) use ($id) {
+                $query->where('users.id', $id);
+            }
+        )->get();
 
         $role = Role::findOrFail($id);
 
@@ -180,8 +176,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        if (!checkRole(getUserGrade(1)))
-        {
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -199,12 +194,11 @@ class RolesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (!checkRole(getUserGrade(1)))
-        {
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
-        
+
         if ($request->input('ids')) {
             $entries = Role::whereIn('id', $request->input('ids'))->get();
 
@@ -213,5 +207,4 @@ class RolesController extends Controller
             }
         }
     }
-
 }

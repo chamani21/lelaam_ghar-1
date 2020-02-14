@@ -36,7 +36,40 @@ $active_class='';
                 </li>
             @endcan
 
-
+            {{-- Permission System is only accesable by admin --}}
+            @if (checkRole(['admin']))
+            <li class="treeview {{ isActive($active_class,'locations')}}">
+                <a href="#">
+                    <i class="fa fa-lock"></i>
+                    <span class="title"> {{getPhrase('Permission_System')}} </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    @can('permission_create')
+                    <li class="{{ $request->segment(2) == 'permissions' ? 'active active-sub' : '' }}">
+                            <a href="{{ URL_PERMISSIONS }}">
+                                <i class="fa fa-key"></i>
+                                <span class="title">
+                                    {{getPhrase('Permissions')}}
+                                </span>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('role_access')
+                    <li class="{{ $request->segment(2) == 'roles' ? 'active active-sub' : '' }}">
+                            <a href="{{ URL_ROLES }}">
+                                <i class="fa fa-users"></i>
+                                <span class="title">
+                                    {{getPhrase('Roles')}}
+                                </span>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+            @endif
             @can('faq_management_access')
             <li class="treeview {{ isActive($active_class,'faqs')}}">
                 <a href="#">
@@ -154,7 +187,7 @@ $active_class='';
 
 
 
-            @if (checkRole(['admin']))
+            @if (checkRole(['admin','sub-admin']))
                 <li class="{{ isActive($active_class,'languages')}}">
                     <a href="{{ URL_LANGUAGES_LIST }}">
                         <i class="fa fa-language"></i>
@@ -168,7 +201,7 @@ $active_class='';
             @can('content_page_access')
             <li class="{{ isActive($active_class,'content_management')}}">
                     <a href="{{ URL_PAGES }}">
-                        <i class="fa fa-file-o"></i>
+                        <i class="fa fa-edit"></i>
                         <span class="title">
                             {{getPhrase('content_management')}}
                            
@@ -210,20 +243,21 @@ $active_class='';
 
 
 
-
-            <li class="{{ isActive($active_class,'auctions')}}">
-                <a href="{{ URL_LIST_AUCTIONS }}">
-                    <i class="fa fa-gavel"></i>
-                    <span class="title">
-                       {{getPhrase('auctions')}} 
-                    </span>
-                </a>
-            </li>
+            @can('auction_access')
+                <li class="{{ isActive($active_class,'auctions')}}">
+                    <a href="{{ URL_LIST_AUCTIONS }}">
+                        <i class="fa fa-gavel"></i>
+                        <span class="title">
+                        {{getPhrase('auctions')}} 
+                        </span>
+                    </a>
+                </li>
+            @endcan
        
 
 
 
-            @if (checkRole(['admin']))
+            @if (checkRole(['admin','sub-admin']))
             <li class="{{ isActive($active_class,'news_letter')}}">
                 <a href="{{ URL_LIST_NEWS_LETTER }}">
                     <i class="fa fa-newspaper-o"></i>
@@ -235,7 +269,7 @@ $active_class='';
             @endif
             
 
-            @if (checkRole(['admin']))
+            @if (checkRole(['admin','sub-admin']))
             <li class="treeview {{ $request->segment(2) == 'reports' ? 'active' : '' }}">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
@@ -278,17 +312,16 @@ $active_class='';
             </li>
             @endif
 
+             @can('internal_notification_access')
+                 <li class="{{ isActive($active_class,'notifications')}}">
+                    <a href="{{ URL_USER_NOTIFICATIONS }}">
+                        <i class="fa fa-briefcase"></i>
+                        <span class="title"> {{ getPhrase('notifications') }} </span>
+                    </a>
+                </li>
+             @endcan
 
-       
-
-             <li class="{{ isActive($active_class,'notifications')}}">
-                <a href="{{ URL_USER_NOTIFICATIONS }}">
-                    <i class="fa fa-briefcase"></i>
-                    <span class="title"> {{ getPhrase('notifications') }} </span>
-                </a>
-            </li>
-
-            @if (checkRole(['admin']))
+            @if (checkRole(['admin','sub-admin','editor','moderator']))
             <li class="{{ isActive($active_class,'sms')}}">
                 <a href="{{ URL_SEND_SMS }}">
                     <i class="fa fa-mobile"></i><span class="title"> {{ getPhrase('sms') }} </span>
@@ -296,24 +329,26 @@ $active_class='';
             </li>
             @endif
             
-            @php ($unread = App\MessengerTopic::countUnread())
-            <li class="{{ $request->segment(1) == 'messenger' ? 'active' : '' }} {{ ($unread > 0 ? 'unread' : '') }}">
-                <a href="{{ URL_MESSENGER }}">
-                    <i class="fa fa-envelope"></i>
+            @if (checkRole(['admin','sub-admin','editor','moderator']))
+                @php ($unread = App\MessengerTopic::countUnread())
+                <li class="{{ $request->segment(1) == 'messenger' ? 'active' : '' }} {{ ($unread > 0 ? 'unread' : '') }}">
+                    <a href="{{ URL_MESSENGER }}">
+                        <i class="fa fa-envelope"></i>
 
-                    <span>{{getPhrase('messages')}}</span>
-                    @if($unread > 0)
-                        {{ ($unread > 0 ? '('.$unread.')' : '') }}
-                    @endif
-                </a>
-            </li>
-            <style>
-                .page-sidebar-menu .unread * {
-                    font-weight:bold !important;
-                }
-            </style>
+                        <span>{{getPhrase('messages')}}</span>
+                        @if($unread > 0)
+                            {{ ($unread > 0 ? '('.$unread.')' : '') }}
+                        @endif
+                    </a>
+                </li>
+                <style>
+                    .page-sidebar-menu .unread * {
+                        font-weight:bold !important;
+                    }
+                </style>
+            @endif
 
-
+            {{-- Payments are only accessable to admin   --}}
             @if (checkRole(['admin']))
             <li class="{{ isActive($active_class,'payments')}}">
                 <a href="{{ URL_PAYMENT_HISTORY }}">

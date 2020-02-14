@@ -163,7 +163,7 @@ function getUserGrade($grade = 2)
 {
     switch ($grade) {
         case 1:
-            return ['admin'];
+            return ['admin', 'sub-admin', 'editor', 'moderator'];
             break;
         case 2:
             return ['bidder'];
@@ -181,7 +181,16 @@ function getUserGrade($grade = 2)
             return ['seller', 'bidder'];
             break;
         case 7:
-            return ['admin', 'seller', 'bidder'];
+            return ['admin', 'sub-admin', 'seller', 'bidder'];
+            break;
+        case 8:
+            return ['sub-admin'];
+            break;
+        case 9:
+            return ['editor'];
+            break;
+        case 10:
+            return ['moderator'];
             break;
     }
 }

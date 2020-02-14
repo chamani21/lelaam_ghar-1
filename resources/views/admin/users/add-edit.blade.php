@@ -3,7 +3,7 @@
 
 @section('custom_div')
 
-@if (isset($record) && count($record))
+@if (isset($record) && $record)
     <div ng-controller="prepareUserData" ng-init="initFunctions()">
 @else
      <div ng-controller="prepareUserData">

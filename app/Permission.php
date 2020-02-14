@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,17 +9,16 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App
  * @property string $title
-*/
+ */
 class Permission extends Model
 {
     protected $fillable = ['title'];
-    
-    
+
+
     public static function boot()
     {
         parent::boot();
 
         Permission::observe(new \App\Observers\UserActionsObserver);
     }
-    
 }

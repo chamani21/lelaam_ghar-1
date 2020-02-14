@@ -7,10 +7,14 @@ use Illuminate\Http\Request;
 
 
 use App;
+use App\Permission;
+use App\PermissionRole;
+use App\Role;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use DB;
 use Artisan;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class HomeController extends Controller
 {
@@ -42,6 +46,7 @@ class HomeController extends Controller
    */
   public function index()
   {
+    // Auth::logout();
     $data['active_class']   = 'dashboard';
     $data['layout']         = getLayout();
     $data['title']          = getPhrase('home');
@@ -55,11 +60,25 @@ class HomeController extends Controller
       return view(URL_HOME);
 
     $role = getRole();
-    if ($role == 'admin') {
-      // dd(Auth::user()->roles()->first()->permission()->get()->pluck('title'));
+    // dd($role);
+    if ($role == 'admin' || $role == 'sub-admin' || $role == 'editor' || $role == 'moderator') {
+      // Assigned Permission to role
       $data['auctions_auction_status_data'] = (object) $this->getAuctionStatistics();
 
       $data['seller_auctions'] = (object) $this->sellerAuctionsStatistics();
+
+      /* $role = Role::where('name', 'Sub-Admin')->first();
+      $allPermissions = Permission::get();
+      for ($i = 0; $i < count($allPermissions);$i++) {
+        $permission_role = new PermissionRole();
+        $permission_role->permission_id = $allPermissions[$i]->id;
+        $permission_role->role_id = $role->id;
+        
+        $permission_role->save();
+      } */
+      // dd();
+      // dd(Auth::user()->roles()->first()->permission()->get()->pluck('title'));
+
 
       return view('admin.dashboard', $data);
     } elseif ($role == 'seller') {
