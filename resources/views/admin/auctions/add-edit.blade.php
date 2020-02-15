@@ -9,7 +9,7 @@
 
 @section('custom_div')
 
-@if (isset($record) && count($record))
+@if (isset($record) && $record)
     <div ng-controller="prepareAuctionData" ng-init="initFunctions()">
 @else
      <div ng-controller="prepareAuctionData">
