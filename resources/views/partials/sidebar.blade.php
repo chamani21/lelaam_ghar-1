@@ -19,7 +19,8 @@ $active_class='';
                     <span class="title"> {{getPhrase('dashboard')}} </span>
                 </a>
             </li>
-             {{-- @if (checkPermission(['user_management_access']))
+            {{-- {{dd(Auth::user()->can('user_management_access'))}} --}}
+             {{-- @if (Auth::user()->can(['user_management_access']))
                 <li class="{{ isActive($active_class,'languages')}}">
                     <a href="{{ URL_LANGUAGES_LIST }}">
                         <i class="fa fa-language"></i>
@@ -27,7 +28,7 @@ $active_class='';
                     </a>
                 </li>
             @endif --}}
-            @can('user_management_access')
+            @can(['user_management_access'])
                 <li class="{{ isActive($active_class,'user_management')}}">
                     <a href="{{ route('users.index') }}">
                         <i class="fa fa-users"></i>
@@ -185,8 +186,6 @@ $active_class='';
             </li>
             @endcan
 
-
-
             @if (checkRole(['admin','sub-admin']))
                 <li class="{{ isActive($active_class,'languages')}}">
                     <a href="{{ URL_LANGUAGES_LIST }}">
@@ -195,8 +194,6 @@ $active_class='';
                     </a>
                 </li>
             @endif
-
-
 
             @can('content_page_access')
             <li class="{{ isActive($active_class,'content_management')}}">

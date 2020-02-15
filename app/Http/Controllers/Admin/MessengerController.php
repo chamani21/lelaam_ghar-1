@@ -14,9 +14,9 @@ use App\Http\Controllers\Controller;
 class MessengerController extends Controller
 {
 
-     public function __construct()
+    public function __construct()
     {
-         $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -26,8 +26,7 @@ class MessengerController extends Controller
      */
     public function index()
     {
-        if (!checkRole(getUserGrade(7)))
-        {
+        if (!checkRole(getUserGrade(7))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -41,12 +40,13 @@ class MessengerController extends Controller
         $data['active_class'] = 'all_messages';
 
 
-        if (checkRole(getUserGrade(4)))
-           return view('admin.messenger.index', $data);
+        //Go to app/helper.php starting on line 162
+        if (checkRole(getUserGrade(4)) || checkRole(getUserGrade(3)))
+            return view('admin.messenger.index', $data);
         elseif (checkRole(getUserGrade(2)))
-           return view('bidder.messenger.index', $data);
+            return view('bidder.messenger.index', $data);
         else
-           return redirect(URL_USERS_LOGIN);
+            return redirect(URL_USERS_LOGIN);
     }
 
     /**
@@ -57,8 +57,7 @@ class MessengerController extends Controller
     public function create()
     {
 
-        if (!checkRole(getUserGrade(7)))
-        {
+        if (!checkRole(getUserGrade(7))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -66,7 +65,7 @@ class MessengerController extends Controller
         if (checkRole(getUserGrade(1))) {
             $users = User::all()->pluck('email', 'id');
         } else {
-            $users = User::where('role_id',getRoleData('admin'))->pluck('email', 'id');
+            $users = User::where('role_id', getRoleData('admin'))->pluck('email', 'id');
         }
 
         $data['user']  =  FALSE;
@@ -77,14 +76,11 @@ class MessengerController extends Controller
         $data['active_class'] = 'create_message';
 
         if (checkRole(getUserGrade(4))) {
-           return view('admin.messenger.create', $data);
-        }
-        elseif (checkRole(getUserGrade(2))) {
-           return view('bidder.messenger.create', $data);
-        }
-        else
-           return redirect(URL_USERS_LOGIN);
-
+            return view('admin.messenger.create', $data);
+        } elseif (checkRole(getUserGrade(2))) {
+            return view('bidder.messenger.create', $data);
+        } else
+            return redirect(URL_USERS_LOGIN);
     }
 
     /**
@@ -96,17 +92,16 @@ class MessengerController extends Controller
     public function store(StoreMessageRequest $request)
     {
 
-        if (!checkRole(getUserGrade(7)))
-        {
+        if (!checkRole(getUserGrade(7))) {
             prepareBlockUserMessage();
             return back();
         }
 
-         if ($redirect = $this->check_isdemo()) {
-            flash('info','crud_operations_disabled_in_demo', 'info');
+        if ($redirect = $this->check_isdemo()) {
+            flash('info', 'crud_operations_disabled_in_demo', 'info');
             return redirect($redirect);
         }
-          
+
 
         $sender = Auth::user()->id;
 
@@ -122,8 +117,8 @@ class MessengerController extends Controller
             ]);
 
         // return redirect()->route('admin.messenger.index');
-        
-        flash('success','message_sent_successfully', 'success');   
+
+        flash('success', 'message_sent_successfully', 'success');
         return redirect(URL_MESSENGER);
     }
 
@@ -138,8 +133,7 @@ class MessengerController extends Controller
     public function show(MessengerTopic $topic)
     {
 
-        if (!checkRole(getUserGrade(7)))
-        {
+        if (!checkRole(getUserGrade(7))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -152,8 +146,8 @@ class MessengerController extends Controller
 
         $topic->load('receiver', 'sender', 'messages');
         $unreadMessages = [];
-        foreach($topic->messages as $message) {
-            if($message->unread($topic)) {
+        foreach ($topic->messages as $message) {
+            if ($message->unread($topic)) {
                 $unreadMessages[] = $message->id;
             }
         }
@@ -166,11 +160,11 @@ class MessengerController extends Controller
         $data['active_class'] = 'inbox';
 
         if (checkRole(getUserGrade(4)))
-           return view('admin.messenger.show', $data);
+            return view('admin.messenger.show', $data);
         elseif (checkRole(getUserGrade(2)))
-           return view('bidder.messenger.show', $data);
+            return view('bidder.messenger.show', $data);
         else
-           return redirect(URL_USERS_LOGIN);
+            return redirect(URL_USERS_LOGIN);
     }
 
     /**
@@ -183,8 +177,7 @@ class MessengerController extends Controller
     public function edit(MessengerTopic $topic)
     {
 
-        if (!checkRole(getUserGrade(7)))
-        {
+        if (!checkRole(getUserGrade(7))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -202,11 +195,11 @@ class MessengerController extends Controller
         $data['active_class'] = 'create_message';
 
         if (checkRole(getUserGrade(4)))
-           return view('admin.messenger.reply', $data);
+            return view('admin.messenger.reply', $data);
         elseif (checkRole(getUserGrade(2)))
-           return view('bidder.messenger.reply', $data);
+            return view('bidder.messenger.reply', $data);
         else
-           return redirect(URL_USERS_LOGIN);
+            return redirect(URL_USERS_LOGIN);
     }
 
     /**
@@ -219,18 +212,17 @@ class MessengerController extends Controller
      */
     public function update(UpdateMessageRequest $request, MessengerTopic $topic)
     {
-        if (!checkRole(getUserGrade(7)))
-        {
+        if (!checkRole(getUserGrade(7))) {
             prepareBlockUserMessage();
             return back();
         }
 
 
         if ($redirect = $this->check_isdemo()) {
-            flash('info','crud_operations_disabled_in_demo', 'info');
+            flash('info', 'crud_operations_disabled_in_demo', 'info');
             return redirect($redirect);
         }
-          
+
 
         $user = Auth::user();
         if ($topic->receiver->id != $user->id && $topic->sender->id != $user->id) {
@@ -245,7 +237,7 @@ class MessengerController extends Controller
             'content'   => $request->input('content'),
         ]);
 
-        flash('success','message_sent_successfully', 'success');   
+        flash('success', 'message_sent_successfully', 'success');
         return redirect()->route('messenger.show', $topic->id);
     }
 
@@ -260,20 +252,19 @@ class MessengerController extends Controller
     public function destroy(Request $request)
     {
 
-        if (!checkRole(getUserGrade(1)))
-        {
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
 
-         if ($redirect = $this->check_isdemo()) {
-            flash('info','crud_operations_disabled_in_demo', 'info');
+        if ($redirect = $this->check_isdemo()) {
+            flash('info', 'crud_operations_disabled_in_demo', 'info');
             return redirect($redirect);
         }
-          
-          
-        $topic = MessengerTopic::where('id',$request->id)->first();
-       
+
+
+        $topic = MessengerTopic::where('id', $request->id)->first();
+
         $user  = Auth::user();
         /*if ($topic->receiver->id != $user->id && $topic->sender->id != $user->id) {
             return abort(401);
@@ -281,15 +272,14 @@ class MessengerController extends Controller
 
         $topic->delete();
 
-        flash('success','message_deleted_successfully', 'success'); 
+        flash('success', 'message_deleted_successfully', 'success');
         return redirect()->route('messenger.index');
     }
 
     public function inbox()
     {
 
-        if (!checkRole(getUserGrade(7)))
-        {
+        if (!checkRole(getUserGrade(7))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -303,20 +293,17 @@ class MessengerController extends Controller
         $data['active_class'] = 'inbox';
 
         if (checkRole(getUserGrade(4)))
-           return view('admin.messenger.index', $data);
+            return view('admin.messenger.index', $data);
         elseif (checkRole(getUserGrade(2)))
-           return view('bidder.messenger.index', $data);
+            return view('bidder.messenger.index', $data);
         else
-           return redirect(URL_USERS_LOGIN);
-
-       
+            return redirect(URL_USERS_LOGIN);
     }
 
     public function outbox()
     {
 
-        if (!checkRole(getUserGrade(7)))
-        {
+        if (!checkRole(getUserGrade(7))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -330,24 +317,23 @@ class MessengerController extends Controller
         $data['active_class'] = 'outbox';
 
         if (checkRole(getUserGrade(4)))
-           return view('admin.messenger.index', $data);
+            return view('admin.messenger.index', $data);
         elseif (checkRole(getUserGrade(2)))
-           return view('bidder.messenger.index', $data);
+            return view('bidder.messenger.index', $data);
         else
-           return redirect(URL_USERS_LOGIN);
-
+            return redirect(URL_USERS_LOGIN);
     }
 
 
-       /**
-      * [check_isdemo description]
-      * @return [type] [description]
-      */
+    /**
+     * [check_isdemo description]
+     * @return [type] [description]
+     */
     public function check_isdemo()
     {
-       if (env('DEMO_MODE'))
-          return URL_MESSENGER;
-       else
-          return false;
+        if (env('DEMO_MODE'))
+            return URL_MESSENGER;
+        else
+            return false;
     }
 }

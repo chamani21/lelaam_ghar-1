@@ -19,8 +19,9 @@ $active_class='';
                     <span class="title"> <?php echo e(getPhrase('dashboard')); ?> </span>
                 </a>
             </li>
+            
              
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user_management_access')): ?>
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check(['user_management_access'])): ?>
                 <li class="<?php echo e(isActive($active_class,'user_management')); ?>">
                     <a href="<?php echo e(route('users.index')); ?>">
                         <i class="fa fa-users"></i>
@@ -29,7 +30,42 @@ $active_class='';
                 </li>
             <?php endif; ?>
 
+            
+            <?php if(checkRole(['admin'])): ?>
+            <li class="treeview <?php echo e(isActive($active_class,'locations')); ?>">
+                <a href="#">
+                    <i class="fa fa-lock"></i>
+                    <span class="title"> <?php echo e(getPhrase('Permission_System')); ?> </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('permission_create')): ?>
+                    <li class="<?php echo e($request->segment(2) == 'permissions' ? 'active active-sub' : ''); ?>">
+                            <a href="<?php echo e(URL_PERMISSIONS); ?>">
+                                <i class="fa fa-key"></i>
+                                <span class="title">
+                                    <?php echo e(getPhrase('Permissions')); ?>
 
+                                </span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role_access')): ?>
+                    <li class="<?php echo e($request->segment(2) == 'roles' ? 'active active-sub' : ''); ?>">
+                            <a href="<?php echo e(URL_ROLES); ?>">
+                                <i class="fa fa-users"></i>
+                                <span class="title">
+                                    <?php echo e(getPhrase('Roles')); ?>
+
+                                </span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </li>
+            <?php endif; ?>
             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('faq_management_access')): ?>
             <li class="treeview <?php echo e(isActive($active_class,'faqs')); ?>">
                 <a href="#">
@@ -150,9 +186,7 @@ $active_class='';
             </li>
             <?php endif; ?>
 
-
-
-            <?php if(checkRole(['admin'])): ?>
+            <?php if(checkRole(['admin','sub-admin'])): ?>
                 <li class="<?php echo e(isActive($active_class,'languages')); ?>">
                     <a href="<?php echo e(URL_LANGUAGES_LIST); ?>">
                         <i class="fa fa-language"></i>
@@ -161,12 +195,10 @@ $active_class='';
                 </li>
             <?php endif; ?>
 
-
-
             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('content_page_access')): ?>
             <li class="<?php echo e(isActive($active_class,'content_management')); ?>">
                     <a href="<?php echo e(URL_PAGES); ?>">
-                        <i class="fa fa-file-o"></i>
+                        <i class="fa fa-edit"></i>
                         <span class="title">
                             <?php echo e(getPhrase('content_management')); ?>
 
@@ -210,20 +242,21 @@ $active_class='';
 
 
 
-
-            <li class="<?php echo e(isActive($active_class,'auctions')); ?>">
-                <a href="<?php echo e(URL_LIST_AUCTIONS); ?>">
-                    <i class="fa fa-gavel"></i>
-                    <span class="title">
-                       <?php echo e(getPhrase('auctions')); ?> 
-                    </span>
-                </a>
-            </li>
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('auction_access')): ?>
+                <li class="<?php echo e(isActive($active_class,'auctions')); ?>">
+                    <a href="<?php echo e(URL_LIST_AUCTIONS); ?>">
+                        <i class="fa fa-gavel"></i>
+                        <span class="title">
+                        <?php echo e(getPhrase('auctions')); ?> 
+                        </span>
+                    </a>
+                </li>
+            <?php endif; ?>
        
 
 
 
-            <?php if(checkRole(['admin'])): ?>
+            <?php if(checkRole(['admin','sub-admin'])): ?>
             <li class="<?php echo e(isActive($active_class,'news_letter')); ?>">
                 <a href="<?php echo e(URL_LIST_NEWS_LETTER); ?>">
                     <i class="fa fa-newspaper-o"></i>
@@ -235,7 +268,7 @@ $active_class='';
             <?php endif; ?>
             
 
-            <?php if(checkRole(['admin'])): ?>
+            <?php if(checkRole(['admin','sub-admin'])): ?>
             <li class="treeview <?php echo e($request->segment(2) == 'reports' ? 'active' : ''); ?>">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
@@ -278,17 +311,16 @@ $active_class='';
             </li>
             <?php endif; ?>
 
+             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('internal_notification_access')): ?>
+                 <li class="<?php echo e(isActive($active_class,'notifications')); ?>">
+                    <a href="<?php echo e(URL_USER_NOTIFICATIONS); ?>">
+                        <i class="fa fa-briefcase"></i>
+                        <span class="title"> <?php echo e(getPhrase('notifications')); ?> </span>
+                    </a>
+                </li>
+             <?php endif; ?>
 
-       
-
-             <li class="<?php echo e(isActive($active_class,'notifications')); ?>">
-                <a href="<?php echo e(URL_USER_NOTIFICATIONS); ?>">
-                    <i class="fa fa-briefcase"></i>
-                    <span class="title"> <?php echo e(getPhrase('notifications')); ?> </span>
-                </a>
-            </li>
-
-            <?php if(checkRole(['admin'])): ?>
+            <?php if(checkRole(['admin','sub-admin','editor','moderator'])): ?>
             <li class="<?php echo e(isActive($active_class,'sms')); ?>">
                 <a href="<?php echo e(URL_SEND_SMS); ?>">
                     <i class="fa fa-mobile"></i><span class="title"> <?php echo e(getPhrase('sms')); ?> </span>
@@ -296,25 +328,27 @@ $active_class='';
             </li>
             <?php endif; ?>
             
-            <?php ($unread = App\MessengerTopic::countUnread()); ?>
-            <li class="<?php echo e($request->segment(1) == 'messenger' ? 'active' : ''); ?> <?php echo e(($unread > 0 ? 'unread' : '')); ?>">
-                <a href="<?php echo e(URL_MESSENGER); ?>">
-                    <i class="fa fa-envelope"></i>
+            <?php if(checkRole(['admin','sub-admin','editor','moderator'])): ?>
+                <?php ($unread = App\MessengerTopic::countUnread()); ?>
+                <li class="<?php echo e($request->segment(1) == 'messenger' ? 'active' : ''); ?> <?php echo e(($unread > 0 ? 'unread' : '')); ?>">
+                    <a href="<?php echo e(URL_MESSENGER); ?>">
+                        <i class="fa fa-envelope"></i>
 
-                    <span><?php echo e(getPhrase('messages')); ?></span>
-                    <?php if($unread > 0): ?>
-                        <?php echo e(($unread > 0 ? '('.$unread.')' : '')); ?>
+                        <span><?php echo e(getPhrase('messages')); ?></span>
+                        <?php if($unread > 0): ?>
+                            <?php echo e(($unread > 0 ? '('.$unread.')' : '')); ?>
 
-                    <?php endif; ?>
-                </a>
-            </li>
-            <style>
-                .page-sidebar-menu .unread * {
-                    font-weight:bold !important;
-                }
-            </style>
+                        <?php endif; ?>
+                    </a>
+                </li>
+                <style>
+                    .page-sidebar-menu .unread * {
+                        font-weight:bold !important;
+                    }
+                </style>
+            <?php endif; ?>
 
-
+            
             <?php if(checkRole(['admin'])): ?>
             <li class="<?php echo e(isActive($active_class,'payments')); ?>">
                 <a href="<?php echo e(URL_PAYMENT_HISTORY); ?>">

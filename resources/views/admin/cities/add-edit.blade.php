@@ -2,7 +2,7 @@
 
 @section('custom_div')
 
-@if (isset($record) && $record)
+@if (isset($record) && count($record))
     <div ng-controller="prepareCitiesData" ng-init="initFunctions()">
 @else
      <div ng-controller="prepareCitiesData">

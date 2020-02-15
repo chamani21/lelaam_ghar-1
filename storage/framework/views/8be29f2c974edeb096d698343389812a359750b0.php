@@ -19,8 +19,9 @@ $active_class='';
                     <span class="title"> <?php echo e(getPhrase('dashboard')); ?> </span>
                 </a>
             </li>
+            
              
-            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user_management_access')): ?>
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check(['user_management_access'])): ?>
                 <li class="<?php echo e(isActive($active_class,'user_management')); ?>">
                     <a href="<?php echo e(route('users.index')); ?>">
                         <i class="fa fa-users"></i>
@@ -185,8 +186,6 @@ $active_class='';
             </li>
             <?php endif; ?>
 
-
-
             <?php if(checkRole(['admin','sub-admin'])): ?>
                 <li class="<?php echo e(isActive($active_class,'languages')); ?>">
                     <a href="<?php echo e(URL_LANGUAGES_LIST); ?>">
@@ -195,8 +194,6 @@ $active_class='';
                     </a>
                 </li>
             <?php endif; ?>
-
-
 
             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('content_page_access')): ?>
             <li class="<?php echo e(isActive($active_class,'content_management')); ?>">

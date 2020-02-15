@@ -7,14 +7,11 @@ use Illuminate\Http\Request;
 
 
 use App;
-use App\Permission;
-use App\PermissionRole;
 use App\Role;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use DB;
 use Artisan;
-use Illuminate\Support\Facades\DB as FacadesDB;
 
 class HomeController extends Controller
 {
@@ -67,6 +64,8 @@ class HomeController extends Controller
 
       $data['seller_auctions'] = (object) $this->sellerAuctionsStatistics();
 
+      $roleData = Role::where('name', $role)->first();
+      // dd($roleData->permission()->get());
       /* $role = Role::where('name', 'Sub-Admin')->first();
       $allPermissions = Permission::get();
       for ($i = 0; $i < count($allPermissions);$i++) {
