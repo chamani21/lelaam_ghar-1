@@ -64,6 +64,7 @@ $categories = \App\Category::getHomeCategories(6);
                             <div class="col-12">
                                 <div class="mt-3">
                                     <div class="gcse-search"></div>
+                                    <script async src="https://cse.google.com/cse.js?cx=014936675441434333392:ry8uso0q6ow"></script>
                                 </div>
                             </div>
                         </div>

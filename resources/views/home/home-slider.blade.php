@@ -48,7 +48,7 @@
 
 {{-- background:linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)), url({{$slider_three_path}});position:relative;background --}}
             @if ($slider_three_path)
-                <div class="image au-hero" style="-position:center;background-size: cover;"></div>
+                <div class="image au-hero" style="background:url({{$slider_three_path}});position:relative;background-position:center;background-size: cover;"></div>
             @else
             {{-- linear-gradient( rgba(105, 105, 105, 0.59), rgba(105, 105, 105, 0.99)),  --}}
                 <div class="image au-hero" style="background:url({{IMAGES_HOME}}slider-three.png);position:relative;background-position:center;background-size: cover;"></div>

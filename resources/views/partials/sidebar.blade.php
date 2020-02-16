@@ -254,7 +254,7 @@ $active_class='';
 
 
 
-            @if (checkRole(['admin','sub-admin']))
+            @if (checkRole(['admin','sub-admin','editor']))
             <li class="{{ isActive($active_class,'news_letter')}}">
                 <a href="{{ URL_LIST_NEWS_LETTER }}">
                     <i class="fa fa-newspaper-o"></i>

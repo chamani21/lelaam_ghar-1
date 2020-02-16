@@ -256,7 +256,7 @@ $active_class='';
 
 
 
-            <?php if(checkRole(['admin','sub-admin'])): ?>
+            <?php if(checkRole(['admin','sub-admin','editor'])): ?>
             <li class="<?php echo e(isActive($active_class,'news_letter')); ?>">
                 <a href="<?php echo e(URL_LIST_NEWS_LETTER); ?>">
                     <i class="fa fa-newspaper-o"></i>

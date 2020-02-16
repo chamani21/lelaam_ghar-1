@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 15, 2020 at 09:42 PM
+-- Generation Time: Feb 16, 2020 at 03:38 PM
 -- Server version: 5.7.21
 -- PHP Version: 7.3.9
 
@@ -1872,7 +1872,12 @@ INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 (42, 7),
 (43, 7),
 (44, 7),
-(45, 7);
+(45, 7),
+(126, 6),
+(127, 6),
+(128, 6),
+(129, 6),
+(130, 6);
 
 -- --------------------------------------------------------
 
@@ -2380,9 +2385,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `subscription_type`, `comission_value`, `slug`, `login_enabled`, `role_id`, `image`, `phone`, `address`, `remember_token`, `created_at`, `updated_at`, `approved`, `provider`, `provider_id`, `country_id`, `state_id`, `city_id`, `company_logo`, `billing_name`, `billing_email`, `billing_phone`, `billing_country`, `billing_state`, `billing_city`, `billing_address`, `shipping_name`, `shipping_email`, `shipping_phone`, `shipping_country`, `shipping_state`, `shipping_city`, `shipping_address`) VALUES
-(1, 'Admin', 'admin', 'admin@admin.com', '$2y$10$lG3amLOD8sk5jy0UCgjrJuq0afQ274hoa.cs2UTjoTlciYvp3reGy', 'Silver', 10.00, 'admin-a797ef10865664bf24c9f65ef1a9dbbdaed20e33', 1, 1, '1.jpeg', '7894563211', '', 'xYMdj58SjkTZ5I1DkDbrSUtSzWOpDBeX4AN7QS3VmYNUkkco2j3Ne4LTBip5', '2018-02-02 00:41:13', '2020-02-15 19:29:06', 1, NULL, NULL, 105, 3, 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 'Seller', 'seller', 'seller@seller.com', '$2y$10$EQHakHMHYRBrHLSA2Z0Kquxlyswh3D6A6ByOK6c7d14RrC/Q2/GAu', 'Silver', 10.00, 'seller-1', 1, 2, '3.jpeg', '1212121212', 'Hitech City', 'E0Mtrusv1raU6KXyIf2kNxqictc4yK0BHZCioodhbxssi7ZVNL2M2Rjw9DRu', '2018-02-02 06:26:23', '2018-04-03 11:49:22', 1, NULL, NULL, 105, 3, 16, '3_company_logo.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'Bidder Mich', 'bidder', 'bidder@bidder.com', '$2y$10$IGArsbKd3Oro0ELYDkdRbOjaCQyOY0WG3SpaAQHHWr..Rq4LkegUS', 'Silver', 10.00, 'bidder-mich-9', 1, 3, '4_435011.jpeg', '8712345655', '', 'F7uLLp2KNnEz6BvY1PpG30rNni7ka7c9KSKnnIlZNcd1Ra3106MQ5gwUxriB', '2018-02-05 01:47:39', '2018-04-11 15:55:20', 1, NULL, NULL, 105, 2, 9, NULL, 'Bidder MIch', 'bidder@bidder.com', '7897897987', 105, 1, 3, 'Main Road', 'Bidder MIch', 'bidder@bidder.com', '7897897897', 105, 3, 23, 'Main Road'),
+(1, 'Admin', 'admin', 'admin@admin.com', '$2y$10$lG3amLOD8sk5jy0UCgjrJuq0afQ274hoa.cs2UTjoTlciYvp3reGy', 'Silver', 10.00, 'admin-a797ef10865664bf24c9f65ef1a9dbbdaed20e33', 1, 1, '1.jpeg', '7894563211', '', 'IJAWwWBqu50vWXptYQonwEPUjkT7KQo4BvvRM0BwHhIBmMCFDLWr3jc2SBwR', '2018-02-02 00:41:13', '2020-02-15 19:29:06', 1, NULL, NULL, 105, 3, 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 'Seller', 'seller', 'seller@seller.com', '$2y$10$EQHakHMHYRBrHLSA2Z0Kquxlyswh3D6A6ByOK6c7d14RrC/Q2/GAu', 'Silver', 10.00, 'seller-1', 1, 2, '3.jpeg', '1212121212', 'Hitech City', 'RaivAc3ZcTVLlJHjVjVz84BUytWBC2C7u3UTnPC6eSz5Aq9pjk8P482fPRwT', '2018-02-02 06:26:23', '2018-04-03 11:49:22', 1, NULL, NULL, 105, 3, 16, '3_company_logo.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 'Bidder Mich', 'bidder', 'bidder@bidder.com', '$2y$10$IGArsbKd3Oro0ELYDkdRbOjaCQyOY0WG3SpaAQHHWr..Rq4LkegUS', 'Silver', 10.00, 'bidder-mich-9', 1, 3, '4_435011.jpeg', '8712345655', '', 'nhXZ2e0UuW50sCBhl88XR82gQXVACnWy7yj938kMv2nvNHKPXdurYEe90Qk3', '2018-02-05 01:47:39', '2018-04-11 15:55:20', 1, NULL, NULL, 105, 2, 9, NULL, 'Bidder MIch', 'bidder@bidder.com', '7897897987', 105, 1, 3, 'Main Road', 'Bidder MIch', 'bidder@bidder.com', '7897897897', 105, 3, 23, 'Main Road'),
 (12, 'mich', 'michale', 'michalebidder@gmail.com', '$2y$10$1zYzJvrU4uge5GEALEMgNe75tOrlAyI/W1oNhFAhr8sS4wOQCbHlq', 'Silver', 10.00, 'mich-3', 1, 3, '12.png', '8761234567', '', 'Bmhg9rLf4d80aLluJkmcUzhgKOTDkYCrUKTOD8K7sQUusI9FtruiDuS4xsTe', '2018-02-06 23:30:32', '2018-02-19 07:27:02', 1, NULL, NULL, 105, 4, 26, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (13, 'jack', 'jack', 'jackseller@gmail.com', '$2y$10$LIM66udhO7/8XKm/sulMc.jr9I5Y1wjTjFsDeWK4EAD2PJFsSJVpq', 'Silver', 10.00, 'jack-4', 1, 2, '13.png', '9988122121', '30-9,SR HILSKDFDLK,', 'QISXMdqHmYfqDhr6faxoLkU90RvXodCjdGQuEA4YuPwyt3CfDPgMZZcKHcrt', '2018-02-06 23:32:59', '2018-02-21 23:34:44', 1, NULL, NULL, 105, 1, 1, '13_company_logo.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (14, 'test', 'test', 'testeller@gmail.com', '$2y$10$n./UfiEV3.pPbcs0Gi9Sj.Oo..qemYfBVRM8epg0vkYNe3cn98ine', 'Silver', 10.00, 'test-5', 1, 2, '14_3737275.jpeg', '7799881122', '', 'kL2MV1UehhN7Bx7hIOX9u0EcyFaKWvnJRadfoLKFPaRMhQPIne84p1RS3jdk', '2018-02-06 23:33:52', '2018-04-03 12:16:20', 1, NULL, NULL, 105, 2, 8, '14_company_logo.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -2396,8 +2401,8 @@ INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `subscriptio
 (33, 'Sai', 'Sai', 'sai84130@gmail.com', '$2y$10$o1pHJfTJPn.LKbCwiq8h3eFrbYCMIYUlczJEYzkmR1YTQJhHjN2jO', 'Silver', 10.00, 'sai-13', 1, 2, '33_4527422.jpeg', '7893694775', 'Main Road, Vijayawada', 'mZ5ZO58EgVwYX3WIumt9u7DrLVeac5RPWWGbFoKB2WvNIysX0inX1OlZs0EH', '2018-04-11 10:50:02', '2018-04-11 10:50:02', 1, NULL, NULL, 105, 2, 8, '33_5036406_company_logo.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (34, 'Aruna Yellanuru', 'aruna-yellanuru-14', 'arunayellanuru@gmail.com', '$2y$10$pGrlniExpU4jXZpwqIQl4urO47tZyp.qUf/FffrId4WAxn8hw.cXm', 'Silver', 10.00, 'aruna-yellanuru-14', 1, 3, NULL, NULL, NULL, '7mbe28UnzC8pdAd7hOrHv2EGc6DblQqGAus1JrNDVhK1bXsUMqFWoZgRHydr', '2018-04-11 14:41:19', '2018-04-23 12:01:43', 1, NULL, NULL, NULL, NULL, NULL, NULL, 'Aruna Yellanuru', 'arunayellanuru@gmail.com', '7893694775', 105, 2, 8, 'Test Address', 'Aruna Yellanuru', 'arunayellanuru@gmail.com', '7893694775', 105, 2, 8, 'Shipping Address *'),
 (36, 'Sub Admin', 'subadmin', 'subadmin@lelaamghar.com', '$2y$10$Gim.q/Y8IWdaGzOpJBC5.uQ0nZ2gXx7pkMIqElFaw5a2qPA8E0oiW', 'Silver', 10.00, 'sub-admin-15', 1, 4, '36_404742.jpeg', '8787878787', 'Pakistan', 'PCuZ2GsCeIlXIJZMoYkeGYxmHiPnw8TvALWccWE9ipIWcLpiCSh84C9MGS4W', '2020-02-14 11:55:29', '2020-02-14 11:55:29', 1, NULL, NULL, 105, 2, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(37, 'Editor', 'editor', 'editor@lelaamghar.com', '$2y$10$FHbB3SPWTvNA4jCJg6HgN.tMjslEgBMopgrV3qL5UdJrnYiaTHHZu', 'Silver', 10.00, 'editor-16', 1, 6, '37_9010944.png', '0324566552', 'GJT', 'yOXfJ7x9a1jIplzLYwd4SUfDtnSBPGpDd21oHHGiKWKpczsMk4RKGNqzkQMl', '2020-02-14 19:34:09', '2020-02-14 19:34:09', 1, NULL, NULL, 176, 16, 41, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(38, 'Moderator', 'moderator', 'moderator@lelaamghar.com', '$2y$10$oRn9SxiDgrdbFR3vcIu1duPnwZBh69O0M0jjEaWFopO5PCA.AByES', 'Silver', 10.00, 'moderator-17', 1, 7, '38_6313009.png', '1234567856', 'Quetta', 'm2YlwJYNYbDc4Y9lKplN08hX10I2aNLUUhCooTEODLt1WMm6txHF43xUdWC5', '2020-02-14 19:43:58', '2020-02-14 19:43:58', 1, NULL, NULL, 176, 19, 42, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(37, 'Editor', 'editor', 'editor@lelaamghar.com', '$2y$10$FHbB3SPWTvNA4jCJg6HgN.tMjslEgBMopgrV3qL5UdJrnYiaTHHZu', 'Silver', 10.00, 'editor-16', 1, 6, '37_9010944.png', '0324566552', 'GJT', '6zxjLIL3IM0u0qDOmPspoOmm8puzijerU1Zvgk8DUCM6jP8VsKgkzT606g9P', '2020-02-14 19:34:09', '2020-02-14 19:34:09', 1, NULL, NULL, 176, 16, 41, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(38, 'Moderator', 'moderator', 'moderator@lelaamghar.com', '$2y$10$oRn9SxiDgrdbFR3vcIu1duPnwZBh69O0M0jjEaWFopO5PCA.AByES', 'Silver', 10.00, 'moderator-17', 1, 7, '38_6313009.png', '1234567856', 'Quetta', 'CyJONB1NTQwJa8sPQqezv77m8NHsJUuMuFEZ4tttae2sCe0zfDNIFMPFrMQN', '2020-02-14 19:43:58', '2020-02-14 19:43:58', 1, NULL, NULL, 176, 19, 42, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2416,7 +2421,7 @@ CREATE TABLE IF NOT EXISTS `user_actions` (
   `user_id` int(10) UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `113332_5a71a582ab0ce` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1555 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1561 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_actions`
@@ -3977,7 +3982,13 @@ INSERT INTO `user_actions` (`id`, `action`, `action_model`, `action_id`, `create
 (1551, 'updated', 'users', 37, '2020-02-15 22:02:24', '2020-02-15 22:02:24', 37),
 (1552, 'updated', 'roles', 6, '2020-02-15 22:06:46', '2020-02-15 22:06:46', 1),
 (1553, 'updated', 'users', 37, '2020-02-15 22:07:32', '2020-02-15 22:07:32', 37),
-(1554, 'updated', 'roles', 7, '2020-02-15 22:09:41', '2020-02-15 22:09:41', 1);
+(1554, 'updated', 'roles', 7, '2020-02-15 22:09:41', '2020-02-15 22:09:41', 1),
+(1555, 'updated', 'users', 38, '2020-02-16 16:03:03', '2020-02-16 16:03:03', 38),
+(1556, 'updated', 'users', 3, '2020-02-16 16:04:01', '2020-02-16 16:04:01', 3),
+(1557, 'updated', 'users', 4, '2020-02-16 16:05:05', '2020-02-16 16:05:05', 4),
+(1558, 'updated', 'users', 37, '2020-02-16 16:06:02', '2020-02-16 16:06:02', 37),
+(1559, 'updated', 'roles', 6, '2020-02-16 16:06:53', '2020-02-16 16:06:53', 1),
+(1560, 'updated', 'users', 1, '2020-02-16 16:07:01', '2020-02-16 16:07:01', 1);
 
 --
 -- Constraints for dumped tables

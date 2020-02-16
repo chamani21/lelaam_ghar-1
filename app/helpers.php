@@ -172,7 +172,7 @@ function getUserGrade($grade = 2)
             return ['seller'];
             break;
         case 4:
-            return ['admin', 'sub-admin', 'editor', 'moderator'];
+            return ['admin', 'sub-admin', 'editor', 'moderator', 'seller'];
             break;
         case 5:
             return ['admin', 'sub-admin', 'editor', 'moderator'];

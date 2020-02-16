@@ -5,7 +5,7 @@ $upcoming_auctions = \App\Auction::getHomeUpcomingAuctions();
 
 ?>
 <!--Upcoming Auction-->
-    <section class="au-upcoming-auction">
+    <section class="au-latest">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 au-deals">

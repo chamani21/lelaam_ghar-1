@@ -6,7 +6,6 @@ $logos = \App\User::getCompanyLogos();
 <!--Patners Section-->
     <section class="au-patner">
         <div class="container">
-
             <div class="row">
                 <div class="screenshot-patner">
 

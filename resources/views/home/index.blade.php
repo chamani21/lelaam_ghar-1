@@ -4,17 +4,17 @@
 
     @include('home/home-slider')
 
-    @include('home/home-premium-auctions')
-    
-    @include('home/home-latest-auctions')
+    @include('home/live-auctions')
+
+    @include('home/upcoming-auctions')
+
+    {{-- @include('home/home-latest-auctions') --}}
     
     @include('home/ads')
     
+    @include('home/home-premium-auctions')
+    
     @include('home/how-it-works')
-    
-    @include('home/live-auctions')
-    
-    @include('home/upcoming-auctions')
     
     @include('home/testimonials')
     

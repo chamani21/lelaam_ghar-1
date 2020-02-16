@@ -11,7 +11,7 @@ $total_bidders = \App\User::getTotalBidders();
  <!-- NOTIFICATION SECTION-->
 <div class="bg-light">
   <div class="container pb-5">
-  <hr>
+  {{-- <hr> --}}
     <div class="row pt-5">
         <div class="col-lg-12 col-md-12 col-sm-12 au-deals">
             <h2 class="text-center font-weight-bold"> 
