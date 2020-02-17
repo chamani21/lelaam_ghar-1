@@ -40,54 +40,57 @@
                     <?php if(count($users) > 0): ?>
                     <?php $i=0;?>
                         <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php 
-                        $count = $user->getSellerAuctionsCount();
-                        $i++;
-                        ?>
-                            <tr data-entry-id="<?php echo e($user->id); ?>">
-                               
-                                <td style="text-align:center;"><?php echo e($i); ?></td>
-                               
+                            
+                            <?php if(true): ?>
+                                <?php 
+                                    $count = $user->getSellerAuctionsCount();
+                                    $i++;
+                                    ?>
+                                        <tr data-entry-id="<?php echo e($user->id); ?>">
+                                        
+                                            <td style="text-align:center;"><?php echo e($i); ?></td>
+                                        
 
-                                <td field-key='name'><?php echo e($user->username); ?>
+                                            <td field-key='name'><?php echo e($user->username); ?>
 
-                                    <?php if(getRoleData($user->role_id) == 'seller' && $count>0): ?>
-                                    <span class="badge" data-toggle="tooltip" title="Auctions"><?php echo e($count); ?></span>
-                                    <?php endif; ?>
-                                </td>
-                                <td field-key='email'><?php echo e($user->email); ?></td>
+                                                <?php if(getRoleData($user->role_id) == 'seller' && $count>0): ?>
+                                                <span class="badge" data-toggle="tooltip" title="Auctions"><?php echo e($count); ?></span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td field-key='email'><?php echo e($user->email); ?></td>
 
-                                <td field-key='image'> <img style="width:30px;" src="<?php echo e(getProfilePath($user->image)); ?>"  />  </td>
-                                    
-                                <td field-key='role'>
-                                   <?php echo e($user->display_name); ?>
+                                            <td field-key='image'> <img style="width:30px;" src="<?php echo e(getProfilePath($user->image)); ?>"  />  </td>
+                                                
+                                            <td field-key='role'>
+                                            <?php echo e($user->display_name); ?>
 
-                                </td>
-                                <td field-key='subscription_type'>
-                                    
-                                   <?php echo e($user->subscription_type); ?> -
-                                   <?php echo e($user->comission_value); ?>%
-                                </td>
+                                            </td>
+                                            <td field-key='subscription_type'>
+                                                
+                                            <?php echo e($user->subscription_type); ?> -
+                                            <?php echo e($user->comission_value); ?>%
+                                            </td>
 
-                                <td field-key='status'>
-                                   <?php if($user->approved==1): ?>
-                                   <a data-toggle="tooltip" title="Approved" href="<?php echo e(URL_USERS_STATUS); ?>/<?php echo e($user->slug); ?>/block" class="btn btn-danger btn-xs"><?php echo e(getPhrase('block')); ?></a>
-                                   <?php elseif($user->approved==0): ?>
-                                   <a data-toggle="tooltip" title="Disapproved" href="<?php echo e(URL_USERS_STATUS); ?>/<?php echo e($user->slug); ?>/unblock" class="btn btn-info btn-xs"><?php echo e(getPhrase('unblock')); ?></a>
-                                   <?php endif; ?>
-                                </td>
+                                            <td field-key='status'>
+                                            <?php if($user->approved==1): ?>
+                                            <a data-toggle="tooltip" title="Approved" href="<?php echo e(URL_USERS_STATUS); ?>/<?php echo e($user->slug); ?>/block" class="btn btn-danger btn-xs"><?php echo e(getPhrase('block')); ?></a>
+                                            <?php elseif($user->approved==0): ?>
+                                            <a data-toggle="tooltip" title="Disapproved" href="<?php echo e(URL_USERS_STATUS); ?>/<?php echo e($user->slug); ?>/unblock" class="btn btn-info btn-xs"><?php echo e(getPhrase('unblock')); ?></a>
+                                            <?php endif; ?>
+                                            </td>
 
-                              
-                                <td>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user_view')): ?>
-                                    <a href="<?php echo e(URL_USERS_VIEW); ?>/<?php echo e($user->slug); ?>" class="btn btn-xs btn-primary"><?php echo app('translator')->getFromJson('global.app_view'); ?></a>
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user_edit')): ?>
-                                    <a href="<?php echo e(URL_USERS_EDIT); ?>/<?php echo e($user->slug); ?>" class="btn btn-xs btn-info"><?php echo app('translator')->getFromJson('global.app_edit'); ?></a>
-                                    <?php endif; ?>
-                                </td>
+                                        
+                                            <td>
+                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user_view')): ?>
+                                                <a href="<?php echo e(URL_USERS_VIEW); ?>/<?php echo e($user->slug); ?>" class="btn btn-xs btn-primary"><?php echo app('translator')->getFromJson('global.app_view'); ?></a>
+                                                <?php endif; ?>
+                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user_edit')): ?>
+                                                    <a href="<?php echo e(URL_USERS_EDIT); ?>/<?php echo e($user->slug); ?>" class="btn btn-xs btn-info"><?php echo app('translator')->getFromJson('global.app_edit'); ?></a>
+                                                <?php endif; ?>
+                                            </td>
 
-                            </tr>
+                                        </tr>
+                            <?php endif; ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <?php else: ?>
                         <tr>

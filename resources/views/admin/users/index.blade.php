@@ -39,52 +39,61 @@
                     @if (count($users) > 0)
                     <?php $i=0;?>
                         @foreach ($users as $user)
-                        <?php 
-                        $count = $user->getSellerAuctionsCount();
-                        $i++;
-                        ?>
-                            <tr data-entry-id="{{ $user->id }}">
-                               
-                                <td style="text-align:center;">{{$i}}</td>
-                               
+                            {{-- 
+                                    User cannot see details of
+                                    - Himself
+                                    - Admin
+                                    - Subadmin
+                                    (Auth::user()->role_id != $user->role_id) && ($user->role_id != 1 && $user->role_id != 4)
+                            --}}
+                            @if (true)
+                                <?php 
+                                    $count = $user->getSellerAuctionsCount();
+                                    $i++;
+                                    ?>
+                                        <tr data-entry-id="{{ $user->id }}">
+                                        
+                                            <td style="text-align:center;">{{$i}}</td>
+                                        
 
-                                <td field-key='name'>{{ $user->username }}
-                                    @if (getRoleData($user->role_id) == 'seller' && $count>0)
-                                    <span class="badge" data-toggle="tooltip" title="Auctions">{{ $count }}</span>
-                                    @endif
-                                </td>
-                                <td field-key='email'>{{ $user->email }}</td>
+                                            <td field-key='name'>{{ $user->username }}
+                                                @if (getRoleData($user->role_id) == 'seller' && $count>0)
+                                                <span class="badge" data-toggle="tooltip" title="Auctions">{{ $count }}</span>
+                                                @endif
+                                            </td>
+                                            <td field-key='email'>{{ $user->email }}</td>
 
-                                <td field-key='image'> <img style="width:30px;" src="{{getProfilePath($user->image)}}"  />  </td>
-                                    
-                                <td field-key='role'>
-                                   {{ $user->display_name }}
-                                </td>
-                                <td field-key='subscription_type'>
-                                    {{-- {{dd($user)}} --}}
-                                   {{ $user->subscription_type }} -
-                                   {{ $user->comission_value }}%
-                                </td>
+                                            <td field-key='image'> <img style="width:30px;" src="{{getProfilePath($user->image)}}"  />  </td>
+                                                
+                                            <td field-key='role'>
+                                            {{ $user->display_name }}
+                                            </td>
+                                            <td field-key='subscription_type'>
+                                                {{-- {{dd($user)}} --}}
+                                            {{ $user->subscription_type }} -
+                                            {{ $user->comission_value }}%
+                                            </td>
 
-                                <td field-key='status'>
-                                   @if ($user->approved==1)
-                                   <a data-toggle="tooltip" title="Approved" href="{{URL_USERS_STATUS}}/{{$user->slug}}/block" class="btn btn-danger btn-xs">{{getPhrase('block')}}</a>
-                                   @elseif ($user->approved==0)
-                                   <a data-toggle="tooltip" title="Disapproved" href="{{URL_USERS_STATUS}}/{{$user->slug}}/unblock" class="btn btn-info btn-xs">{{getPhrase('unblock')}}</a>
-                                   @endif
-                                </td>
+                                            <td field-key='status'>
+                                            @if ($user->approved==1)
+                                            <a data-toggle="tooltip" title="Approved" href="{{URL_USERS_STATUS}}/{{$user->slug}}/block" class="btn btn-danger btn-xs">{{getPhrase('block')}}</a>
+                                            @elseif ($user->approved==0)
+                                            <a data-toggle="tooltip" title="Disapproved" href="{{URL_USERS_STATUS}}/{{$user->slug}}/unblock" class="btn btn-info btn-xs">{{getPhrase('unblock')}}</a>
+                                            @endif
+                                            </td>
 
-                              
-                                <td>
-                                    @can('user_view')
-                                    <a href="{{URL_USERS_VIEW}}/{{$user->slug}}" class="btn btn-xs btn-primary">@lang('global.app_view')</a>
-                                    @endcan
-                                    @can('user_edit')
-                                    <a href="{{URL_USERS_EDIT}}/{{$user->slug}}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
-                                    @endcan
-                                </td>
+                                        
+                                            <td>
+                                                @can('user_view')
+                                                <a href="{{URL_USERS_VIEW}}/{{$user->slug}}" class="btn btn-xs btn-primary">@lang('global.app_view')</a>
+                                                @endcan
+                                                @can('user_edit')
+                                                    <a href="{{URL_USERS_EDIT}}/{{$user->slug}}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
+                                                @endcan
+                                            </td>
 
-                            </tr>
+                                        </tr>
+                            @endif
                         @endforeach
                     @else
                         <tr>

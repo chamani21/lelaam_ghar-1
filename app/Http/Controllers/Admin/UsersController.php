@@ -348,8 +348,12 @@ class UsersController extends Controller
 
     $data['record']             = $record;
 
-
-    $roles = \App\Role::get()->pluck('display_name', 'id');
+    if (Auth::user()->role_id == 1) {
+      $roles = \App\Role::get()->pluck('display_name', 'id');
+    } else {
+      $roles = \App\Role::whereNotIn('id', [1, 4])->get()->pluck('display_name', 'id');
+    }
+    // dd($roles);
     $data['roles'] = $roles;
 
     $data['countries']  = Country::getCountryOptions();
