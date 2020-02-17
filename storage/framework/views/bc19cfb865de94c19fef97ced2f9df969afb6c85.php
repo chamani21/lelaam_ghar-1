@@ -27,6 +27,7 @@
                         <th> <?php echo e(getPhrase('email')); ?> </th>
                         <th> <?php echo e(getPhrase('image')); ?> </th>
                         <th> <?php echo e(getPhrase('role')); ?> </th>
+                        <th> <?php echo e(getPhrase('subscription_type')); ?> </th>
                         
                         <th> <?php echo e(getPhrase('status')); ?> </th>
 
@@ -61,6 +62,11 @@
                                 <td field-key='role'>
                                    <?php echo e($user->display_name); ?>
 
+                                </td>
+                                <td field-key='subscription_type'>
+                                    
+                                   <?php echo e($user->subscription_type); ?> -
+                                   <?php echo e($user->comission_value); ?>%
                                 </td>
 
                                 <td field-key='status'>

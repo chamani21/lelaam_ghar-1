@@ -29,9 +29,9 @@ class AuctionsController extends Controller
 {
     use FileUploadTrait;
 
-     public function __construct()
+    public function __construct()
     {
-         $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -42,28 +42,27 @@ class AuctionsController extends Controller
     public function index()
     {
 
-        if(!checkRole(getUserGrade(4)))
-        {
+        if (!checkRole(getUserGrade(4))) {
             prepareBlockUserMessage();
             return back();
         }
 
         $user = \Auth::user();
-      
+
 
         $where = array();
         if (checkRole(['seller']))
-            $where = array('auctions.user_id'=>$user->id);
+            $where = array('auctions.user_id' => $user->id);
 
-        
 
-        $auctions = Auction::join('users','auctions.user_id','users.id')
-                            ->join('users as created_by', 'auctions.created_by_id', 'created_by.id')
-                            ->select(['auctions.id','auctions.slug','auctions.image','auctions.reserve_price','auctions.title','auctions.auction_status','auctions.admin_status','auctions.start_date','auctions.end_date','auctions.live_auction_date','auctions.live_auction_start_time','auctions.live_auction_end_time','users.username','users.slug as seller_slug','created_by.username as created_by'])
-                            ->where($where)
-                            ->orderBy('auctions.id','desc')
-                            ->get();
-      
+
+        $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
+            ->join('users as created_by', 'auctions.created_by_id', 'created_by.id')
+            ->select(['auctions.id', 'auctions.slug', 'auctions.image', 'auctions.reserve_price', 'auctions.title', 'auctions.auction_status', 'auctions.admin_status', 'auctions.start_date', 'auctions.end_date', 'auctions.live_auction_date', 'auctions.live_auction_start_time', 'auctions.live_auction_end_time', 'users.username', 'users.slug as seller_slug', 'created_by.username as created_by'])
+            ->where($where)
+            ->orderBy('auctions.id', 'desc')
+            ->get();
+
 
         $data['title']              = getPhrase('auctions');
         $data['active_class']       = 'auctions';
@@ -83,8 +82,7 @@ class AuctionsController extends Controller
     public function create()
     {
 
-        if(!checkRole(getUserGrade(4)))
-        {
+        if (!checkRole(getUserGrade(4))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -115,58 +113,57 @@ class AuctionsController extends Controller
     public function store(Request $request)
     {
 
-        if(!checkRole(getUserGrade(4)))
-        {
+        if (!checkRole(getUserGrade(4))) {
             prepareBlockUserMessage();
             return back();
         }
 
-         $columns = array(
-         'title'            => 'bail|required|max:100',
-         'category_id'      => 'bail|required',
-         'sub_category_id'  => 'bail|required',
-         'start_date'       => 'bail|required',
-         'end_date'         => 'bail|required',
-         'reserve_price'    => 'bail|required',
-         'description'      => 'bail|required',
+        $columns = array(
+            'title'            => 'bail|required|max:100',
+            'category_id'      => 'bail|required',
+            'sub_category_id'  => 'bail|required',
+            'start_date'       => 'bail|required',
+            'end_date'         => 'bail|required',
+            'reserve_price'    => 'bail|required',
+            'description'      => 'bail|required',
         );
 
         if (checkRole(['admin'])) {
-          $columns['auction_status'] = 'bail|required';
-          $columns['admin_status']   = 'bail|required';
-          $columns['user_id']       = 'bail|required';
+            $columns['auction_status'] = 'bail|required';
+            $columns['admin_status']   = 'bail|required';
+            $columns['user_id']       = 'bail|required';
         }
 
         $is_it_bid_increment = $request->is_bid_increment;
-        if ($is_it_bid_increment==1) {
-          $columns['bid_increment'] = 'bail|required';
+        if ($is_it_bid_increment == 1) {
+            $columns['bid_increment'] = 'bail|required';
         }
 
 
         $is_it_buynow = $request->is_buynow;
-        if ($is_it_buynow==1) {
-          $columns['buy_now_price'] = 'bail|required';
+        if ($is_it_buynow == 1) {
+            $columns['buy_now_price'] = 'bail|required';
         }
 
         //live auction
-        $live_auction_date=null;
-        if ($request->live_auction_date!='') {
+        $live_auction_date = null;
+        if ($request->live_auction_date != '') {
             $live_auction_date = date('Y-m-d', strtotime($request->live_auction_date));
 
             $columns['live_auction_start_time'] = 'bail|required';
             $columns['live_auction_end_time']   = 'bail|required|after:live_auction_start_time';
         }
 
-        $this->validate($request,$columns);
+        $this->validate($request, $columns);
 
 
 
         if ($redirect = $this->check_isdemo()) {
-            flash('info','crud_operations_disabled_in_demo', 'info');
+            flash('info', 'crud_operations_disabled_in_demo', 'info');
             return redirect($redirect);
         }
 
-        $logged_in_user= Auth::user();
+        $logged_in_user = Auth::user();
 
 
         $record = new Auction();
@@ -182,7 +179,6 @@ class AuctionsController extends Controller
             $record->user_id                = $request->user_id;
             $record->auction_status         = $request->auction_status;
             $record->admin_status           = $request->admin_status;
-
         } else {
 
             $record->user_id                = $logged_in_user->id;
@@ -194,20 +190,20 @@ class AuctionsController extends Controller
         $record->category_id            = $request->category_id;
         $record->sub_category_id        = $request->sub_category_id;
 
-        $record->start_date             = date('Y-m-d H:i:s',strtotime($request->start_date));
-        $record->end_date               = date('Y-m-d H:i:s',strtotime($request->end_date));
+        $record->start_date             = date('Y-m-d H:i:s', strtotime($request->start_date));
+        $record->end_date               = date('Y-m-d H:i:s', strtotime($request->end_date));
 
         $record->reserve_price          = $request->reserve_price;
 
         $record->minimum_bid            = $request->minimum_bid;
-       
-       
+
+
 
         $record->is_bid_increment       = $request->is_bid_increment;
-        if ($is_it_bid_increment==1)
-          $record->bid_increment        = $request->bid_increment;
+        if ($is_it_bid_increment == 1)
+            $record->bid_increment        = $request->bid_increment;
         else
-          $record->bid_increment        = null;
+            $record->bid_increment        = null;
 
 
 
@@ -223,19 +219,19 @@ class AuctionsController extends Controller
 
 
         $record->is_buynow              = $request->is_buynow;
-        if ($is_it_buynow==1)
-          $record->buy_now_price = $request->buy_now_price;
+        if ($is_it_buynow == 1)
+            $record->buy_now_price = $request->buy_now_price;
         else
-          $record->buy_now_price = null;
-       
+            $record->buy_now_price = null;
+
 
         $record->created_by_id          = $logged_in_user->id;
         $record->last_updated_by = null;
 
 
         //auction settings
-        
-      /*  $record->listing_type       = getSetting('listing_type','auction_settings');
+
+        /*  $record->listing_type       = getSetting('listing_type','auction_settings');
         if ($record->listing_type=='free')
             $record->listing_cost   = null;
         elseif ($record->listing_type=='paid')
@@ -243,10 +239,12 @@ class AuctionsController extends Controller
 
         
         $record->is_seller_paid_listing_cost = 'No';*/
+        // dd($logged_in_user);
+        $record->admin_commission_type = $logged_in_user->subscription_type;
+        // $record->admin_commission_type = getSetting('admin_commission_type','auction_settings');
+        $record->commission_value      = $logged_in_user->comission_value;
+        // $record->commission_value      = getSetting('commission_value','auction_settings');
 
-        $record->admin_commission_type = getSetting('admin_commission_type','auction_settings');
-        $record->commission_value      = getSetting('commission_value','auction_settings');
-        
         // $record->is_seller_paid_commission_value = 'No';
 
         //live auction date, start time, end time
@@ -255,13 +253,11 @@ class AuctionsController extends Controller
         $record->live_auction_end_time      = $request->live_auction_end_time;
 
 
-        if(!env('DEMO_MODE')) {
+        if (!env('DEMO_MODE')) {
 
-            if($request->hasFile('image'))
-            {
-                $record->image = $this->processUpload($request,$record);
+            if ($request->hasFile('image')) {
+                $record->image = $this->processUpload($request, $record);
             }
-
         }
 
 
@@ -272,31 +268,28 @@ class AuctionsController extends Controller
             if (!env('DEMO_MODE')) {
 
                 $role = getRoleData($logged_in_user->role_id);
-                
-                if ($role=='admin') {
+
+                if ($role == 'admin') {
 
                     $seller = getUserRecord($record->user_id);
                     //db and email notification to seller
-                    $seller->notify(new \App\Notifications\NewAuctionPosted($seller,'seller',$record));
+                    $seller->notify(new \App\Notifications\NewAuctionPosted($seller, 'seller', $record));
+                } elseif ($role == 'seller') {
 
-                } elseif ($role=='seller') {
+                    $admin = User::where('role_id', '=', '1')->first();
 
-                    $admin = User::where('role_id','=','1')->first();
-                    
                     //db and email notification to admin
-                    $admin->notify(new \App\Notifications\NewAuctionPosted($admin,'admin',$record, $logged_in_user->username));
-
+                    $admin->notify(new \App\Notifications\NewAuctionPosted($admin, 'admin', $record, $logged_in_user->username));
                 }
             }
-
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
 
             $message = getPhrase('record_added_successfully ');
             $message .= getPhrase('\ncannot_send_email_to_user, please_check_your_server_settings');
         }
 
 
-        flash('success',$message, 'success');
+        flash('success', $message, 'success');
         return redirect(URL_LIST_AUCTIONS);
     }
 
@@ -309,8 +302,7 @@ class AuctionsController extends Controller
      */
     public function edit($slug)
     {
-        if(!checkRole(getUserGrade(4)))
-        {
+        if (!checkRole(getUserGrade(4))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -319,10 +311,10 @@ class AuctionsController extends Controller
         $data['active_class'] = 'auctions';
 
         $auction = Auction::getRecordWithSlug($slug);
-        
+
         if ($isValid = $this->isValidRecord($auction))
-             return redirect($isValid);
-       
+            return redirect($isValid);
+
 
         $users = Auction::getSellerOptions();
         $data['users'] = $users;
@@ -348,26 +340,25 @@ class AuctionsController extends Controller
     public function update(Request $request, $slug)
     {
 
-        if(!checkRole(getUserGrade(4)))
-        {
+        if (!checkRole(getUserGrade(4))) {
             prepareBlockUserMessage();
             return back();
         }
-      
+
         $record = Auction::getRecordWithSlug($slug);
 
         if ($isValid = $this->isValidRecord($record))
-             return redirect($isValid);
+            return redirect($isValid);
 
 
         $columns = array(
-         'title'            => 'bail|required|max:100',
-         'category_id'      => 'bail|required',
-         'sub_category_id'  => 'bail|required',
-         'start_date'       => 'bail|required',
-         'end_date'         => 'bail|required',
-         'reserve_price'    => 'bail|required',
-         'description'      => 'bail|required',
+            'title'            => 'bail|required|max:100',
+            'category_id'      => 'bail|required',
+            'sub_category_id'  => 'bail|required',
+            'start_date'       => 'bail|required',
+            'end_date'         => 'bail|required',
+            'reserve_price'    => 'bail|required',
+            'description'      => 'bail|required',
         );
 
 
@@ -382,35 +373,35 @@ class AuctionsController extends Controller
 
 
         $is_it_bid_increment = $request->is_bid_increment;
-        if ($is_it_bid_increment==1) {
-          $columns['bid_increment']  = 'bail|required';
+        if ($is_it_bid_increment == 1) {
+            $columns['bid_increment']  = 'bail|required';
         }
-    
+
 
         $is_it_buynow = $request->is_buynow;
-        if ($is_it_buynow==1) {
-          $columns['buy_now_price']  = 'bail|required';
+        if ($is_it_buynow == 1) {
+            $columns['buy_now_price']  = 'bail|required';
         }
 
         //live auction
-        $live_auction_date=null;
-        if ($request->live_auction_date!='') {
+        $live_auction_date = null;
+        if ($request->live_auction_date != '') {
             $live_auction_date = date('Y-m-d', strtotime($request->live_auction_date));
 
             $columns['live_auction_start_time'] = 'bail|required';
             $columns['live_auction_end_time']   = 'bail|required|after:live_auction_start_time';
         }
 
-        $this->validate($request,$columns);
+        $this->validate($request, $columns);
 
 
         if ($redirect = $this->check_isdemo()) {
-            flash('info','crud_operations_disabled_in_demo', 'info');
+            flash('info', 'crud_operations_disabled_in_demo', 'info');
             return redirect($redirect);
         }
 
 
-        $logged_in_user= Auth::user();
+        $logged_in_user = Auth::user();
 
         if (checkRole(['admin'])) {
 
@@ -423,34 +414,34 @@ class AuctionsController extends Controller
             // $record->is_seller_paid_listing_cost     = $request->is_seller_paid_listing_cost;
             // $record->is_seller_paid_commission_value = $request->is_seller_paid_commission_value;
 
-        } 
+        }
 
 
 
         $title = $request->title;
 
         /**
-        * Check if the title of the record is changed, 
-        * if changed update the slug value based on the new title
-        */
-        if($title != $record->title)
+         * Check if the title of the record is changed, 
+         * if changed update the slug value based on the new title
+         */
+        if ($title != $record->title)
             $record->slug = $record->makeSlug($title, TRUE);
 
 
         $record->title         = $title;
 
-       
+
         $record->category_id            = $request->category_id;
         $record->sub_category_id        = $request->sub_category_id;
 
-        $record->start_date             = date('Y-m-d H:i:s',strtotime($request->start_date));
-        $record->end_date               = date('Y-m-d H:i:s',strtotime($request->end_date));
+        $record->start_date             = date('Y-m-d H:i:s', strtotime($request->start_date));
+        $record->end_date               = date('Y-m-d H:i:s', strtotime($request->end_date));
 
         $record->reserve_price          = $request->reserve_price;
 
         $record->minimum_bid            = $request->minimum_bid;
-        
-      
+
+
         $record->description            = $request->description;
         $record->shipping_conditions    = $request->shipping_conditions;
 
@@ -459,26 +450,26 @@ class AuctionsController extends Controller
         $record->shipping_terms         = $request->shipping_terms;
 
         $record->make_featured          = $request->make_featured;
-      
-        
+
+
 
         $record->is_bid_increment       = $request->is_bid_increment;
-        if ($is_it_bid_increment==1)
-          $record->bid_increment        = $request->bid_increment;
+        if ($is_it_bid_increment == 1)
+            $record->bid_increment        = $request->bid_increment;
         else
-          $record->bid_increment        = null;
+            $record->bid_increment        = null;
 
 
 
         $record->is_buynow              = $request->is_buynow;
-        if ($is_it_buynow==1)
-          $record->buy_now_price = $request->buy_now_price;
+        if ($is_it_buynow == 1)
+            $record->buy_now_price = $request->buy_now_price;
         else
-          $record->buy_now_price = null;
+            $record->buy_now_price = null;
 
-        
+
         $record->last_updated_by = $logged_in_user->id;
-        
+
 
         //live auction date, start time, end time
         $record->live_auction_date          = $live_auction_date;
@@ -489,8 +480,8 @@ class AuctionsController extends Controller
         if (!env('DEMO_MODE')) {
             if ($request->hasFile('image')) {
                 $old_image = $record->image;
-                $record->image = $this->processUpload($request,$record);
-                if ($old_image!='') {
+                $record->image = $this->processUpload($request, $record);
+                if ($old_image != '') {
                     $this->deleteFile($old_image, AUCTION_IMAGES_PATH);
                     $this->deleteFile($old_image, AUCTION_IMAGES_THUMBPATH);
                 }
@@ -505,31 +496,28 @@ class AuctionsController extends Controller
         try {
             if (!env('DEMO_MODE')) {
 
-               $role = getRoleData($logged_in_user->role_id);
+                $role = getRoleData($logged_in_user->role_id);
 
-                if ($role=='admin') {
+                if ($role == 'admin') {
 
                     $seller = getUserRecord($record->user_id);
                     //db and email notification to seller
-                    $seller->notify(new \App\Notifications\AuctionUpdatedNotification($seller,'seller',$record));
+                    $seller->notify(new \App\Notifications\AuctionUpdatedNotification($seller, 'seller', $record));
+                } elseif ($role == 'seller') {
 
-                } elseif ($role=='seller') {
+                    $admin = User::where('role_id', '=', '1')->first();
 
-                    $admin = User::where('role_id','=','1')->first();
-                    
                     //db and email notification to admin
-                    $admin->notify(new \App\Notifications\AuctionUpdatedNotification($admin,'admin',$record, $logged_in_user->username));
-
+                    $admin->notify(new \App\Notifications\AuctionUpdatedNotification($admin, 'admin', $record, $logged_in_user->username));
                 }
             }
-
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
 
             $message = getPhrase('record_updated_successfully ');
             $message .= getPhrase('\ncannot_send_email_to_user, please_check_your_server_settings');
         }
 
-        flash('success',$message, 'success');
+        flash('success', $message, 'success');
         return redirect(URL_LIST_AUCTIONS);
     }
 
@@ -538,9 +526,9 @@ class AuctionsController extends Controller
     {
 
         $destinationPath      = $path;
-      
+
         $files = array();
-        $files[] = $destinationPath.$record;
+        $files[] = $destinationPath . $record;
 
         File::delete($files);
     }
@@ -553,27 +541,26 @@ class AuctionsController extends Controller
      */
     public function show($slug)
     {
-        if(!checkRole(getUserGrade(4)))
-        {
+        if (!checkRole(getUserGrade(4))) {
             prepareBlockUserMessage();
             return back();
         }
 
-        $record = Auction::join('categories','auctions.category_id','categories.id')
-                        ->join('sub_catogories','auctions.sub_category_id', 'sub_catogories.id')
-                        ->join('users','auctions.user_id','users.id')
-                        ->join('users as created_by','auctions.created_by_id','created_by.id')
-                        ->leftJoin('users as updated_by','auctions.last_updated_by','updated_by.id')
-                        ->select(['auctions.*','users.username','created_by.username as created_by','categories.category','sub_catogories.sub_category', 'updated_by.username as updated_by_name'])
-                        ->where('auctions.slug',$slug)->first();
+        $record = Auction::join('categories', 'auctions.category_id', 'categories.id')
+            ->join('sub_catogories', 'auctions.sub_category_id', 'sub_catogories.id')
+            ->join('users', 'auctions.user_id', 'users.id')
+            ->join('users as created_by', 'auctions.created_by_id', 'created_by.id')
+            ->leftJoin('users as updated_by', 'auctions.last_updated_by', 'updated_by.id')
+            ->select(['auctions.*', 'users.username', 'created_by.username as created_by', 'categories.category', 'sub_catogories.sub_category', 'updated_by.username as updated_by_name'])
+            ->where('auctions.slug', $slug)->first();
 
 
         if ($isValid = $this->isValidRecord($record))
-             return redirect($isValid);
-         
+            return redirect($isValid);
+
         $data['title']        = getPhrase('view');
         $data['active_class'] = 'auctions';
-        
+
         $data['layout'] = getLayOut();
 
         $data['record'] = $record;
@@ -582,14 +569,13 @@ class AuctionsController extends Controller
         //auction images
         $uploads_data = [];
 
-        foreach($record->getAuctionImages as $upload)
-        {
-              $dta['id']    = $upload->id;
-              $dta['name']  = $upload->original_filename;
-              $dta['filename']  = $upload->filename;
-              $dta['size']  = $upload->size;
-              $dta['type']  =  $upload->type;
-              $uploads_data[] = $dta;
+        foreach ($record->getAuctionImages as $upload) {
+            $dta['id']    = $upload->id;
+            $dta['name']  = $upload->original_filename;
+            $dta['filename']  = $upload->filename;
+            $dta['size']  = $upload->size;
+            $dta['type']  =  $upload->type;
+            $uploads_data[] = $dta;
         }
         $data['documents'] = $uploads_data;
 
@@ -613,10 +599,10 @@ class AuctionsController extends Controller
         $data['buy_now_payment'] = $buy_now_payment;
 
 
-        $send_email=true;
+        $send_email = true;
         if (count($payment) || count($buy_now_payment))
-            $send_email=false;
-        
+            $send_email = false;
+
         $data['send_email'] = $send_email;
 
         return view('admin.auctions.show', $data);
@@ -653,7 +639,7 @@ class AuctionsController extends Controller
         }*/
 
 
-        $auction = Auction::where('id',$request->id)->first();
+        $auction = Auction::where('id', $request->id)->first();
 
         if ($isValid = $this->isValidRecord($auction)) {
 
@@ -661,10 +647,10 @@ class AuctionsController extends Controller
             $response['message'] = getPhrase('record_not_found');
             return json_encode($response);
         }
-        
+
 
         if ($redirect = $this->check_isdemo()) {
-            
+
             $response['status']  = 0;
             $response['message'] = getPhrase('crud_operations_disabled_in_demo');
             return json_encode($response);
@@ -674,29 +660,24 @@ class AuctionsController extends Controller
         if ($request->id) {
 
             try {
-                  if(!env('DEMO_MODE')) {
-                     
+                if (!env('DEMO_MODE')) {
+
                     $entries = Auction::where('id', $request->id)->get();
 
-                        foreach ($entries as $entry) {
-                            $entry->delete();
-                        }
-
-                  }
+                    foreach ($entries as $entry) {
+                        $entry->delete();
+                    }
+                }
                 $response['status'] = 1;
                 $response['message'] = getPhrase('record_deleted_successfully');
+            } catch (\Illuminate\Database\QueryException $e) {
 
-            }
-            catch ( \Illuminate\Database\QueryException $e) {
-
-                   $response['status'] = 0;
-                   if(getSetting('show_foreign_key_constraint','module'))
+                $response['status'] = 0;
+                if (getSetting('show_foreign_key_constraint', 'module'))
                     $response['message'] =  $e->errorInfo;
-                   else
+                else
                     $response['message'] =  getPhrase('this_record_is_in_use_in_other_modules');
-            }  
-
-            
+            }
         } else {
 
             $response['status'] = 0;
@@ -713,12 +694,12 @@ class AuctionsController extends Controller
      */
     public function isValidRecord($record)
     {
-      if ($record === null) {
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
-        return $this->getRedirectUrl();
-       }
+        if ($record === null) {
+            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            return $this->getRedirectUrl();
+        }
 
-       return FALSE;
+        return FALSE;
     }
 
     /**
@@ -727,82 +708,81 @@ class AuctionsController extends Controller
      */
     public function getRedirectUrl()
     {
-      return URL_LIST_AUCTIONS;
+        return URL_LIST_AUCTIONS;
     }
 
 
     /**
-      * This method returns the sub categories based on selected category
-      * @param  [type] $request [description]
-      * @return [type] array    [description]
-      */
-     public function getSubCategories(Request $request)
-     {
+     * This method returns the sub categories based on selected category
+     * @param  [type] $request [description]
+     * @return [type] array    [description]
+     */
+    public function getSubCategories(Request $request)
+    {
         $category_id = $request->category_id;
 
-        $sub_categories = \App\SubCatogory::select('id','sub_category')
-                    ->where('category_id','=',$category_id)
-                    ->get();
+        $sub_categories = \App\SubCatogory::select('id', 'sub_category')
+            ->where('category_id', '=', $category_id)
+            ->get();
 
-        return json_encode(array('sub_categories'=>$sub_categories));
-     }
+        return json_encode(array('sub_categories' => $sub_categories));
+    }
 
 
-     /**
-      * [processUpload description]
-      * @param  Request $request [description]
-      * @param  [type]  $record  [description]
-      * @return [type]           [description]
-      */
+    /**
+     * [processUpload description]
+     * @param  Request $request [description]
+     * @param  [type]  $record  [description]
+     * @return [type]           [description]
+     */
     protected function processUpload(Request $request, $record)
     {
 
-        if(env('DEMO_MODE')) {
+        if (env('DEMO_MODE')) {
             return 'demo';
         }
 
-         $fileName=null;
+        $fileName = null;
 
-         if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
 
-          $random_name = str_random(15);
-          
-          $imageObject = new ImageSettings();
-          
-          $destinationPath      = $imageObject->getAuctionImagePath();
-          $destinationPathThumb = $imageObject->getAuctionImageThumbnailpath();
-            
-         
-          $fileName = $record->id.'_'.$random_name.'.'.$request->image->guessClientExtension();
-          
-          $request->file('image')->move($destinationPath, $fileName);
-         
-      
-         /* Image::make($destinationPath.$fileName)->fit($imageObject->getAuctionImageSize())->save($destinationPath.$fileName);
+            $random_name = str_random(15);
+
+            $imageObject = new ImageSettings();
+
+            $destinationPath      = $imageObject->getAuctionImagePath();
+            $destinationPathThumb = $imageObject->getAuctionImageThumbnailpath();
+
+
+            $fileName = $record->id . '_' . $random_name . '.' . $request->image->guessClientExtension();
+
+            $request->file('image')->move($destinationPath, $fileName);
+
+
+            /* Image::make($destinationPath.$fileName)->fit($imageObject->getAuctionImageSize())->save($destinationPath.$fileName);
 
           Image::make($destinationPath.$fileName)->fit($imageObject->getAuctionThumbnailSize())->save($destinationPathThumb.$fileName);*/
 
-          Image::make($destinationPath.$fileName)->fit(950,650)->save($destinationPath.$fileName);
+            Image::make($destinationPath . $fileName)->fit(950, 650)->save($destinationPath . $fileName);
 
-          Image::make($destinationPath.$fileName)->fit(550,350)->save($destinationPathThumb.$fileName);
-         
-          
+            Image::make($destinationPath . $fileName)->fit(550, 350)->save($destinationPathThumb . $fileName);
 
-          return $fileName;
+
+
+            return $fileName;
         }
     }
 
 
-     /**
+    /**
      * This method will store the auction images uploaded by ajax call
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function uploadImages(Request $request,$auction_slug)
+    public function uploadImages(Request $request, $auction_slug)
     {
-        
-        if (!checkRole(getUserGrade(4)))
-        {
+
+        if (!checkRole(getUserGrade(4))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -810,54 +790,54 @@ class AuctionsController extends Controller
 
         $auction  = Auction::getRecordWithSlug($auction_slug);
         if ($isValid = $this->isValidRecord($auction))
-             return redirect($isValid);
+            return redirect($isValid);
 
 
         $input = $request->all();
- 
+
         $saved_id = [];
         $file_name = 'file';
-     
+
 
         $upload_success = 0;
-        
 
-       if ($request->hasFile($file_name)) {
+
+        if ($request->hasFile($file_name)) {
 
             $filename = $request->file('file');
 
-            foreach($filename as $n => $file) {
-              
-              $filenames = $filename[$n]->getClientOriginalName();
-              $fileName = $auction->id.'_'.$filename[$n]->getClientOriginalName();
-              
-               $directory = AUCTION_IMAGES_PATH;
-               
-               $upload_success= $filename[$n]->move($directory, $fileName);
+            foreach ($filename as $n => $file) {
 
-               $mime_type = File::mimeType($directory.$fileName);
+                $filenames = $filename[$n]->getClientOriginalName();
+                $fileName = $auction->id . '_' . $filename[$n]->getClientOriginalName();
 
-               $img_upload = new AuctionImages();
+                $directory = AUCTION_IMAGES_PATH;
 
-               $img_upload->auction_id  = $auction->id;
-               $img_upload->filename    = $fileName;
-               $img_upload->size        = $filename[$n]->getClientSize();
-               $img_upload->type        = $mime_type;
-               $img_upload->original_filename = $filenames;
-               /*$img_upload->width       = 950;
+                $upload_success = $filename[$n]->move($directory, $fileName);
+
+                $mime_type = File::mimeType($directory . $fileName);
+
+                $img_upload = new AuctionImages();
+
+                $img_upload->auction_id  = $auction->id;
+                $img_upload->filename    = $fileName;
+                $img_upload->size        = $filename[$n]->getClientSize();
+                $img_upload->type        = $mime_type;
+                $img_upload->original_filename = $filenames;
+                /*$img_upload->width       = 950;
                $img_upload->height      = 650;*/
 
-               $img_upload->save();
+                $img_upload->save();
 
-               $saved_id[] = $img_upload->id;
-             }
-       }
- 
+                $saved_id[] = $img_upload->id;
+            }
+        }
 
-        if( $upload_success ) {
-          return Response::json($saved_id, 200);
+
+        if ($upload_success) {
+            return Response::json($saved_id, 200);
         } else {
-          return Response::json('error', 400);
+            return Response::json('error', 400);
         }
     }
 
@@ -869,21 +849,20 @@ class AuctionsController extends Controller
      */
     public function deleteImage(Request $request, $slug)
     {
-      $record = AuctionImages::where('id','=',$slug)->first();
-      $result = false;
+        $record = AuctionImages::where('id', '=', $slug)->first();
+        $result = false;
 
-      if ($record)
-      {
-        $filename = $record->filename;
-        $record->delete();
-        File::delete(AUCTION_IMAGES_PATH.$filename);
-        $result  = true;
-      }
+        if ($record) {
+            $filename = $record->filename;
+            $record->delete();
+            File::delete(AUCTION_IMAGES_PATH . $filename);
+            $result  = true;
+        }
 
-      if ($result)
-      return Response::json('success', 200);
-      else
-      return Response::json('error', 400);
+        if ($result)
+            return Response::json('success', 200);
+        else
+            return Response::json('error', 400);
     }
 
     /**
@@ -893,17 +872,17 @@ class AuctionsController extends Controller
      */
     public function bidHistory(Request $request)
     {
-       $id = $request->id;
+        $id = $request->id;
 
-       $records=array();
-       if ($id) {
-          $auctionbidder = AuctionBidder::getRecord($id);
-          if (count($auctionbidder)) {
-            $records = $auctionbidder->getBidHistory();
-          }
-       }
+        $records = array();
+        if ($id) {
+            $auctionbidder = AuctionBidder::getRecord($id);
+            if (count($auctionbidder)) {
+                $records = $auctionbidder->getBidHistory();
+            }
+        }
 
-       return json_encode(array('records'=>$records));
+        return json_encode(array('records' => $records));
     }
 
 
@@ -915,156 +894,153 @@ class AuctionsController extends Controller
     public function sendEmailtoBidder(Request $request)
     {
 
-    
-      // dd($request);
 
-      //send email,db notification to bidder
-      //send email,db notification to admin
-      
+        // dd($request);
+
+        //send email,db notification to bidder
+        //send email,db notification to admin
+
         if ($redirect = $this->check_isdemo()) {
-            flash('info','crud_operations_disabled_in_demo', 'info');
+            flash('info', 'crud_operations_disabled_in_demo', 'info');
             return redirect($redirect);
         }
-      
-      $auction_id = $request->auction_id;
-      $auction = Auction::where('id',$auction_id)->first();
 
-      if (count($auction)) {
+        $auction_id = $request->auction_id;
+        $auction = Auction::where('id', $auction_id)->first();
 
-          $auction_payment = $auction->getAuctionPayment();
+        if (count($auction)) {
 
-          //check payment done
-          if (count($auction_payment)) {
-             flash('error','payment_already_done_for_this_auction', 'error');
-             return redirect(URL_AUCTIONS_VIEW.$auction->slug);
-          }
+            $auction_payment = $auction->getAuctionPayment();
 
-          //if payment not done
+            //check payment done
+            if (count($auction_payment)) {
+                flash('error', 'payment_already_done_for_this_auction', 'error');
+                return redirect(URL_AUCTIONS_VIEW . $auction->slug);
+            }
 
-          $ab_id = $request->ab_id;
+            //if payment not done
 
-          $auctionbidder = AuctionBidder::join('users','auctionbidders.bidder_id','users.id')
-                                         ->select(['auctionbidders.*','users.username'])
-                                         ->where('auctionbidders.id',$ab_id)
-                                         ->first();
+            $ab_id = $request->ab_id;
 
-          
-          if (($auctionbidder)) {
-
-              //check invoice sent to this bidder
-              if ($auctionbidder->is_admin_sent_email=='Yes') {
-
-                 flash('error','invoice_already_sent_to_this_bidder', 'error');
-                 return redirect(URL_AUCTIONS_VIEW.$auction->slug);
-              }
+            $auctionbidder = AuctionBidder::join('users', 'auctionbidders.bidder_id', 'users.id')
+                ->select(['auctionbidders.*', 'users.username'])
+                ->where('auctionbidders.id', $ab_id)
+                ->first();
 
 
+            if (($auctionbidder)) {
 
-              $highestbid = $auctionbidder->getHighestBid();
+                //check invoice sent to this bidder
+                if ($auctionbidder->is_admin_sent_email == 'Yes') {
 
-              if (count($highestbid)) {
-
-                $currency = getSetting('currency_code','site_settings');
-                $all_rights_reserved  = getSetting('rights_reserved', 'site_settings');
-                $city     = getSetting('site_city','site_settings');
-                $country  = getSetting('site_country', 'site_settings');
-
-                $date = date('Y-m-d');
-
-                $bidder_name   = $auctionbidder->username;
-                $auction_title = $auction->title;
-
-                $bid_amount    = $highestbid->bid_amount;
-                $site_title    = getSetting('site_title','site_settings');
-
-                $admin_message          = $request->message;
-                $payment_start_datetime = $request->sent_at;
-                $payment_end_datetime   = $request->ended_at;
-
-                $data = array('date'          => $date,
-                              'bidder_name'   => $bidder_name,
-                              'auction_title' => $auction_title,
-                              'bid_amount'    => $bid_amount,
-                              'site_title'    => $site_title,
-                              'admin_message' => $admin_message,
-                              'payment_start_datetime' => $payment_start_datetime,
-                              'payment_end_datetime'   => $payment_end_datetime,
-                              'image'          => $auction->image,
-                              'currency'       => $currency,
-                              'all_rights_reserved'=> $all_rights_reserved,
-                              'city'          => $city,
-                              'country'       => $country,
-                              'auction_slug'    => $auction->slug,
-                              'site_url'        => PREFIX,
-                              'date'            => date('Y-m-d')
-                          );
+                    flash('error', 'invoice_already_sent_to_this_bidder', 'error');
+                    return redirect(URL_AUCTIONS_VIEW . $auction->slug);
+                }
 
 
-               $message='';
-               try {
-                    if (!env('DEMO_MODE')) {
-                       $bidder = getUserRecord($auctionbidder->bidder_id);
-                        //db and email notification to bidder 
-                        $bidder->notify(new \App\Notifications\AuctionBidInvoiceNotification($bidder,'bidder',$data));
+
+                $highestbid = $auctionbidder->getHighestBid();
+
+                if (count($highestbid)) {
+
+                    $currency = getSetting('currency_code', 'site_settings');
+                    $all_rights_reserved  = getSetting('rights_reserved', 'site_settings');
+                    $city     = getSetting('site_city', 'site_settings');
+                    $country  = getSetting('site_country', 'site_settings');
+
+                    $date = date('Y-m-d');
+
+                    $bidder_name   = $auctionbidder->username;
+                    $auction_title = $auction->title;
+
+                    $bid_amount    = $highestbid->bid_amount;
+                    $site_title    = getSetting('site_title', 'site_settings');
+
+                    $admin_message          = $request->message;
+                    $payment_start_datetime = $request->sent_at;
+                    $payment_end_datetime   = $request->ended_at;
+
+                    $data = array(
+                        'date'          => $date,
+                        'bidder_name'   => $bidder_name,
+                        'auction_title' => $auction_title,
+                        'bid_amount'    => $bid_amount,
+                        'site_title'    => $site_title,
+                        'admin_message' => $admin_message,
+                        'payment_start_datetime' => $payment_start_datetime,
+                        'payment_end_datetime'   => $payment_end_datetime,
+                        'image'          => $auction->image,
+                        'currency'       => $currency,
+                        'all_rights_reserved' => $all_rights_reserved,
+                        'city'          => $city,
+                        'country'       => $country,
+                        'auction_slug'    => $auction->slug,
+                        'site_url'        => PREFIX,
+                        'date'            => date('Y-m-d')
+                    );
 
 
-                        $admin = Auth::user()->where('role_id',1)->first();
-                        //db and email notification to admin 
-                        $admin->notify(new \App\Notifications\AuctionBidInvoiceNotification($admin,'admin',$data));
+                    $message = '';
+                    try {
+                        if (!env('DEMO_MODE')) {
+                            $bidder = getUserRecord($auctionbidder->bidder_id);
+                            //db and email notification to bidder 
+                            $bidder->notify(new \App\Notifications\AuctionBidInvoiceNotification($bidder, 'bidder', $data));
+
+
+                            $admin = Auth::user()->where('role_id', 1)->first();
+                            //db and email notification to admin 
+                            $admin->notify(new \App\Notifications\AuctionBidInvoiceNotification($admin, 'admin', $data));
+                        }
+                    } catch (Exception $ex) {
+
+                        $message = getPhrase('invoice_not_sent_to_bidder');
+                        $message .= getPhrase('\ncannot_send_email_to_user, please_check_your_server_settings');
+
+                        flash('error', $message, 'error');
+                        return redirect(URL_AUCTIONS_VIEW . $auction->slug);
                     }
 
-                } catch(Exception $ex) {
 
-                    $message = getPhrase('invoice_not_sent_to_bidder');
-                    $message .= getPhrase('\ncannot_send_email_to_user, please_check_your_server_settings');
 
-                    flash('error',$message, 'error');
-                    return redirect(URL_AUCTIONS_VIEW.$auction->slug);
+                    //update auctionbidders table details
+                    $record = AuctionBidder::where('id', $ab_id)->first();
+                    $record->is_admin_sent_email  = 'Yes';
+                    $record->sent_at              = date('Y-m-d H:i:s');
+                    $record->pay_start_datetime   = date('Y-m-d H:i:s', strtotime($payment_start_datetime));
+                    $record->pay_end_datetime     = date('Y-m-d H:i:s', strtotime($payment_end_datetime));
+                    $record->is_bidder_paid       = 'No';
+
+                    $record->save();
+
+
+                    flash('success', 'invoice_sent_to_bidder_successfully', 'success');
+                    return redirect(URL_AUCTIONS_VIEW . $auction->slug);
+                } else {
+                    flash('error', 'bidder_highest_bid_not_found', 'error');
+                    return redirect(URL_AUCTIONS_VIEW . $auction->slug);
                 }
-                
-
-
-                //update auctionbidders table details
-                $record = AuctionBidder::where('id',$ab_id)->first();
-                $record->is_admin_sent_email  = 'Yes';
-                $record->sent_at              = date('Y-m-d H:i:s');
-                $record->pay_start_datetime   = date('Y-m-d H:i:s', strtotime($payment_start_datetime));
-                $record->pay_end_datetime     = date('Y-m-d H:i:s', strtotime($payment_end_datetime));
-                $record->is_bidder_paid       = 'No';
-
-                $record->save();
-
-
-                flash('success','invoice_sent_to_bidder_successfully', 'success');
-                return redirect(URL_AUCTIONS_VIEW.$auction->slug);
-
-
-              } else {
-                  flash('error','bidder_highest_bid_not_found', 'error');
-                  return redirect(URL_AUCTIONS_VIEW.$auction->slug);
-              }
-          } else {
-             flash('error','auction_bidder_not_found', 'error');
-             return redirect(URL_AUCTIONS_VIEW.$auction->slug);
-          }
-      } else {
-        flash('error','auction_not_found', 'error');
-        return redirect(URL_LIST_AUCTIONS);
-      }
-
+            } else {
+                flash('error', 'auction_bidder_not_found', 'error');
+                return redirect(URL_AUCTIONS_VIEW . $auction->slug);
+            }
+        } else {
+            flash('error', 'auction_not_found', 'error');
+            return redirect(URL_LIST_AUCTIONS);
+        }
     }
 
 
 
     /**
-      * [check_isdemo description]
-      * @return [type] [description]
-      */
+     * [check_isdemo description]
+     * @return [type] [description]
+     */
     public function check_isdemo()
     {
-       if (env('DEMO_MODE'))
-          return URL_LIST_AUCTIONS;
-       else
-          return false;
+        if (env('DEMO_MODE'))
+            return URL_LIST_AUCTIONS;
+        else
+            return false;
     }
 }

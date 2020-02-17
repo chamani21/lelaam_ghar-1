@@ -24,7 +24,8 @@
         <div class="panel-body form-auth-style" id="app">
 
         	<div class="row">
-        		@if ($record)
+                @if ($record)
+                    {{-- {{dd($record)}} --}}
 				{{ Form::model($record, 
 				array('url' => URL_USERS_EDIT.'/'.$record->slug, 
 				'method'=>'PATCH', 'name'=>'formValidate', 'files'=>'true' , 'novalidate'=>'')) }}

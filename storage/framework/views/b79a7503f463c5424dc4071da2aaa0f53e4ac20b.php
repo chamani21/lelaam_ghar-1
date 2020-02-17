@@ -22,7 +22,8 @@
         <div class="panel-body form-auth-style" id="app">
 
         	<div class="row">
-        		<?php if($record): ?>
+                <?php if($record): ?>
+                    
 				<?php echo e(Form::model($record, 
 				array('url' => URL_USERS_EDIT.'/'.$record->slug, 
 				'method'=>'PATCH', 'name'=>'formValidate', 'files'=>'true' , 'novalidate'=>''))); ?>

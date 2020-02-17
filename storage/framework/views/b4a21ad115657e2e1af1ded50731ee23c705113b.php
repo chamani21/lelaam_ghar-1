@@ -277,7 +277,7 @@
 
 
 
-                 <?php if(checkRole(['admin','sub-admin'])): ?>
+                 <?php if(checkRole(['admin'])): ?>
 
 
                  <div class="form-group">
@@ -318,6 +318,33 @@
 
 
                         </div>
+
+                </div>
+                 <div class="form-group">
+                    <?php
+                        $val=old('subscription_type');
+                        if ($record)
+                            $val = $record->subscription_type;
+                    ?>
+                    <label for="">Subscription Type</label>
+                    <select name="subscription_type" class="form-control select2">
+                        <optgroup>
+                            <option value="0">Select Subscription</option>
+                            <option value="Silver" <?php if($val == 'Silver'): ?>
+                                selected
+                            <?php endif; ?>>Silver 10%</option>
+                            <option value="Gold"  <?php if($val == 'Gold'): ?>
+                                selected
+                            <?php endif; ?>>Gold 7%</option>
+                            <option value="Platinum"  <?php if($val == 'Platinum'): ?>
+                                selected
+                            <?php endif; ?>>Platinum 5%</option>
+                            <option value="Diamond"  <?php if($val == 'Diamond'): ?>
+                                selected
+                            <?php endif; ?>>Diamond 3%</option>
+                        </optgroup>
+                    </select>
+                    
 
                 </div>
 

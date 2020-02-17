@@ -293,6 +293,58 @@
                         </div>
 
                 </div>
+                 <div class="form-group">
+                    <?php
+                        $val=old('subscription_type');
+                        if ($record)
+                            $val = $record->subscription_type;
+                    ?>
+                    <label for="">Subscription Type</label>
+                    <select name="subscription_type" class="form-control select2">
+                        <optgroup>
+                            <option value="0">Select Subscription</option>
+                            <option value="Silver" @if ($val == 'Silver')
+                                selected
+                            @endif>Silver 10%</option>
+                            <option value="Gold"  @if ($val == 'Gold')
+                                selected
+                            @endif>Gold 7%</option>
+                            <option value="Platinum"  @if ($val == 'Platinum')
+                                selected
+                            @endif>Platinum 5%</option>
+                            <option value="Diamond"  @if ($val == 'Diamond')
+                                selected
+                            @endif>Diamond 3%</option>
+                        </optgroup>
+                    </select>
+                    {{-- {!! Form::label('subscription_type', getPhrase('subscription_type'), ['class' => 'control-label']) !!}
+
+                    <span class="text-red">*</span>
+
+
+                    
+
+                    {{Form::select('subscription_type', ['Silver','Gold','Platinum','Diamond'], $val, ['placeholder' => getPhrase('select_subscription_type'),'class'=>'form-control select2',
+
+                            'ng-model'=>'subscription_type',
+
+                            'required'=> 'true',
+
+                            'ng-init'=>'subscription_type="'.$val.'"', 
+
+                            'ng-class'=>'{"has-error": formValidate.subscription_type.$touched && formValidate.subscription_type.$invalid}'
+
+                         ])}}
+
+
+                    
+                        <div class="validation-error" ng-messages="formValidate.role_id.$error" >
+
+                            {!! getValidationMessage()!!}
+
+                        </div> --}}
+
+                </div>
 
                 @endif
 

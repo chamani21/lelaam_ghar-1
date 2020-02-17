@@ -26,6 +26,7 @@
                         <th> {{getPhrase('email')}} </th>
                         <th> {{getPhrase('image')}} </th>
                         <th> {{getPhrase('role')}} </th>
+                        <th> {{getPhrase('subscription_type')}} </th>
                         
                         <th> {{getPhrase('status')}} </th>
 
@@ -58,6 +59,11 @@
                                     
                                 <td field-key='role'>
                                    {{ $user->display_name }}
+                                </td>
+                                <td field-key='subscription_type'>
+                                    {{-- {{dd($user)}} --}}
+                                   {{ $user->subscription_type }} -
+                                   {{ $user->comission_value }}%
                                 </td>
 
                                 <td field-key='status'>
