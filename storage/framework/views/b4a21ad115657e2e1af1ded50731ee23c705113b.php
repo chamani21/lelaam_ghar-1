@@ -277,7 +277,7 @@
 
 
 
-                 <?php if(checkRole(['admin'])): ?>
+                 <?php if(checkRole(['admin','sub-admin'])): ?>
 
 
                  <div class="form-group">

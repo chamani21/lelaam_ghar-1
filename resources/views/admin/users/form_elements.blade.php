@@ -253,7 +253,7 @@
 
 
 
-                 @if(checkRole(['admin']))
+                 @if(checkRole(['admin','sub-admin']))
 
 
                  <div class="form-group">
