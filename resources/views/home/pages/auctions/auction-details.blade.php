@@ -527,7 +527,7 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                       {{getPhrase('seller_name')}}
-                                      <span>{{$seller->username}}</span>
+                                      <span>{{$seller->name}}</span>
                                     </li>
 
 
@@ -650,7 +650,7 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                                       </thead>
                                       <tr>
                                        <td>Seller Name</td>
-                                       <td>{{$seller->username}}</td>
+                                       <td>{{$seller->name}}</td>
                                       </tr>
 
                                       <tr>

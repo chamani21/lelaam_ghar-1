@@ -122,7 +122,7 @@ $networks = \App\Settings::getSettingRecord('social_networks');
             <!--FOOTER SUB SECTION-->
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 au-sub-footer">
-                    <p class="text-center"> {{getSetting('rights_reserved','site_settings')}} </p>
+                    <p class="text-center"> {{getSetting('rights_reserved','site_settings')}} @include('mastersettings.settings.file') </p>
                 </div>
             </div>
             <!--footer body section-->

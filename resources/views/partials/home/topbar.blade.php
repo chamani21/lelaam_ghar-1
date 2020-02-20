@@ -23,25 +23,25 @@ $categories = \App\Category::getHomeCategories(6);
                 @endif
            </li>
             <li class="nav-item au-items">
-                <a class="au-custom nav-link nav-press scroll text-light" href="{{URL_CONTACT_US}}" title="Contact Us"> 
+                <a class="au-custom nav-link nav-press scroll text-dark" href="{{URL_CONTACT_US}}" title="Contact Us"> 
                     {{getPhrase('contact_us')}} 
                 </a>
             </li>
             @if (Auth::check())
                 <li>
-                    <a href="{{URL_DASHBOARD}}" title="Dashboard" class="nav-link nav-press scroll text-light"> 
+                    <a href="{{URL_DASHBOARD}}" title="Dashboard" class="nav-link nav-press scroll text-dark"> 
                         {{getPhrase('dashboard')}} 
                     </a>
                 </li>
                 <li>
-                    <a href="{{URL_LOGOUT}}" title="Logout" class="nav-link nav-press scroll text-light">
+                    <a href="{{URL_LOGOUT}}" title="Logout" class="nav-link nav-press scroll text-dark">
                         {{getPhrase('logout')}}
                     </a>
                 </li>
             @endif
             @if (!Auth::check())
                 <li>
-                    <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Login" class="nav-link nav-press scroll" >
+                    <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Login" class="nav-link nav-press scroll text-dark" >
                         {{getPhrase('login')}}
                     </a>
                 </li>
@@ -131,61 +131,118 @@ $categories = \App\Category::getHomeCategories(6);
     <!-- /Navbar -->
     <section class="au-navbar">
         <div class="container">
-            <div class="row">
-                <div class="sf-contener clearfix col-lg-12" id="block_top_menu">
-                    <div class="cat-title"> Menu <i class="fa fa-bars au-icon"></i></div>
-                    <ul class="sf-menu clearfix menu-content">
-
-                        <li><a href="{{URL_HOME}}"> {{getPhrase('home')}} </a></li>
-
-                        <li>
-                            <a href="{{URL_HOME_AUCTIONS}}"> 
-                                {{getPhrase('auctions')}} 
+            <nav class="navbar navbar-expand-md au-navbar text-light" >
+                <div class="navbar-header">
+                    <button class="navbar-toggler p-2 bg-light mr-auto" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="fa fa-bars fa-2x"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{{url('/')}}"> 
+                                <i class="fa fa-home"></i>
+                                {{getPhrase('Home')}} 
                             </a>
                         </li>
-
-                        @if ($categories)
-                        @foreach ($categories as $category)
-                            <?php $sub_categories = $category->get_sub_catgories()->get();?>
-                            @if (count($sub_categories))
-                                <li class="single-dropdown">
-                                    <span class="menu-mobile-grover au-listts">
-                                        <i class="fa fa-chevron-circle-down au-icon"></i>
-                                    </span>
-                                    <a href="javascript:void(0)"> {{$category->category}} </a>
-                                    <ul class="submenu-container clearfix first-in-line-xs menu-mobile">
-                                        <li>
-                                            <ul>
-                                                @foreach ($sub_categories as $sub)
-                                                    <?php $auctions_count = $sub->getMenuSubCategoryAuctions()->count();?>
-                                                    <li>
-                                                        <a href="javascript:void(0)" onclick="window.location.href='{{URL_HOME_AUCTIONS}}?category={{$category->slug}}&subcategory={{$sub->slug}}';"> 
-                                                            {{$sub->sub_category}} ({{$auctions_count}}) 
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                        <li id="category-thumbnails"></li>
-                                    </ul>
-                                </li>
-                            @else
-                                <li>
-                                    <a href="javascript:void(0)" onclick="window.location.href='{{URL_HOME_AUCTIONS}}?category={{$category->slug}}';"> 
-                                        {{$category->category}} 
-                                    </a>
-                                </li>
-                            @endif
-                        @endforeach
-                        @endif
-                        <li>
-                            <a href="{{URL_LIVE_AUCTIONS}}"> 
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="{{URL_LIVE_AUCTIONS}}"> 
+                                <i class="fa fa-broadcast-tower"></i>
                                 {{getPhrase('live_auctions')}} 
                             </a>
                         </li>
+                        <li class="nav-item dropdown mega-dropdown">
+                            <a href="#" class="nav-link dropdown-toggle text-dark" data-toggle="dropdown">
+                                <i class="fa fa-list-ul"></i>
+                                Categories 
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                            </a>
+                            
+                            <ul class="dropdown-menu mega-dropdown-menu"> 
+                                <div class="row">
+                                    @if ($categories)
+                                        @foreach ($categories as $category)
+                                            <?php 
+                                            $sub_categories = $category->get_sub_catgories()->get();?>
+                                            @if (count($sub_categories))
+                                                <div class="col-md-4">
+                                                    <li>
+                                                        <ul>
+                                                            <li class="dropdown-header">
+                                                                <a href="javascript:void(0)"> {{$category->category}} </a>
+                                                            </li>
+                                                            @foreach ($sub_categories as $sub)
+                                                                <?php
+                                                                    $auctions_count = $sub->getMenuSubCategoryAuctions()->count();
+                                                                ?>
+                                                                <li class="ml-5">
+                                                                    <a href="javascript:void(0)" onclick="window.location.href='{{URL_HOME_AUCTIONS}}?category={{$category->slug}}&subcategory={{$sub->slug}}';" class="text-dark"> 
+                                                                        <i class="fa fa-bullseye"></i>
+                                                                        {{$sub->sub_category}} [{{$auctions_count}}] 
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                            <li class="divider"></li>
+                                                        </ul>
+                                                    </li>
+                                                </div>
+                                            @else
+                                                <div class="col-3">
+                                                    <li>
+                                                        <a href="javascript:void(0)" onclick="window.location.href='{{URL_HOME_AUCTIONS}}?category={{$category->slug}}';"> 
+                                                            {{$category->category}} 
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </ul>
+                            
+                        </li>
+                        {{-- /mega menu --}}
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-dark">
+                                <i class="fa fa-gavel"></i>
+                                Sunday Auctions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-dark">
+                                <i class="fa fa-money"></i>
+                                Fixed Price Sell
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a  href="{{URL_HOME_AUCTIONS}}" class="nav-link text-dark">
+                                <i class="fa fa-shopping-basket"></i>
+                                Auctions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a  href="{{url('about-us')}}" class="nav-link text-dark">
+                                <i class="fa fa-globe"></i>
+                                About Us
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <a  href="{{URL_CONTACT_US}}" class="nav-link text-dark">
+                                <i class="fa fa-globe"></i>
+                                Contact Us
+                            </a>
+                        </li> --}}
+                        <li class="nav-item">
+                            <a href="{{url('auctions/create')}}" class="btn btn-outline-light text-dark m-2">
+                                <i class="fa fa-plus"></i>
+                                Create Auction
+                            </a>
+                        </li>
                     </ul>
-                </div>
-            </div>
+                </div><!-- /.nav-collapse -->  
+            </nav>
+            
         </div>
     </section>
     <!-- /Navbar-->
