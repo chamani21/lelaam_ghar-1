@@ -7,12 +7,20 @@ $categories = \App\Category::getHomeCategories(6);
 ?>
     <nav class="navbar navbar-expand-md navbar-dark au-navbar d-none d-sm-block">
         <ul class="navbar-nav nav-inner au-nav-inner mr-auto">
-            <li class="nav-item au-items text-light pt-2">
+            <li class="nav-item au-items text-dark pt-2">
                 <?php if(Auth::check()): ?>
                     Hello 
                     <span class="font-weight-bold">
                         <?php echo e(Auth::user()->name); ?>!
                     </span>
+                <?php endif; ?>
+            </li>
+            <li class="nav-item au-items text-dark">
+                <?php if(Auth::check() && Auth::user()->role_id == 3): ?>
+                    <a href="<?php echo e(url('switch/bidder')); ?>" title="Switch Account" class="nav-link nav-press scroll text-dark">
+                        <?php echo e(getPhrase('| Switch_to_Seller_Account')); ?>
+
+                    </a>
                 <?php endif; ?>
             </li>
         
@@ -195,13 +203,13 @@ $categories = \App\Category::getHomeCategories(6);
                         
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-dark">
+                            <a href="<?php echo e(url('index#featured-auctions')); ?>" class="nav-link text-dark">
                                 <i class="fa fa-gavel"></i>
                                 Sunday Auctions
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-dark">
+                            <a href="<?php echo e(url('/index#fixed-price-sale')); ?>" class="nav-link text-dark">
                                 <i class="fa fa-money"></i>
                                 Fixed Price Sell
                             </a>
@@ -220,7 +228,7 @@ $categories = \App\Category::getHomeCategories(6);
                         </li>
                         
                         <li class="nav-item">
-                            <a href="<?php echo e(url('auctions/create')); ?>" class="btn btn-outline-light text-dark m-2">
+                            <a href="<?php echo e(url('auctions/create')); ?>" class="btn btn-dark m-2">
                                 <i class="fa fa-plus"></i>
                                 Create Auction
                             </a>

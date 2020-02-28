@@ -87,12 +87,21 @@
                                 <span>{{ getPhrase('my_profile') }}</span>
                             </a>
                         </li>
+                        
                         <li>
                             <a href="{{URL_USERS_CHANGE_PASSWORD}}{{Auth::user()->slug}}">
                                 <span>{{ getPhrase('change_password') }}</span>
                             </a>
                         </li>
-                     
+                        @if (Auth::user()->role_id == 2)
+                            <li>
+                                <a href="{{url('switch/seller')}}" class="mt-5 mt-sm-0">
+                                    <span class="title">
+                                        Switch to Bidder Account
+                                    </span>
+                                </a>
+                            </li>                            
+                        @endif
                         <li>
                             <a href="{{URL_LOGOUT}}">
                                 <span>{{ getPhrase('logout') }}</span>

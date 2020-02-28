@@ -349,9 +349,101 @@ $google_login = getSetting('google_plus_login','module');
 
                             </div>
 
+                            <div class="form-group col-lg-12">
 
 
-                            <div class=" col-lg-12">
+
+                                    {{ Form::tel('phone_number', old('phone_number') , $attributes = array('class'=>'form-control',
+
+                                        'placeholder' => 'Must verify your number',
+
+                                        'ng-model'=>'phone_number',
+
+                                        'required'=> 'true',
+
+                                        'ng-class'=>'{"has-error": registrationForm.phone_number.$touched && registrationForm.phone_number.$invalid}',
+
+                                        'ng-minlength' => '13',
+
+                                    )) }}
+
+
+                                    <div class="validation-error" ng-messages="registrationForm.phone_number.$error" >
+
+                                        {!! getValidationMessage()!!}
+
+                                        {!! getValidationMessage('minlength')!!}
+
+                                    </div>
+
+
+
+                            </div>
+                            <div class="form-group col-lg-12">
+
+
+
+                                    {{ Form::text('cnic', old('cnic') , $attributes = array('class'=>'form-control',
+
+                                        'placeholder' => 'CNIC with dashes e.g 34211-1234567-9',
+
+                                        'ng-model'=>'cnic',
+
+                                        'required'=> 'true',
+
+                                        'ng-class'=>'{"has-error": registrationForm.cnic.$touched && registrationForm.cnic.$invalid}',
+
+                                        'ng-minlength' => '15',
+                                        'ng-maxlength' => '15',
+
+                                    )) }}
+
+
+                                    <div class="validation-error" ng-messages="registrationForm.cnic.$error" >
+
+                                        {!! getValidationMessage()!!}
+
+                                        {!! getValidationMessage('minlength')!!}
+                                        {!! getValidationMessage('maxlength')!!}
+
+                                    </div>
+
+
+
+                            </div>
+                            <div class="form-group col-lg-12">
+
+
+
+                                    {{ Form::text('address', old('address') , $attributes = array('class'=>'form-control',
+
+                                        'placeholder' => 'Complete address',
+
+                                        'ng-model'=>'address',
+
+                                        'required'=> 'true',
+
+                                        'ng-class'=>'{"has-error": registrationForm.address.$touched && registrationForm.address.$invalid}',
+
+                                        'ng-minlength' => '10',
+
+                                    )) }}
+
+
+                                    <div class="validation-error" ng-messages="registrationForm.address.$error" >
+
+                                        {!! getValidationMessage()!!}
+
+                                        {!! getValidationMessage('minlength')!!}
+
+                                    </div>
+
+
+
+                            </div>
+
+                            
+                            {{-- <div class=" col-lg-12">
 
                                 <div class="form-group row">
                                     <div class="col-md-6">
@@ -366,9 +458,12 @@ $google_login = getSetting('google_plus_login','module');
                                     </div>
                                 </div>
 
-                            </div>
-
-
+                            </div> --}}
+                                <div class="form-group col-lg-12">
+                                    <div class="">
+                                        <input type="checkbox" name="tc" required> Must agree to <a href="#">Terms and Conditions</a>
+                                    </div>
+                                </div>
 
                   <div class="form-group col-lg-12">
                     <div class="text-center  login-btn">

@@ -6,7 +6,7 @@
 
     @include('home/live-auctions')
 
-    @include('home/upcoming-auctions')
+    @include('home/fixed-price-sale')
 
     {{-- @include('home/home-latest-auctions') --}}
     

@@ -15,7 +15,7 @@ if ($loggedInUser) {
             @if ($loggedInUser && $loggedInUser->role_id == getRoleData('bidder'))
                 <li class="dropdown notify">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o f-bell text-light"></i>
+                        <i class="fa fa-bell-o f-bell text-dark"></i>
                         @if($unread_notifications_count)
                         <span class="count-mt active">{{$unread_notifications_count}}</span>
                         @endif

@@ -18,28 +18,28 @@ class PagesController extends Controller
      *
      * @return void
      */
-   
 
-    public function index($slug='')
+
+    public function index($slug = '')
     {
-      
-      if (checkRole(getUserGrade(4))) {
 
-          prepareBlockUserMessage();
-          return back();
-      }
+        if (checkRole(getUserGrade(4))) {
 
-    	$record = ContentPage::getRecordWithSlug($slug);
+            prepareBlockUserMessage();
+            return back();
+        }
 
-    	if ($isValid = $this->isValidRecord($record))
-             return redirect($isValid);
+        $record = ContentPage::getRecordWithSlug($slug);
 
-        $data['record'] 		= $record;
-    	  $data['active_class']   = 'home';
+        if ($isValid = $this->isValidRecord($record))
+            return redirect($isValid);
+
+        $data['record']         = $record;
+        $data['active_class']   = 'home';
         $data['layout']         = getLayout();
         $data['title']          = $record->title;
         $data['breadcrumb']     = TRUE;
-  
+
         return view('home.pages.index', $data);
     }
 
@@ -51,13 +51,13 @@ class PagesController extends Controller
     public function contact()
     {
 
-     /* if (checkRole(getUserGrade(4))) {
+        /* if (checkRole(getUserGrade(4))) {
 
           prepareBlockUserMessage();
           return back();
       }*/
 
-    	  $data['active_class']   = 'home';
+        $data['active_class']   = 'home';
         $data['layout']         = getLayout();
         $data['title']          = 'Contact Us';
         $data['breadcrumb']     = TRUE;
@@ -73,37 +73,38 @@ class PagesController extends Controller
     public function contactUs(Request $request)
     {
 
-     /* if (checkRole(getUserGrade(4))) {
+        /* if (checkRole(getUserGrade(4))) {
 
           prepareBlockUserMessage();
           return back();
       }*/
-      
+
         $this->validate($request, [
-         'name'      => 'bail|required|max:50',
-         'contact_email'     => 'bail|required|max:50',
-         'subject' => 'bail|required|max:100',
-         'message' => 'bail|required|max:200'
+            'name'      => 'bail|required|max:50',
+            'contact_email'     => 'bail|required|email',
+            'phone_number'     => 'bail|required',
+            'country'     => 'bail|required',
+            'city'     => 'bail|required',
+            'shop'     => 'bail|required',
+            'subject' => 'bail|required|max:100',
+            'message' => 'bail|required|max:300'
         ]);
 
 
         if (!env('DEMO_MODE')) {
+            $message = $request->message . '. Phone Number: ' . $request->phone_number . ', Country: ' . $request->country . ', City: ' . $request->city . ' Shop/Company name: ' . $request->shop;
+            try {
+                sendEmail('contact_mail_to_admin', array('username' => $request->name, 'email' => $request->contact_email, 'subject' => $request->subject, 'message' => $message, 'to_email' => getSetting('contact_email', 'site_settings'), 'site_url' => PREFIX, 'date' => date('Y-m-d')));
 
-           try {
-                sendEmail('contact_mail_to_admin', array('username'=>$request->name, 'email'=>$request->contact_email, 'subject'=>$request->subject, 'message'=>$request->message, 'to_email' => getSetting('contact_email','site_settings'),'site_url'=>PREFIX, 'date'=>date('Y-m-d')));
+                flash('success', 'email_sent_successfully', 'success');
+            } catch (Exception $ex) {
 
-                flash('success','email_sent_successfully', 'success');
-
-            } catch(Exception $ex) {
-        
                 flash('oops...!', $ex->getMessage(), 'error');
             }
         } else {
-            flash('info','crud_operations_disabled_in_demo', 'info'); 
+            flash('info', 'crud_operations_disabled_in_demo', 'info');
         }
 
-        
-        
         return redirect(URL_CONTACT_US);
     }
 
@@ -114,13 +115,13 @@ class PagesController extends Controller
     public function faqs()
     {
 
-      if (checkRole(getUserGrade(4))) {
+        if (checkRole(getUserGrade(4))) {
 
-          prepareBlockUserMessage();
-          return back();
-      } 
+            prepareBlockUserMessage();
+            return back();
+        }
 
-        $faqs = \App\FaqCategory::where('status','Active')->orderBy('id','asc')->get();
+        $faqs = \App\FaqCategory::where('status', 'Active')->orderBy('id', 'asc')->get();
         $data['faqs']           = $faqs;
 
         $route = Route::getFacadeRoot()->current()->uri();
@@ -141,12 +142,12 @@ class PagesController extends Controller
      */
     public function isValidRecord($record)
     {
-      if ($record === null) {
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
-        return $this->getRedirectUrl();
-       }
+        if ($record === null) {
+            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            return $this->getRedirectUrl();
+        }
 
-       return FALSE;
+        return FALSE;
     }
 
     /**
@@ -155,38 +156,37 @@ class PagesController extends Controller
      */
     public function getRedirectUrl()
     {
-      return PREFIX;
+        return PREFIX;
     }
 
 
 
-     /**
-      * This method returns the faqs based on selected category
-      * @param  [type] $request [description]
-      * @return [type] array    [description]
-      */
-     public function getCategoryFaqs(Request $request)
-     {
+    /**
+     * This method returns the faqs based on selected category
+     * @param  [type] $request [description]
+     * @return [type] array    [description]
+     */
+    public function getCategoryFaqs(Request $request)
+    {
         $category_id = $request->category_id;
 
-        $category_faqs = \App\FaqQuestion::select('id','question_text','answer_text')
-                    ->where('category_id','=',$category_id)
-                    ->where('status','Active')
-                    ->get();
+        $category_faqs = \App\FaqQuestion::select('id', 'question_text', 'answer_text')
+            ->where('category_id', '=', $category_id)
+            ->where('status', 'Active')
+            ->get();
 
-        return json_encode(array('category_faqs'=>$category_faqs));
-     }
+        return json_encode(array('category_faqs' => $category_faqs));
+    }
 
 
-    public function imageGallary() 
+    public function imageGallary()
     {
-            
+
         $data['active_class']   = 'home';
         $data['layout']         = getLayout();
         $data['title']          = 'IMAGE GALLARY';
         $data['breadcrumb']     = TRUE;
-  
+
         return view('home.pages.images', $data);
     }
-
 }

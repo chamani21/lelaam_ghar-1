@@ -112,7 +112,15 @@ $user = Auth::user();
                     </ul>
                   </li>
 
-
+                  <?php if(Auth::user()->role_id == 3): ?>
+                    <li>
+                        <a href="<?php echo e(url('switch/bidder')); ?>" title="Switch Account">
+                          <div class="link">
+                            <i class="fa fa-user-o"></i>
+                            <?php echo e(getPhrase('Switch_to_Seller_Account')); ?></div>
+                        </a>
+                    </li>
+                  <?php endif; ?>
 
                   <li>
                     <a href="<?php echo e(URL_LOGOUT); ?>" title="Logout">

@@ -180,7 +180,7 @@ $stripe = getSetting('stripe','module');
 
                  <div class="row">
 
-                      @if ($paypal && count($paypal_record))
+                      @if ($paypal && $paypal_record->count())
                        <div class="col-lg-3">  
 
                        {!! Form::open(array('url' => URL_PAYNOW, 'method' => 'POST','name'=>'paypalFormValidate','novalidate'=>'','class'=>'form-inline')) !!}
@@ -201,7 +201,7 @@ $stripe = getSetting('stripe','module');
 
 
 
-                       @if ($payu && count($payu_record))
+                       @if ($payu && $payu_record->count())
                        <div class="col-lg-3">  
 
                     
@@ -220,7 +220,7 @@ $stripe = getSetting('stripe','module');
                       @endif
 
 
-                      @if ($stripe && count($stripe_record))
+                      @if ($stripe && $stripe_record->count())
                       <div class="col-lg-4">
 
                       <form action="{{URL_STRIPE_PAYMENT}}" method="POST">

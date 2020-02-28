@@ -25,7 +25,7 @@
             {{ isset($title) ? $title : ''}}
         </div>
 
-        {{--@include('errors.errors')--}}
+        {{-- @include('errors.errors') --}}
 
         <div class="panel-body form-auth-style" id="app">
 
@@ -126,6 +126,7 @@ file.onchange = function(e){
 </script>
 
 <script src="{{JS}}bootstrap-datepicker.min.js"></script>
+<script src="{{JS}}custom.js"></script>
 <script>
      $(function () {
         $('#datepicker').datepicker({

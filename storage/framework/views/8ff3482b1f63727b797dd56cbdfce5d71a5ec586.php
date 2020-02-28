@@ -34,6 +34,7 @@ $date_format = getSetting('date_format','site_settings');
                         <th> <?php echo e(getPhrase('start_date')); ?> </th>
                         <th> <?php echo e(getPhrase('end_date')); ?> </th>
 
+                        <th> <?php echo e(getPhrase('Selling_Type')); ?> </th>
                         <th> <?php echo e(getPhrase('reserve_price')); ?> (<?php echo e(getSetting('currency_code','site_settings')); ?>) </th>
                         <?php if(checkRole(['admin'])): ?>
                         <th> <?php echo e(getPhrase('seller')); ?> </th>
@@ -66,8 +67,21 @@ $date_format = getSetting('date_format','site_settings');
                                 <td> <?php if($auction->start_date): ?> <?php echo date(getSetting('date_format','site_settings').' H:i:s', strtotime($auction->start_date));?> <?php endif; ?> </td>
 
                                 <td>  <?php if($auction->end_date): ?> <?php echo date(getSetting('date_format','site_settings').' H:i:s', strtotime($auction->end_date));?> <?php endif; ?> </td>
+                                <td >
+                                    <?php if($auction->reserve_price == null): ?>
+                                        Buy Now
+                                    <?php else: ?>
+                                        Auction
+                                    <?php endif; ?>
+                                </td>
+                                <td >
+                                    <?php if($auction->reserve_price != null): ?>
+                                        <?php echo e($auction->reserve_price); ?>
 
-                                <td ><?php echo e($auction->reserve_price); ?></td>
+                                    <?php else: ?>
+                                        Not an Auction
+                                    <?php endif; ?>
+                                </td>
                                 <?php if(checkRole(['admin'])): ?>
                                 <td> <a href="<?php echo e(URL_USERS_VIEW); ?>/<?php echo e($auction->seller_slug); ?>" target="_blank" title="Seller Details"> <?php echo e($auction->username); ?></td>
                                 <?php endif; ?>

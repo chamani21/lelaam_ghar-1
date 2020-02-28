@@ -150,6 +150,10 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                 <?php if(!$live_auction): ?> <!--normal auction happening-->
                   <p title="Auction End Date"> Regular auction ends on <?php echo date(getSetting('date_format','site_settings').' H:i:s', strtotime($auction->end_date));?> </p>
                 <?php endif; ?>
+                <p>
+                  Seller : <?php echo e($seller->name); ?>
+
+                </p>
 
               
 
@@ -174,10 +178,7 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
               </div> 
               <?php endif; ?>
 
-
-
-
-              <?php if(!$live_auction): ?><!--if live auction not happening normal auction-->
+              <?php if(!$live_auction && $auction->is_buynow != 1): ?><!--if live auction not happening normal auction-->
 
                 <?php if($auction->auction_status=='open' && $auction->start_date<=now() && $auction->end_date>=now()): ?>
                 <!--if auction status is live start-->
@@ -541,7 +542,7 @@ $max_number_of_pictures = getSetting('max_number_of_pictures','auction_settings'
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <?php echo e(getPhrase('seller_name')); ?>
 
-                                      <span><?php echo e($seller->name); ?></span>
+                                      <span> <?php echo e($seller->name); ?>  </span>
                                     </li>
 
 

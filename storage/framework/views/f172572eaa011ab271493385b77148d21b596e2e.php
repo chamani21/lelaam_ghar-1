@@ -34,8 +34,8 @@ $upcoming_auctions = \App\Auction::getHomeUpcomingAuctions();
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12">
                     <div class="au-bidding live">
-                        <a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>" title="Auction Details" class="btn btn-default au-space au-btn-modren login-bttn view-more-btn view-more-btn-animation-1"> <?php echo e(getPhrase('happening_now')); ?></a>
-                        <label><?php echo e(getPhrase('live_auction')); ?></label>
+                        <a href="<?php echo e(URL_HOME_AUCTION_DETAILS); ?>/<?php echo e($auction->slug); ?>" title="Auction Details" class="btn btn-default au-space au-btn-modren login-bttn view-more-btn view-more-btn-animation-1"> <?php echo e(getPhrase('Buy Now')); ?></a>
+                        
                     </div>
                 </div>
             </div>

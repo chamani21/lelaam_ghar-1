@@ -25,7 +25,7 @@ class PaymentsController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -34,8 +34,7 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        if (!checkRole(getUserGrade(1)))
-        {
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -49,7 +48,6 @@ class PaymentsController extends Controller
         $data['layout']       = getLayOut();
 
         return view('admin.payments.index', $data);
-
     }
 
     /**
@@ -59,21 +57,20 @@ class PaymentsController extends Controller
      */
     public function viewDetails($slug)
     {
-        if (!checkRole(getUserGrade(1)))
-        {
+        if (!checkRole(getUserGrade(1))) {
             prepareBlockUserMessage();
             return back();
         }
 
 
-        $record = Payment::leftJoin('users','payments.user_id','users.id')
-                         ->select(['payments.*','users.username','users.slug as user_slug'])
-                         ->where('payments.slug',$slug)->first();
+        $record = Payment::leftJoin('users', 'payments.user_id', 'users.id')
+            ->select(['payments.*', 'users.username', 'users.slug as user_slug'])
+            ->where('payments.slug', $slug)->first();
 
-        if($isValid = $this->isValidRecord($record))
-         return redirect($isValid);
+        if ($isValid = $this->isValidRecord($record))
+            return redirect($isValid);
 
-        $auction = Auction::where('id',$record->auction_id)->first();
+        $auction = Auction::where('id', $record->auction_id)->first();
         $data['auction']      = $auction;
 
         $data['title']        = getPhrase('payment_details');
@@ -82,7 +79,6 @@ class PaymentsController extends Controller
         $data['layout']       = getLayOut();
 
         return view('admin.payments.show', $data);
-
     }
 
 
@@ -94,220 +90,204 @@ class PaymentsController extends Controller
     public function paynow(Request $request)
     {
 
-      if (!checkRole(getUserGrade(2)))
-      {
-          prepareBlockUserMessage();
-          return back();
-      }
+        if (!checkRole(getUserGrade(2))) {
+            prepareBlockUserMessage();
+            return back();
+        }
 
 
-      if (env('DEMO_MODE')) {
+        if (env('DEMO_MODE')) {
 
-            flash('info','crud_operations_disabled_in_demo', 'info');
+            flash('info', 'crud_operations_disabled_in_demo', 'info');
             return redirect(URL_DASHBOARD);
-      }
+        }
 
         // dd($request);
         $payment_for        = $request->payment_for;
         $payment_gateway    = $request->payment_gateway;
 
-        if ($payment_for==PAYMENT_FOR_BIDDING) {
+        if ($payment_for == PAYMENT_FOR_BIDDING) {
 
             $ab_id = $request->ab_id;
-            $auctionbidder = AuctionBidder::where('id',$ab_id)->first();
+            $auctionbidder = AuctionBidder::where('id', $ab_id)->first();
 
-            if (count($auctionbidder)) {
+            if ($auctionbidder->count()) {
                 //check if anyone has paid 
-                $auction = Auction::where('id',$auctionbidder->auction_id)->first();
-                if (count($auction)) {
+                $auction = Auction::where('id', $auctionbidder->auction_id)->first();
+                if ($auction->count()) {
 
                     $bid_payment = $auction->getAuctionPayment();
 
-                    if (count($bid_payment)) {
-                        flash('error','other_bidder_has_already_paid_for_this_auction_please_contact_admin', 'error');
+                    if ($bid_payment->count()) {
+                        flash('error', 'other_bidder_has_already_paid_for_this_auction_please_contact_admin', 'error');
                         return redirect(URL_BIDDER_AUCTIONS);
                     }
-
                 } else {
 
-                    flash('error','auction_not_found', 'error');
+                    flash('error', 'auction_not_found', 'error');
                     return redirect(URL_BIDDER_AUCTIONS);
-                }   
-                
+                }
+
 
                 //check his payment end time is valid 
                 $bidpayment = bidpayment($auctionbidder->id);
 
                 if ($bidpayment) {
 
-                     if ($payment_gateway == 'payu') {
+                    if ($payment_gateway == 'payu') {
 
-                            if(!getSetting('payu', 'module'))
-                            {
-                                flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');          
-                                return back();
-                            }
+                        if (!getSetting('payu', 'module')) {
+                            flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');
+                            return back();
+                        }
 
-                            $token = $this->preserveBeforeSave($auctionbidder,$payment_gateway,$payment_for);
+                        $token = $this->preserveBeforeSave($auctionbidder, $payment_gateway, $payment_for);
 
-                            $config = config();
-                            $payumoney = $config['indipay']['payumoney'];
+                        $config = config();
+                        $payumoney = $config['indipay']['payumoney'];
 
-                            $payumoney['successUrl'] = URL_PAYU_PAYMENT_SUCCESS.'?token='.$token;
-                            $payumoney['failureUrl'] = URL_PAYU_PAYMENT_CANCEL.'?token='.$token;
-
-                         
-                            $user = \Auth::user();
-                             $parameters = [
-                                              'tid'       => $token,
-                                              'order_id'  => '',
-                                              'firstname' => $user->name,
-                                              'email'     => $user->email,
-                                              'phone'     => ($user->phone) ? $user->phone:'45612345678',
-                                              'productinfo' => $auction->title,
-                                              'amount'    => $request->bid_amount,
-                                              'surl'      => URL_PAYU_PAYMENT_SUCCESS.'?token='.$token,
-                                              'furl'      => URL_PAYU_PAYMENT_CANCEL.'?token='.$token,
-                                           ];
-                          
-                          return Indipay::purchase($parameters);
-
-                            // URL_PAYU_PAYMENT_SUCCESS
-                            // URL_PAYU_PAYMENT_CANCEL
-                        
-                      } elseif ($payment_gateway=='paypal') {
-
-                            if(!getSetting('paypal', 'module'))
-                            {
-                                flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');          
-                                return back();
-                            }
-
-                            $token = $this->preserveBeforeSave($auctionbidder,$payment_gateway,$payment_for);
+                        $payumoney['successUrl'] = URL_PAYU_PAYMENT_SUCCESS . '?token=' . $token;
+                        $payumoney['failureUrl'] = URL_PAYU_PAYMENT_CANCEL . '?token=' . $token;
 
 
-                            $paypal = new Paypal();
-                            $paypal->config['return'] = URL_PAYPAL_PAYMENT_SUCCESS.'?token='.$token;
-                            $paypal->config['cancel_return']= URL_PAYPAL_PAYMENT_CANCEL.'?token='.$token;
-                            $paypal->invoice = $token;
-                            
-                            $paypal->add('Bid Payment', $request->bid_amount);
+                        $user = \Auth::user();
+                        $parameters = [
+                            'tid'       => $token,
+                            'order_id'  => '',
+                            'firstname' => $user->name,
+                            'email'     => $user->email,
+                            'phone'     => ($user->phone) ? $user->phone : '45612345678',
+                            'productinfo' => $auction->title,
+                            'amount'    => $request->bid_amount,
+                            'surl'      => URL_PAYU_PAYMENT_SUCCESS . '?token=' . $token,
+                            'furl'      => URL_PAYU_PAYMENT_CANCEL . '?token=' . $token,
+                        ];
 
-                            //ADD  item
-                            $paypal->pay(); //Proccess the payment
+                        return Indipay::purchase($parameters);
 
-                      } else {
+                        // URL_PAYU_PAYMENT_SUCCESS
+                        // URL_PAYU_PAYMENT_CANCEL
+
+                    } elseif ($payment_gateway == 'paypal') {
+
+                        if (!getSetting('paypal', 'module')) {
+                            flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');
+                            return back();
+                        }
+
+                        $token = $this->preserveBeforeSave($auctionbidder, $payment_gateway, $payment_for);
+
+
+                        $paypal = new Paypal();
+                        $paypal->config['return'] = URL_PAYPAL_PAYMENT_SUCCESS . '?token=' . $token;
+                        $paypal->config['cancel_return'] = URL_PAYPAL_PAYMENT_CANCEL . '?token=' . $token;
+                        $paypal->invoice = $token;
+
+                        $paypal->add('Bid Payment', $request->bid_amount);
+
+                        //ADD  item
+                        $paypal->pay(); //Proccess the payment
+
+                    } else {
 
                         return redirect(URL_BIDDER_AUCTIONS);
-                      }
-
-
+                    }
                 } else {
 
-                    flash('error','invalid_operation', 'error');
+                    flash('error', 'invalid_operation', 'error');
                     return redirect(URL_BIDDER_AUCTIONS);
                 }
-
             } else {
 
-                flash('error','auction_bid_not_found', 'error');
+                flash('error', 'auction_bid_not_found', 'error');
                 return redirect(URL_BIDDER_AUCTIONS);
             }
+        } elseif ($payment_for == PAYMENT_FOR_BUY_AUCTION) {
 
-        } elseif ($payment_for==PAYMENT_FOR_BUY_AUCTION) {
-            
-            $auction = Auction::where('id',$request->auction_id)
-                            ->where('is_buynow',1)
-                            ->where('buy_now_price','>',0)
-                            ->first();
+            $auction = Auction::where('id', $request->auction_id)
+                ->where('is_buynow', 1)
+                ->where('buy_now_price', '>', 0)
+                ->first();
 
-            if (count($auction)) {
+            if ($auction->count()) {
 
-                $redirect = URL_HOME_AUCTION_DETAILS.'/'.$auction->slug;
+                $redirect = URL_HOME_AUCTION_DETAILS . '/' . $auction->slug;
 
-                $payments = Payment::where('auction_id',$auction->id)
-                                ->where('payment_for',PAYMENT_FOR_BUY_AUCTION)
-                                ->where('payment_status',PAYMENT_STATUS_SUCCESS)
-                                ->get();
+                $payments = Payment::where('auction_id', $auction->id)
+                    ->where('payment_for', PAYMENT_FOR_BUY_AUCTION)
+                    ->where('payment_status', PAYMENT_STATUS_SUCCESS)
+                    ->get();
 
-                if (count($payments)) {
+                if ($payments->count()) {
 
-                    flash('error','someone_has_already_bought_this_item_please_contact_admin', 'error');
+                    flash('error', 'someone_has_already_bought_this_item_please_contact_admin', 'error');
                     return redirect($redirect);
-
                 } else {
 
                     if ($payment_gateway == 'payu') {
 
-                            if(!getSetting('payu', 'module'))
-                            {
-                                flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');          
-                                return back();
-                            }
+                        if (!getSetting('payu', 'module')) {
+                            flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');
+                            return back();
+                        }
 
-                            $token = $this->preserveBeforeSave($auction,$payment_gateway,$payment_for);
+                        $token = $this->preserveBeforeSave($auction, $payment_gateway, $payment_for);
 
-                            $config = config();
-                            $payumoney = $config['indipay']['payumoney'];
+                        $config = config();
+                        $payumoney = $config['indipay']['payumoney'];
 
-                            $payumoney['successUrl'] = URL_PAYU_PAYMENT_SUCCESS.'?token='.$token;
-                            $payumoney['failureUrl'] = URL_PAYU_PAYMENT_CANCEL.'?token='.$token;
-
-                         
-                            $user = Auth::user();
-                             $parameters = [
-                                              'tid'       => $token,
-                                              'order_id'  => '',
-                                              'firstname' => $user->name,
-                                              'email'     => $user->email,
-                                              'phone'  => ($user->phone) ? $user->phone : '45612345678',
-                                              'productinfo' => $auction->title,
-                                              'amount'    => $auction->buy_now_price,
-                                              'surl'      => URL_PAYU_PAYMENT_SUCCESS.'?token='.$token,
-                                              'furl'      => URL_PAYU_PAYMENT_CANCEL.'?token='.$token,
-                                           ];
-                          
-                          return Indipay::purchase($parameters);
-
-                            // URL_PAYU_PAYMENT_SUCCESS
-                            // URL_PAYU_PAYMENT_CANCEL
-                        
-                      } elseif ($payment_gateway=='paypal') {
-
-                            if(!getSetting('paypal', 'module'))
-                            {
-                                flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');          
-                                return back();
-                            }
-
-                            $token = $this->preserveBeforeSave($auction,$payment_gateway,$payment_for);
+                        $payumoney['successUrl'] = URL_PAYU_PAYMENT_SUCCESS . '?token=' . $token;
+                        $payumoney['failureUrl'] = URL_PAYU_PAYMENT_CANCEL . '?token=' . $token;
 
 
-                            $paypal = new Paypal();
-                            $paypal->config['return'] = URL_PAYPAL_PAYMENT_SUCCESS.'?token='.$token;
-                            $paypal->config['cancel_return']= URL_PAYPAL_PAYMENT_CANCEL.'?token='.$token;
-                            $paypal->invoice = $token;
-                            
-                            $paypal->add('Buy Auction', $auction->buy_now_price);
+                        $user = Auth::user();
+                        $parameters = [
+                            'tid'       => $token,
+                            'order_id'  => '',
+                            'firstname' => $user->name,
+                            'email'     => $user->email,
+                            'phone'  => ($user->phone) ? $user->phone : '45612345678',
+                            'productinfo' => $auction->title,
+                            'amount'    => $auction->buy_now_price,
+                            'surl'      => URL_PAYU_PAYMENT_SUCCESS . '?token=' . $token,
+                            'furl'      => URL_PAYU_PAYMENT_CANCEL . '?token=' . $token,
+                        ];
 
-                            //ADD  item
-                            $paypal->pay(); //Proccess the payment
+                        return Indipay::purchase($parameters);
 
-                      } else {
+                        // URL_PAYU_PAYMENT_SUCCESS
+                        // URL_PAYU_PAYMENT_CANCEL
+
+                    } elseif ($payment_gateway == 'paypal') {
+
+                        if (!getSetting('paypal', 'module')) {
+                            flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');
+                            return back();
+                        }
+
+                        $token = $this->preserveBeforeSave($auction, $payment_gateway, $payment_for);
+
+
+                        $paypal = new Paypal();
+                        $paypal->config['return'] = URL_PAYPAL_PAYMENT_SUCCESS . '?token=' . $token;
+                        $paypal->config['cancel_return'] = URL_PAYPAL_PAYMENT_CANCEL . '?token=' . $token;
+                        $paypal->invoice = $token;
+
+                        $paypal->add('Buy Auction', $auction->buy_now_price);
+
+                        //ADD  item
+                        $paypal->pay(); //Proccess the payment
+
+                    } else {
 
                         return redirect($redirect);
-                      }
-
-
+                    }
                 }
-
             } else {
 
-                flash('error','auction_record_not_found_please_contact_admin', 'error');
+                flash('error', 'auction_record_not_found_please_contact_admin', 'error');
                 return redirect(URL_DASHBOARD);
             }
-
-
         } else {
             return redirect(URL_DASHBOARD);
         }
@@ -323,12 +303,12 @@ class PaymentsController extends Controller
      * @param  [type] $payment_for     [description]
      * @return [type]                  [description]
      */
-    public function preserveBeforeSave($record,$payment_gateway,$payment_for) 
+    public function preserveBeforeSave($record, $payment_gateway, $payment_for)
     {
         $currentUser = \Auth::user();
-        if ($payment_for==PAYMENT_FOR_BIDDING) {
+        if ($payment_for == PAYMENT_FOR_BIDDING) {
 
-            
+
             $payment = new Payment();
 
             $payment->slug              = $payment::makeSlug(getHashCode());
@@ -362,12 +342,10 @@ class PaymentsController extends Controller
             $payment->save();
 
             return $payment->slug;
+        } elseif ($payment_for == PAYMENT_FOR_BUY_AUCTION) {
 
 
-        } elseif ($payment_for==PAYMENT_FOR_BUY_AUCTION) {
-
-            
-            if (count($currentUser)) {
+            if ($currentUser->count()) {
 
                 $payment = new Payment();
 
@@ -401,13 +379,11 @@ class PaymentsController extends Controller
                 $payment->save();
 
                 return $payment->slug;
-
             } else {
 
-                flash('error','please_login_as_bidder_to_continue', 'error');
+                flash('error', 'please_login_as_bidder_to_continue', 'error');
                 return redirect(URL_HOME);
             }
-
         } else {
 
             return null;
@@ -430,107 +406,102 @@ class PaymentsController extends Controller
         $user = \Auth::user();
         $response = $request->all();
 
-        $params = explode('?token=',$_SERVER['REQUEST_URI']) ;
-        if (!count($params))
+        $params = explode('?token=', $_SERVER['REQUEST_URI']);
+        if (!$params->count())
             return FALSE;
-        
+
         $slug = $params[1];
 
-        $message='';
-        if($this->paymentSuccess($request))
-        {
+        $message = '';
+        if ($this->paymentSuccess($request)) {
             //PAYMENT RECORD UPDATED SUCCESSFULLY
             //PREPARE SUCCESS MESSAGE
-          $message .= 'your_bid_payment_is_successfull';
+            $message .= 'your_bid_payment_is_successfull';
 
-           try {
-            //BIDDING
-            //SEND EMAIL AND DB NOTIFICATION TO ADMIN
-            //SEND EMAIL NOTIFICATION TO BIDDER
-            //
-            
-            //AUCTION BOUGHT
-            //EMAIL AND DB NOTIFICATION TO ADMIN
-            //EMAIL NOTIFICATION TO BIDDER
+            try {
+                //BIDDING
+                //SEND EMAIL AND DB NOTIFICATION TO ADMIN
+                //SEND EMAIL NOTIFICATION TO BIDDER
+                //
 
-            /* sendEmail($email_template, array('username'=>$user->name, 
+                //AUCTION BOUGHT
+                //EMAIL AND DB NOTIFICATION TO ADMIN
+                //EMAIL NOTIFICATION TO BIDDER
+
+                /* sendEmail($email_template, array('username'=>$user->name, 
               'plan' => $package_name,
               'to_email' => $user->email));*/
 
-            $payment_record = Payment::where('slug', '=', $slug)
-                                      ->where('payment_status','=','success')
-                                      ->first();
+                $payment_record = Payment::where('slug', '=', $slug)
+                    ->where('payment_status', '=', 'success')
+                    ->first();
 
-            if (count($payment_record)) {
+                if ($payment_record->count()) {
 
-                $user = User::where('id',$payment_record->user_id)->first();
-                $auction = Auction::where('id',$payment_record->auction_id)->first();
+                    $user = User::where('id', $payment_record->user_id)->first();
+                    $auction = Auction::where('id', $payment_record->auction_id)->first();
 
-                $total_data = array('payment_record'=>$payment_record,
-                                    'user'=>$user,
-                                    'auction'=>$auction
-                                    );
-                
-                
+                    $total_data = array(
+                        'payment_record' => $payment_record,
+                        'user' => $user,
+                        'auction' => $auction
+                    );
 
-                if ($payment_record->payment_for=='bidding') {
 
-                    //SEND EMAIL AND DB NOTIFICATION TO ADMIN
-                    $admin = User::where('role_id',getRoleData('admin'))->first();
-                    if ($admin) {
-                    $admin->notify(new \App\Notifications\AuctionBidPayment($user,$auction,$payment_record,'admin'));
 
-                    //admin-db notification
-                    $admin->notify(new \App\Notifications\AuctionBidPaymentAdmindb($user,$payment_record->paid_amount));
+                    if ($payment_record->payment_for == 'bidding') {
+
+                        //SEND EMAIL AND DB NOTIFICATION TO ADMIN
+                        $admin = User::where('role_id', getRoleData('admin'))->first();
+                        if ($admin) {
+                            $admin->notify(new \App\Notifications\AuctionBidPayment($user, $auction, $payment_record, 'admin'));
+
+                            //admin-db notification
+                            $admin->notify(new \App\Notifications\AuctionBidPaymentAdmindb($user, $payment_record->paid_amount));
+                        }
+
+
+                        //SEND EMAIL NOTIFICATION TO BIDDER
+                        $user->notify(new \App\Notifications\AuctionBidPayment($user, $auction, $payment_record, 'user'));
+                    } elseif ($payment_record->payment_for == 'buy_auction') {
+
+                        //EMAIL AND DB NOTIFICATION TO ADMIN
+                        $admin = User::where('role_id', getRoleData('admin'))->first();
+                        if ($admin)
+                            // $admin->notify(new \App\Notifications\AuctionBuyPayment($total_data,'admin'));
+                            $admin->notify(new \App\Notifications\AuctionBuyPayment($user, $auction, $payment_record, 'admin'));
+
+                        //admin-db notification
+                        $admin->notify(new \App\Notifications\AuctionBuyPaymentAdmindb($user, $payment_record->paid_amount));
+
+
+                        //EMAIL NOTIFICATION TO BIDDER
+                        // $user->notify(new \App\Notifications\AuctionBuyPayment($total_data,'user'));
+
+                        $user->notify(new \App\Notifications\AuctionBuyPayment($user, $auction, $payment_record, 'user'));
                     }
-
-                    
-                    //SEND EMAIL NOTIFICATION TO BIDDER
-                    $user->notify(new \App\Notifications\AuctionBidPayment($user,$auction,$payment_record,'user'));
-
-
-                } elseif ($payment_record->payment_for=='buy_auction') {
-
-                    //EMAIL AND DB NOTIFICATION TO ADMIN
-                    $admin = User::where('role_id',getRoleData('admin'))->first();
-                    if ($admin)
-                    // $admin->notify(new \App\Notifications\AuctionBuyPayment($total_data,'admin'));
-                    $admin->notify(new \App\Notifications\AuctionBuyPayment($user,$auction,$payment_record,'admin'));
-
-                    //admin-db notification
-                    $admin->notify(new \App\Notifications\AuctionBuyPaymentAdmindb($user,$payment_record->paid_amount));
-
-
-                    //EMAIL NOTIFICATION TO BIDDER
-                    // $user->notify(new \App\Notifications\AuctionBuyPayment($total_data,'user'));
-
-                    $user->notify(new \App\Notifications\AuctionBuyPayment($user,$auction,$payment_record,'user'));
                 }
-            }                          
+            } catch (Exception $ex) {
 
-            } catch(Exception $ex) {
-
-                 $message .= getPhrase('\ncannot_send_email_to_user, please_check_your_server_settings');
+                $message .= getPhrase('\ncannot_send_email_to_user, please_check_your_server_settings');
             }
-
-        }
-        else {
+        } else {
             //PAYMENT RECORD IS NOT VALID
             //PREPARE METHOD FOR FAILED CASE
             pageNotFound();
         }
         //REDIRECT THE USER BY LOADING A VIEW
-        
+
         // return redirect(URL_PAYMENTS_LIST.$user->slug);
 
-        flash('success',$message, 'overlay');
+        flash('success', $message, 'overlay');
         return redirect(URL_BIDDER_PAYMENTS);
     }
 
 
 
 
-      /**
+    /**
      * Common method to handle success payments
      * @return [type] [description]
      */
@@ -541,34 +512,32 @@ class PaymentsController extends Controller
             return TRUE;
         }
 
-        $params = explode('?token=',$_SERVER['REQUEST_URI']) ;
-       
-        if (!count($params))
-          return FALSE;
-    
-        $slug = $params[1];
-        
-         
-   
-        $payment_record = Payment::where('slug', '=', $slug)->first();
-        
-        
+        $params = explode('?token=', $_SERVER['REQUEST_URI']);
 
-        if ($this->processPaymentRecord($payment_record))
-        {
+        if (!$params->count())
+            return FALSE;
+
+        $slug = $params[1];
+
+
+
+        $payment_record = Payment::where('slug', '=', $slug)->first();
+
+
+
+        if ($this->processPaymentRecord($payment_record)) {
             $payment_record->payment_status = PAYMENT_STATUS_SUCCESS;
 
-            
-            if ($payment_record->payment_gateway=='paypal') {
+
+            if ($payment_record->payment_gateway == 'paypal') {
 
                 $payment_record->paid_amount    = $request->mc_gross;
                 $payment_record->transaction_id = $request->txn_id;
                 // $payment_record->paid_by         = $request->payer_email;
-            } elseif ($payment_record->payment_gateway=='payu') {
+            } elseif ($payment_record->payment_gateway == 'payu') {
 
                 $payment_record->paid_amount    = $request->amount;
                 $payment_record->transaction_id = $request->txnid;
-
             }
 
 
@@ -579,10 +548,10 @@ class PaymentsController extends Controller
             $payment_record->save();
 
 
-            if ($payment_record->payment_for==PAYMENT_FOR_BIDDING) {
+            if ($payment_record->payment_for == PAYMENT_FOR_BIDDING) {
 
-                $auctionbidder = AuctionBidder::where('id','=',$payment_record->ab_id)->first();
-                
+                $auctionbidder = AuctionBidder::where('id', '=', $payment_record->ab_id)->first();
+
 
                 if ($auctionbidder) {
 
@@ -593,12 +562,11 @@ class PaymentsController extends Controller
                     $auctionbidder->is_bidder_won  = 'Yes';
 
                     $auctionbidder->save();
-
                 }
             }
 
             //send email,db notifications-to bidder,admin with all details
-           /*if($item_details->type == 'online'){  
+            /*if($item_details->type == 'online'){  
 
                 \Event::fire(new \App\Events\CertificationPaymentCompleted($item_details));
             }*/
@@ -618,15 +586,13 @@ class PaymentsController extends Controller
      */
     protected  function processPaymentRecord(Payment $payment_record)
     {
-        if(!$this->isValidPaymentRecord($payment_record))
-        {
-            flash('Oops','invalid_record', 'error');
+        if (!$this->isValidPaymentRecord($payment_record)) {
+            flash('Oops', 'invalid_record', 'error');
             return FALSE;
         }
 
-        if($this->isExpired($payment_record))
-        {
-            flash('Oops','time_out', 'error');
+        if ($this->isExpired($payment_record)) {
+            flash('Oops', 'time_out', 'error');
             return FALSE;
         }
 
@@ -642,9 +608,8 @@ class PaymentsController extends Controller
     protected function isValidPaymentRecord(Payment $payment_record)
     {
         $valid = FALSE;
-        if($payment_record)
-        {
-            if($payment_record->payment_status == PAYMENT_STATUS_PENDING)
+        if ($payment_record) {
+            if ($payment_record->payment_status == PAYMENT_STATUS_PENDING)
                 $valid = TRUE;
         }
         return $valid;
@@ -663,10 +628,9 @@ class PaymentsController extends Controller
         $is_expired = FALSE;
         $to_time = strtotime(Carbon\Carbon::now());
         $from_time = strtotime($payment_record->updated_at);
-        $difference_time = round(abs($to_time - $from_time) / 60,2);
+        $difference_time = round(abs($to_time - $from_time) / 60, 2);
 
-        if($difference_time > PAYMENT_RECORD_MAXTIME)
-        {
+        if ($difference_time > PAYMENT_RECORD_MAXTIME) {
             $payment_record->payment_status = PAYMENT_STATUS_CANCELLED;
             $payment_record->save();
             return $is_expired =  TRUE;
@@ -685,7 +649,6 @@ class PaymentsController extends Controller
             //FAILED PAYMENT RECORD UPDATED SUCCESSFULLY
             //PREPARE SUCCESS MESSAGE
             flash('Ooops...!', 'your_payment_was cancelled', 'overlay');
-
         } else {
             //PAYMENT RECORD IS NOT VALID
             //PREPARE METHOD FOR FAILED CASE
@@ -696,11 +659,11 @@ class PaymentsController extends Controller
         return redirect(URL_DASHBOARD);
         // $user = Auth::user();
         // return redirect(URL_PAYMENTS_LIST.$user->slug);
-         
+
     }
 
 
-     /**
+    /**
      * Common method to handle payment failed records
      * @return [type] [description]
      */
@@ -710,23 +673,22 @@ class PaymentsController extends Controller
             return TRUE;
         }
 
-        $params = explode('?token=',$_SERVER['REQUEST_URI']) ;
-    
-        if(!count($params))
-        return FALSE;
-    
+        $params = explode('?token=', $_SERVER['REQUEST_URI']);
+
+        if (!$params->count())
+            return FALSE;
+
         $slug = $params[1];
         $payment_record = Payment::where('slug', '=', $slug)->first();
-     
 
-        if(!$this->processPaymentRecord($payment_record))
-        {
+
+        if (!$this->processPaymentRecord($payment_record)) {
             return FALSE;
         }
-    
+
         $payment_record->payment_status = PAYMENT_STATUS_CANCELLED;
         $payment_record->save();
-        
+
         return TRUE;
     }
 
@@ -746,96 +708,91 @@ class PaymentsController extends Controller
         $user = \Auth::user();
         $response = $request->all();
 
-        $message='';
+        $message = '';
 
 
 
-        $params = explode('?token=',$_SERVER['REQUEST_URI']) ;
-        if (!count($params))
+        $params = explode('?token=', $_SERVER['REQUEST_URI']);
+        if (!$params->count())
             return FALSE;
-        
+
         $slug = $params[1];
 
 
-       if ($this->paymentSuccess($request)) {
+        if ($this->paymentSuccess($request)) {
 
             //PAYMENT RECORD UPDATED SUCCESSFULLY
             //PREPARE SUCCESS MESSAGE
-            
+
             $message .= 'your_auction_payment_is_successfull';
 
             try {
 
-                 $payment_record = Payment::where('slug', '=', $slug)
-                                      ->where('payment_status','=','success')
-                                      ->first();
+                $payment_record = Payment::where('slug', '=', $slug)
+                    ->where('payment_status', '=', 'success')
+                    ->first();
 
-                if (count($payment_record)) {
+                if ($payment_record->count()) {
 
-                    $user = User::where('id',$payment_record->user_id)->first();
-                    $auction = Auction::where('id',$payment_record->auction_id)->first();
+                    $user = User::where('id', $payment_record->user_id)->first();
+                    $auction = Auction::where('id', $payment_record->auction_id)->first();
 
-                    $total_data = array('payment_record'=>$payment_record,
-                                        'user'=>$user,
-                                        'auction'=>$auction
-                                        );
+                    $total_data = array(
+                        'payment_record' => $payment_record,
+                        'user' => $user,
+                        'auction' => $auction
+                    );
 
-                    if ($payment_record->payment_for=='bidding') {
+                    if ($payment_record->payment_for == 'bidding') {
 
                         //SEND EMAIL AND DB NOTIFICATION TO ADMIN
-                        $admin = User::where('role_id',getRoleData('admin'))->first();
+                        $admin = User::where('role_id', getRoleData('admin'))->first();
 
                         if ($admin) {
 
                             // $admin->notify(new \App\Notifications\AuctionBidPayment($total_data,'admin'));
-                            $admin->notify(new \App\Notifications\AuctionBidPayment($user,$auction,$payment_record,'admin'));
+                            $admin->notify(new \App\Notifications\AuctionBidPayment($user, $auction, $payment_record, 'admin'));
 
                             //db notification
-                             $admin->notify(new \App\Notifications\AuctionBidPaymentAdmindb($user,$payment_record->paid_amount));
+                            $admin->notify(new \App\Notifications\AuctionBidPaymentAdmindb($user, $payment_record->paid_amount));
                         }
-                        
+
 
                         //SEND EMAIL NOTIFICATION TO BIDDER
-                        $user->notify(new \App\Notifications\AuctionBidPayment($user,$auction,$payment_record,'user'));
-
-
-                    } elseif ($payment_record->payment_for=='buy_auction') {
+                        $user->notify(new \App\Notifications\AuctionBidPayment($user, $auction, $payment_record, 'user'));
+                    } elseif ($payment_record->payment_for == 'buy_auction') {
 
                         //EMAIL AND DB NOTIFICATION TO ADMIN
-                        $admin = User::where('role_id',getRoleData('admin'))->first();
+                        $admin = User::where('role_id', getRoleData('admin'))->first();
                         if ($admin) {
 
                             // $admin->notify(new \App\Notifications\AuctionBuyPayment($total_data,'admin'));
-                            
-                            $admin->notify(new \App\Notifications\AuctionBuyPayment($user,$auction,$payment_record,'admin'));
+
+                            $admin->notify(new \App\Notifications\AuctionBuyPayment($user, $auction, $payment_record, 'admin'));
 
                             //db notification
-                            $admin->notify(new \App\Notifications\AuctionBuyPaymentAdmindb($user,$payment_record->paid_amount));
+                            $admin->notify(new \App\Notifications\AuctionBuyPaymentAdmindb($user, $payment_record->paid_amount));
                         }
-                        
+
 
                         //EMAIL NOTIFICATION TO BIDDER
-                        $user->notify(new \App\Notifications\AuctionBuyPayment($user,$auction,$payment_record,'user'));
+                        $user->notify(new \App\Notifications\AuctionBuyPayment($user, $auction, $payment_record, 'user'));
                     }
                 }
+            } catch (Exception $ex) {
 
-            } catch(Exception $ex) {
-            
                 $message .= getPhrase('\ncannot_send_email_to_user, please_check_your_server_settings');
             }
-
-            
-
-       } else {
+        } else {
             //PAYMENT RECORD IS NOT VALID
             //PREPARE METHOD FOR FAILED CASE
             pageNotFound();
-       }
+        }
 
-      //REDIRECT THE USER BY LOADING A VIEW
-      // return redirect(URL_PAYMENTS_LIST.$user->slug);
-      flash('success', $message, 'overlay');
-      return redirect(URL_BIDDER_PAYMENTS);
+        //REDIRECT THE USER BY LOADING A VIEW
+        // return redirect(URL_PAYMENTS_LIST.$user->slug);
+        flash('success', $message, 'overlay');
+        return redirect(URL_BIDDER_PAYMENTS);
     }
 
     /**
@@ -845,23 +802,20 @@ class PaymentsController extends Controller
      */
     public function payu_cancel(Request $request)
     {
-          if($this->paymentFailed())
-          {
+        if ($this->paymentFailed()) {
             //FAILED PAYMENT RECORD UPDATED SUCCESSFULLY
             //PREPARE SUCCESS MESSAGE
-              flash('Ooops...!', 'your_payment_was cancelled', 'overlay');
-          }
-          else {
-          //PAYMENT RECORD IS NOT VALID
-          //PREPARE METHOD FOR FAILED CASE
+            flash('Ooops...!', 'your_payment_was cancelled', 'overlay');
+        } else {
+            //PAYMENT RECORD IS NOT VALID
+            //PREPARE METHOD FOR FAILED CASE
             pageNotFound();
-          }
+        }
 
-          //REDIRECT THE USER BY LOADING A VIEW
-          $user = \Auth::user();
-          // return redirect(URL_PAYMENTS_LIST.$user->slug);
-          return redirect(URL_DASHBOARD);
-       
+        //REDIRECT THE USER BY LOADING A VIEW
+        $user = \Auth::user();
+        // return redirect(URL_PAYMENTS_LIST.$user->slug);
+        return redirect(URL_DASHBOARD);
     }
 
 
@@ -871,50 +825,48 @@ class PaymentsController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-   public function payStripe(Request $request) 
-   {
+    public function payStripe(Request $request)
+    {
 
-      // dd($request);
+        // dd($request);
 
-     if (env('DEMO_MODE')) {
-        flash('info', 'crud_operations_disabled_in_demo', 'overlay');
-     }
+        if (env('DEMO_MODE')) {
+            flash('info', 'crud_operations_disabled_in_demo', 'overlay');
+        }
 
-      if (!checkRole(getUserGrade(2)))
-      {
-          prepareBlockUserMessage();
-          return back();
-      }
+        if (!checkRole(getUserGrade(2))) {
+            prepareBlockUserMessage();
+            return back();
+        }
 
         // dd($request);
         $payment_gateway = $request->payment_gateway;
         $payment_for     = $request->payment_for;
-        $token=null;
+        $token = null;
 
-        if ($payment_for==PAYMENT_FOR_BIDDING) {
+        if ($payment_for == PAYMENT_FOR_BIDDING) {
 
             $ab_id = $request->ab_id;
             $amount = $request->bid_amount;
 
-            $auctionbidder = AuctionBidder::where('id',$ab_id)->first();
-            if (count($auctionbidder)) {
+            $auctionbidder = AuctionBidder::where('id', $ab_id)->first();
+            if ($auctionbidder->count()) {
 
                 //check if anyone has paid 
-                $auction = Auction::where('id',$auctionbidder->auction_id)->first();
-                if (count($auction)) {
+                $auction = Auction::where('id', $auctionbidder->auction_id)->first();
+                if ($auction->count()) {
 
                     $bid_payment = $auction->getAuctionPayment();
 
-                    if (count($bid_payment)) {
-                        flash('error','other_bidder_has_already_paid_for_this_auction_please_contact_admin', 'error');
+                    if ($bid_payment->paymentFailedcount()) {
+                        flash('error', 'other_bidder_has_already_paid_for_this_auction_please_contact_admin', 'error');
                         return redirect(URL_BIDDER_AUCTIONS);
                     }
-
                 } else {
 
-                    flash('error','auction_not_found', 'error');
+                    flash('error', 'auction_not_found', 'error');
                     return redirect(URL_BIDDER_AUCTIONS);
-                }   
+                }
 
 
                 //check his payment end time is valid 
@@ -922,105 +874,95 @@ class PaymentsController extends Controller
 
                 if ($bidpayment) {
 
-                    $token = $this->preserveBeforeSave($auctionbidder,$payment_gateway,$payment_for);
-
+                    $token = $this->preserveBeforeSave($auctionbidder, $payment_gateway, $payment_for);
                 } else {
 
-                    flash('error','invalid_operation', 'error');
+                    flash('error', 'invalid_operation', 'error');
                     return redirect(URL_BIDDER_AUCTIONS);
                 }
-
-
-
             } else {
 
-                flash('error','auction_bid_not_found', 'error');
+                flash('error', 'auction_bid_not_found', 'error');
                 return redirect(URL_BIDDER_AUCTIONS);
             }
-
-            
-
-        } elseif ($payment_for==PAYMENT_FOR_BUY_AUCTION) {
+        } elseif ($payment_for == PAYMENT_FOR_BUY_AUCTION) {
 
             $auction_id = $request->auction_id;
             $amount = $request->auction_price;
 
-            $auction = Auction::where('id',$auction_id)
-                            ->where('is_buynow',1)
-                            ->where('buy_now_price','>',0)
-                            ->first();
+            $auction = Auction::where('id', $auction_id)
+                ->where('is_buynow', 1)
+                ->where('buy_now_price', '>', 0)
+                ->first();
 
-            if (count($auction)) {
+            if ($auction->count()) {
 
-                $payments = Payment::where('auction_id',$auction->id)
-                                ->where('payment_for',PAYMENT_FOR_BUY_AUCTION)
-                                ->where('payment_status',PAYMENT_STATUS_SUCCESS)
-                                ->get();
+                $payments = Payment::where('auction_id', $auction->id)
+                    ->where('payment_for', PAYMENT_FOR_BUY_AUCTION)
+                    ->where('payment_status', PAYMENT_STATUS_SUCCESS)
+                    ->get();
 
-                if (count($payments)) {
+                if ($payments->count()) {
 
-                    flash('error','someone_has_already_bought_this_item_please_contact_admin', 'error');
-                    return redirect(URL_HOME_AUCTION_DETAILS.'/'.$auction->slug);
-
+                    flash('error', 'someone_has_already_bought_this_item_please_contact_admin', 'error');
+                    return redirect(URL_HOME_AUCTION_DETAILS . '/' . $auction->slug);
                 } else {
 
-                    $token = $this->preserveBeforeSave($auction,$payment_gateway,$payment_for);
-
+                    $token = $this->preserveBeforeSave($auction, $payment_gateway, $payment_for);
                 }
             } else {
 
-                flash('error','auction_record_not_found_please_contact_admin', 'error');
+                flash('error', 'auction_record_not_found_please_contact_admin', 'error');
                 return redirect(URL_DASHBOARD);
-            }               
-
+            }
         }
 
 
         // $stripe_key_test_secret = getSetting('stripe_key_test_secret','stripe');
 
-       
-        $message='';
+
+        $message = '';
 
         DB::beginTransaction();
-        
+
         $user          = \Auth::user();
         $paid_amount   = $amount * 100;
         // dd($course_schedule_data);
-          
 
-        $stripe_currency = getSetting('stripe_currency','stripe');
+
+        $stripe_currency = getSetting('stripe_currency', 'stripe');
         if (!$stripe_currency)
-          $stripe_currency = 'USD';
-        
+            $stripe_currency = 'USD';
+
 
         if ($token) {
-          
+
             try {
 
-                \Stripe\Stripe::setApiKey (env('STRIPE_SECRET'));
-               
-                $charge = \Stripe\Charge::create ( array (
-                          "amount"      => $paid_amount,
-                          "currency"    => $stripe_currency,//'USD',
-                          "source"      => $request->input ('stripeToken'), // obtained with Stripe.js
-                          "description" => "Auction payment." 
-                ) );
-                  
-               $payment_record = Payment::where('slug',$token)->first();
+                \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+                $charge = \Stripe\Charge::create(array(
+                    "amount"      => $paid_amount,
+                    "currency"    => $stripe_currency, //'USD',
+                    "source"      => $request->input('stripeToken'), // obtained with Stripe.js
+                    "description" => "Auction payment."
+                ));
+
+                $payment_record = Payment::where('slug', $token)->first();
 
 
 
-               $payment_record->payment_status = PAYMENT_STATUS_SUCCESS;
-               $payment_record->paid_amount    = $amount;
-               
-               $payment_record->transaction_id = $charge->id;
+                $payment_record->payment_status = PAYMENT_STATUS_SUCCESS;
+                $payment_record->paid_amount    = $amount;
 
-               $payment_record->save();
+                $payment_record->transaction_id = $charge->id;
+
+                $payment_record->save();
 
 
-                if ($payment_record->payment_for==PAYMENT_FOR_BIDDING) {
+                if ($payment_record->payment_for == PAYMENT_FOR_BIDDING) {
 
-                    $auctionbidder = AuctionBidder::where('id',$payment_record->ab_id)->first();
+                    $auctionbidder = AuctionBidder::where('id', $payment_record->ab_id)->first();
 
                     if ($auctionbidder) {
 
@@ -1037,89 +979,80 @@ class PaymentsController extends Controller
                 DB::commit();
 
 
-               
+
                 //email&db notifications
                 try {
 
-                    $payment_record = Payment::where('slug',$token)->first();
+                    $payment_record = Payment::where('slug', $token)->first();
 
-                    if (count($payment_record)) {
+                    if ($payment_record->count()) {
 
-                        $user = User::where('id',$payment_record->user_id)->first();
-                        $auction = Auction::where('id',$payment_record->auction_id)->first();
+                        $user = User::where('id', $payment_record->user_id)->first();
+                        $auction = Auction::where('id', $payment_record->auction_id)->first();
 
-                        $total_data = array('payment_record'=>$payment_record,
-                                            'user'=>$user,
-                                            'auction'=>$auction
-                                         );
+                        $total_data = array(
+                            'payment_record' => $payment_record,
+                            'user' => $user,
+                            'auction' => $auction
+                        );
 
-                        if ($payment_record->payment_for=='bidding') {
+                        if ($payment_record->payment_for == 'bidding') {
 
                             //SEND EMAIL AND DB NOTIFICATION TO ADMIN
-                            $admin = User::where('role_id',getRoleData('admin'))->first();
+                            $admin = User::where('role_id', getRoleData('admin'))->first();
                             if ($admin) {
-                            $admin->notify(new \App\Notifications\AuctionBidPayment($user,$auction,$payment_record,'admin'));
+                                $admin->notify(new \App\Notifications\AuctionBidPayment($user, $auction, $payment_record, 'admin'));
 
-                            //admin-db notification
-                            $admin->notify(new \App\Notifications\AuctionBidPaymentAdmindb($user,$payment_record->paid_amount));
+                                //admin-db notification
+                                $admin->notify(new \App\Notifications\AuctionBidPaymentAdmindb($user, $payment_record->paid_amount));
                             }
 
-                            
+
                             //SEND EMAIL NOTIFICATION TO BIDDER
-                            $user->notify(new \App\Notifications\AuctionBidPayment($user,$auction,$payment_record,'user'));
-
-
-                        } elseif ($payment_record->payment_for=='buy_auction') {
+                            $user->notify(new \App\Notifications\AuctionBidPayment($user, $auction, $payment_record, 'user'));
+                        } elseif ($payment_record->payment_for == 'buy_auction') {
 
                             //EMAIL AND DB NOTIFICATION TO ADMIN
-                            $admin = User::where('role_id',getRoleData('admin'))->first();
+                            $admin = User::where('role_id', getRoleData('admin'))->first();
                             if ($admin)
-                            // $admin->notify(new \App\Notifications\AuctionBuyPayment($total_data,'admin'));
-                            $admin->notify(new \App\Notifications\AuctionBuyPayment($user,$auction,$payment_record,'admin'));
+                                // $admin->notify(new \App\Notifications\AuctionBuyPayment($total_data,'admin'));
+                                $admin->notify(new \App\Notifications\AuctionBuyPayment($user, $auction, $payment_record, 'admin'));
 
                             //admin-db notification
-                            $admin->notify(new \App\Notifications\AuctionBuyPaymentAdmindb($user,$payment_record->paid_amount));
+                            $admin->notify(new \App\Notifications\AuctionBuyPaymentAdmindb($user, $payment_record->paid_amount));
 
 
                             //EMAIL NOTIFICATION TO BIDDER
                             // $user->notify(new \App\Notifications\AuctionBuyPayment($total_data,'user'));
 
-                            $user->notify(new \App\Notifications\AuctionBuyPayment($user,$auction,$payment_record,'user'));
+                            $user->notify(new \App\Notifications\AuctionBuyPayment($user, $auction, $payment_record, 'user'));
                         }
-
-
                     }
-
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
 
                     $message .= getPhrase('\ncannot_send_email_to_user, please_check_your_server_settings');
                 }
-               
+
 
                 $message .= '\nPayment done successfully !';
 
-                flash('success',$message, 'success');
+                flash('success', $message, 'success');
                 return redirect(URL_DASHBOARD);
-
-
-                
-
-            } catch ( \Exception $e ) {
+            } catch (\Exception $e) {
 
                 DB::rollBack();
                 // dd($e->getMessage());
-                flash('Oops...!',$e->getMessage(), 'error');
-                  // \Session::flash ( 'fail-message', "Error! Please Try again." );
-                 // return redirect(URL_INVOICES_LIST.'/'.$user->slug);
-                 return redirect(URL_DASHBOARD);
+                flash('Oops...!', $e->getMessage(), 'error');
+                // \Session::flash ( 'fail-message', "Error! Please Try again." );
+                // return redirect(URL_INVOICES_LIST.'/'.$user->slug);
+                return redirect(URL_DASHBOARD);
             }
-
         } else {
 
-            flash('Oops...!','Error! Please Try again', 'error');
+            flash('Oops...!', 'Error! Please Try again', 'error');
             return redirect(URL_DASHBOARD);
         }
-    } 
+    }
 
     /**
      * [isValidRecord description]
@@ -1128,11 +1061,11 @@ class PaymentsController extends Controller
      */
     public function isValidRecord($record)
     {
-       if ($record === null) {
+        if ($record === null) {
             flash('Ooops...!', getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
-       }
-       return FALSE;
+        }
+        return FALSE;
     }
 
     /**
@@ -1141,6 +1074,6 @@ class PaymentsController extends Controller
      */
     public function getRedirectUrl()
     {
-      return URL_DASHBOARD;
+        return URL_DASHBOARD;
     }
 }

@@ -14,7 +14,8 @@ if (isset($auction) && !empty($auction)) {
             <div class="row">
 
               <div class="col-lg-12 col-md-12 col-sm-12 au-deals">
-                <h2 class="text-center"><?php echo e($seller->name); ?>'s <?php echo e(getPhrase('auctions')); ?></h2>
+              
+                <h2 class="text-center"><?php echo e($seller->name .'\'s '.getPhrase('auctions')); ?></h2>
               </div>
 
                <div class="screenshot-similar-product">

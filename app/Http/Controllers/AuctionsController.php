@@ -124,9 +124,9 @@ class AuctionsController extends Controller
             'sub_category_id'  => 'bail|required',
             'start_date'       => 'bail|required',
             'end_date'         => 'bail|required',
-            'reserve_price'    => 'bail|required',
             'description'      => 'bail|required',
         );
+        // 'reserve_price'    => 'bail|required',
 
         if (checkRole(['admin'])) {
             $columns['auction_status'] = 'bail|required';
@@ -137,6 +137,9 @@ class AuctionsController extends Controller
         $is_it_bid_increment = $request->is_bid_increment;
         if ($is_it_bid_increment == 1) {
             $columns['bid_increment'] = 'bail|required';
+        }
+        if ($request->is_buynow != 1) {
+            $columns['reserve_price'] = 'bail|required';
         }
 
 
@@ -156,12 +159,11 @@ class AuctionsController extends Controller
 
         $this->validate($request, $columns);
 
-
-
         if ($redirect = $this->check_isdemo()) {
             flash('info', 'crud_operations_disabled_in_demo', 'info');
             return redirect($redirect);
         }
+
 
         $logged_in_user = Auth::user();
 
@@ -193,19 +195,23 @@ class AuctionsController extends Controller
         $record->start_date             = date('Y-m-d H:i:s', strtotime($request->start_date));
         $record->end_date               = date('Y-m-d H:i:s', strtotime($request->end_date));
 
-        $record->reserve_price          = $request->reserve_price;
+        $record->is_buynow              = $request->is_buynow;
+        if ($is_it_buynow == 1) {
+            $record->buy_now_price = $request->buy_now_price;
+        } else {
+            $record->buy_now_price = null;
+            $record->reserve_price          = $request->reserve_price;
 
-        $record->minimum_bid            = $request->minimum_bid;
+            $record->minimum_bid            = $request->minimum_bid;
 
+            $record->is_bid_increment       = $request->is_bid_increment;
+            if ($is_it_bid_increment == 1)
+                $record->bid_increment        = $request->bid_increment;
+            else
+                $record->bid_increment        = null;
 
-
-        $record->is_bid_increment       = $request->is_bid_increment;
-        if ($is_it_bid_increment == 1)
-            $record->bid_increment        = $request->bid_increment;
-        else
-            $record->bid_increment        = null;
-
-
+            $record->make_featured          = $request->make_featured;
+        }
 
         $record->description            = $request->description;
         $record->shipping_conditions    = $request->shipping_conditions;
@@ -213,17 +219,6 @@ class AuctionsController extends Controller
         $record->international_shipping = $request->international_shipping;
 
         $record->shipping_terms         = $request->shipping_terms;
-
-        $record->make_featured          = $request->make_featured;
-
-
-
-        $record->is_buynow              = $request->is_buynow;
-        if ($is_it_buynow == 1)
-            $record->buy_now_price = $request->buy_now_price;
-        else
-            $record->buy_now_price = null;
-
 
         $record->created_by_id          = $logged_in_user->id;
         $record->last_updated_by = null;
@@ -252,13 +247,12 @@ class AuctionsController extends Controller
         $record->live_auction_start_time    = $request->live_auction_start_time;
         $record->live_auction_end_time      = $request->live_auction_end_time;
 
-
         if (!env('DEMO_MODE')) {
-
             if ($request->hasFile('image')) {
                 $record->image = $this->processUpload($request, $record);
             }
         }
+        // dd($request->input());
 
 
         $record->save();
@@ -283,7 +277,6 @@ class AuctionsController extends Controller
                 }
             }
         } catch (Exception $ex) {
-
             $message = getPhrase('record_added_successfully ');
             $message .= getPhrase('\ncannot_send_email_to_user, please_check_your_server_settings');
         }
@@ -340,6 +333,7 @@ class AuctionsController extends Controller
     public function update(Request $request, $slug)
     {
 
+
         if (!checkRole(getUserGrade(4))) {
             prepareBlockUserMessage();
             return back();
@@ -350,16 +344,15 @@ class AuctionsController extends Controller
         if ($isValid = $this->isValidRecord($record))
             return redirect($isValid);
 
-
         $columns = array(
             'title'            => 'bail|required|max:100',
             'category_id'      => 'bail|required',
             'sub_category_id'  => 'bail|required',
             'start_date'       => 'bail|required',
             'end_date'         => 'bail|required',
-            'reserve_price'    => 'bail|required',
             'description'      => 'bail|required',
         );
+        // 'reserve_price'    => 'bail|required',
 
 
         if (checkRole(['admin'])) {
@@ -436,46 +429,41 @@ class AuctionsController extends Controller
 
         $record->start_date             = date('Y-m-d H:i:s', strtotime($request->start_date));
         $record->end_date               = date('Y-m-d H:i:s', strtotime($request->end_date));
-
-        $record->reserve_price          = $request->reserve_price;
-
-        $record->minimum_bid            = $request->minimum_bid;
-
-
         $record->description            = $request->description;
         $record->shipping_conditions    = $request->shipping_conditions;
 
         $record->international_shipping = $request->international_shipping;
 
         $record->shipping_terms         = $request->shipping_terms;
-
-        $record->make_featured          = $request->make_featured;
-
-
-
-        $record->is_bid_increment       = $request->is_bid_increment;
-        if ($is_it_bid_increment == 1)
-            $record->bid_increment        = $request->bid_increment;
-        else
-            $record->bid_increment        = null;
-
-
-
         $record->is_buynow              = $request->is_buynow;
         if ($is_it_buynow == 1)
             $record->buy_now_price = $request->buy_now_price;
-        else
+        else {
             $record->buy_now_price = null;
+            $record->reserve_price          = $request->reserve_price;
+
+            $record->minimum_bid            = $request->minimum_bid;
 
 
-        $record->last_updated_by = $logged_in_user->id;
+
+            $record->make_featured          = $request->make_featured;
 
 
-        //live auction date, start time, end time
-        $record->live_auction_date          = $live_auction_date;
-        $record->live_auction_start_time    = $request->live_auction_start_time;
-        $record->live_auction_end_time      = $request->live_auction_end_time;
 
+            $record->is_bid_increment       = $request->is_bid_increment;
+            if ($is_it_bid_increment == 1)
+                $record->bid_increment        = $request->bid_increment;
+            else
+                $record->bid_increment        = null;
+
+            $record->last_updated_by = $logged_in_user->id;
+
+
+            //live auction date, start time, end time
+            $record->live_auction_date          = $live_auction_date;
+            $record->live_auction_start_time    = $request->live_auction_start_time;
+            $record->live_auction_end_time      = $request->live_auction_end_time;
+        }
 
         if (!env('DEMO_MODE')) {
             if ($request->hasFile('image')) {

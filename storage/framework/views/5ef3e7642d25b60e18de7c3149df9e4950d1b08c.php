@@ -12,16 +12,17 @@ $active_class='';
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu pt-5 pt-sm-0 mt-5 mt-sm-0">
 
              
 
-            <li class="<?php echo e(isActive($active_class,'dashboard')); ?>">
+            <li class="<?php echo e(isActive($active_class,'dashboard')); ?>  mt-5 mt-sm-0">
                 <a href="<?php echo e(PREFIX); ?>index">
                     <i class="fa fa-wrench"></i>
                     <span class="title"><?php echo app('translator')->getFromJson('global.app_dashboard'); ?></span>
                 </a>
             </li>
+            
 
 
 
@@ -65,7 +66,16 @@ $active_class='';
 
 
 
-           
+           <?php if(Auth::user()->role_id == 2): ?>
+               <li class="<?php echo e(isActive($active_class,'swicth-account')); ?> mt-5 mt-sm-0">
+                    <a href="<?php echo e(url('switch/seller')); ?>" class="mt-5 mt-sm-0">
+                        <i class="fa fa-user-o"></i>
+                        <span class="title">
+                            Switch to Bidder Account
+                        </span>
+                    </a>
+                </li>
+           <?php endif; ?>
 
             <li>
                 <a href="<?php echo e(URL_LOGOUT); ?>">

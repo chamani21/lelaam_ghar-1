@@ -76,8 +76,8 @@ return [
      |
      */
 
-     'date_format' => 'Y-m-d',
-     'date_format_js' => 'yy-mm-dd',
+    'date_format' => 'Y-m-d',
+    'date_format_js' => 'yy-mm-dd',
 
     /*
     |--------------------------------------------------------------------------
@@ -137,6 +137,11 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+    'twilio' => [
+        'TWILIO_AUTH_TOKEN'  => env('TWILIO_AUTH_TOKEN'),
+        'TWILIO_ACCOUNT_SID' => env('TWILIO_ACCOUNT_SID')
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -186,7 +191,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
-        
+
         /*
          * Application Service Providers...
          */
@@ -197,7 +202,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Zizaco\Entrust\EntrustServiceProvider::class,
-        
+
         Jorenvh\Share\Providers\ShareServiceProvider::class,
         Softon\Indipay\IndipayServiceProvider::class,
 
@@ -262,14 +267,14 @@ return [
 
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Input' => Illuminate\Support\Facades\Input::class,
-       
+
 
         'Share' => Jorenvh\Share\ShareFacade::class,
         'Indipay' => Softon\Indipay\Facades\Indipay::class,
 
 
         "Sms" => "Zenapply\Sms\Facades\Sms",
-        
+
     ],
 
     'languages' => [

@@ -57,6 +57,7 @@
 
 {{-- Yellow Color Theme --}}
 <link href="{{CSS_HOME}}yellow.css" id="style_theme" rel="stylesheet">
+<link href="{{CSS_HOME}}flag-icons.min.css" id="style_theme" rel="stylesheet">
 
 <link href="{{CSS_HOME}}datatables.min.css" rel="stylesheet">
 

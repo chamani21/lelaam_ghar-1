@@ -122,7 +122,7 @@ class AuctionController extends Controller
         $sellers = $request->auction_sellers;
 
 
-        if ($item_type != '' && count($auction_status) > 0) {
+        if ($item_type != '' && $auction_status->count() > 0) {
 
 
             if ($item_type === 'auction_items') {
@@ -162,11 +162,11 @@ class AuctionController extends Controller
 
 
 
-            if (count($sub_categories)) {
+            if ($sub_categories->count()) {
 
-                if (count($selected_cities)) {
+                if ($selected_cities->count()) {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -202,7 +202,7 @@ class AuctionController extends Controller
                     }
                 } else {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -237,9 +237,9 @@ class AuctionController extends Controller
                 }
             } else {
 
-                if (count($selected_cities)) {
+                if ($selected_cities->count()) {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -273,7 +273,7 @@ class AuctionController extends Controller
                     }
                 } else {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -305,7 +305,7 @@ class AuctionController extends Controller
                     }
                 }
             }
-        } elseif ($item_type != '' && count($auction_status) <= 0) {
+        } elseif ($item_type != '' && $auction_status->count() <= 0) {
 
             if ($auction_date != '') {
 
@@ -335,11 +335,11 @@ class AuctionController extends Controller
                 $cond[] = ['auctions.make_featured', '=', 1];
             }
 
-            if (count($sub_categories)) {
+            if ($sub_categories->count()) {
 
-                if (count($selected_cities)) {
+                if ($selected_cities->count()) {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -373,7 +373,7 @@ class AuctionController extends Controller
                     }
                 } else {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -406,9 +406,9 @@ class AuctionController extends Controller
                 }
             } else {
 
-                if (count($selected_cities)) {
+                if ($selected_cities->count()) {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -440,7 +440,7 @@ class AuctionController extends Controller
                     }
                 } else {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -515,11 +515,11 @@ class AuctionController extends Controller
             }
 
 
-            if (count($sub_categories)) {
+            if ($sub_categories->count()) {
 
-                if (count($selected_cities)) {
+                if ($selected_cities->count()) {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -555,7 +555,7 @@ class AuctionController extends Controller
                     }
                 } else {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -590,9 +590,9 @@ class AuctionController extends Controller
                 }
             } else {
 
-                if (count($selected_cities)) {
+                if ($selected_cities->count()) {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -626,7 +626,7 @@ class AuctionController extends Controller
                     }
                 } else {
 
-                    if (count($sellers)) {
+                    if ($sellers->count()) {
 
                         $auctions = Auction::join('users', 'auctions.user_id', 'users.id')
                             ->join('categories', 'auctions.category_id', 'categories.id')
@@ -762,7 +762,7 @@ class AuctionController extends Controller
         $buy_now_payment_record = $auction->getBuyNowAuctionPayment();
 
         $bid_div = true;
-        if (count($bid_payment_record) || count($buy_now_payment_record)) {
+        if ($bid_payment_record->count() || $buy_now_payment_record->count()) {
             $bid_div = false;
         }
 
@@ -865,7 +865,7 @@ class AuctionController extends Controller
             ->orderBy('auctionbidders.id', 'desc')
             ->get();
 
-        if (count($auctionbidders)) {
+        if ($auctionbidders->count()) {
             foreach ($auctionbidders as $ab) {
 
                 $user_last_bid = Bidding::join('auctionbidders', 'bidding.ab_id', 'auctionbidders.id')
@@ -875,7 +875,7 @@ class AuctionController extends Controller
                     ->orderBy('bidding.id', 'desc')
                     ->limit(1)
                     ->get();
-                if (count($user_last_bid)) {
+                if ($user_last_bid->count()) {
                     $user_last_bid  = $user_last_bid[0];
                     $ab->username   = $user_last_bid->name;
                     $ab->bid_amount = $user_last_bid->bid_amount;
@@ -892,7 +892,7 @@ class AuctionController extends Controller
                 ->where('payment_for', PAYMENT_FOR_BUY_AUCTION)
                 ->where('payment_status', PAYMENT_STATUS_SUCCESS)
                 ->get();
-            if (count($buynow_payments))
+            if ($buynow_payments->count())
                 $data['is_already_sold'] = 'Yes';
         }
 
@@ -955,7 +955,7 @@ class AuctionController extends Controller
         $buy_now_payment_record = $auction->getBuyNowAuctionPayment();
 
         $bid_div = true;
-        if (count($bid_payment_record) || count($buy_now_payment_record)) {
+        if ($bid_payment_record->count() || $buy_now_payment_record->count()) {
 
             $bid_div = false;
             //if already some one bought or some one paid auction amount-don't allow live auction
@@ -1035,7 +1035,7 @@ class AuctionController extends Controller
             ->limit(1)
             ->get();
 
-        if (count($bidding)) {
+        if ($bidding->count()) {
             $bidding = $bidding[0];
             $data['bidding'] = $bidding;
         }
@@ -1051,7 +1051,7 @@ class AuctionController extends Controller
                 ->where('payment_for', PAYMENT_FOR_BUY_AUCTION)
                 ->where('payment_status', PAYMENT_STATUS_SUCCESS)
                 ->get();
-            if (count($buynow_payments))
+            if ($buynow_payments->count())
                 $data['is_already_sold'] = 'Yes';
         }
 
@@ -1201,7 +1201,7 @@ class AuctionController extends Controller
 
                 //auction record
                 $auction_record = Auction::where('id', $auction_id)->get();
-                if (count($auction_record))
+                if ($auction_record->count())
                     $auction_record = $auction_record[0];
 
                 //live auction condition
@@ -1243,7 +1243,7 @@ class AuctionController extends Controller
                     $buy_now_payment_record = $auction->getBuyNowAuctionPayment();
 
                     $bid_div = true;
-                    if (count($bid_payment_record) || count($buy_now_payment_record)) {
+                    if ($bid_payment_record->count() || $buy_now_payment_record->count()) {
 
                         $bid_div = false;
 
@@ -1303,7 +1303,7 @@ class AuctionController extends Controller
                                 ->where('bidder_id', $currentUser->id)
                                 ->select(['id', 'no_of_times'])
                                 ->first();
-                            if (count($auctionbidder)) {
+                            if ($auctionbidder != null && $auctionbidder->count()) {
 
                                 //if its not 1st time--then update no_of_times
                                 $auctionbidder->no_of_times = $auctionbidder->no_of_times + 1;
@@ -1475,7 +1475,7 @@ class AuctionController extends Controller
                     $buy_now_payment_record = $auction->getBuyNowAuctionPayment();
 
                     $bid_div = true;
-                    if (count($bid_payment_record) || count($buy_now_payment_record))
+                    if ($bid_payment_record->count() || $buy_now_payment_record->count())
                         $bid_div = false;
 
                     if (!$bid_div) {
@@ -1631,7 +1631,7 @@ class AuctionController extends Controller
                                 ->where('bidder_id', $currentUser->id)
                                 ->select(['id', 'no_of_times'])
                                 ->first();
-                            if (count($auctionbidder)) {
+                            if ($auctionbidder->count()) {
 
                                 //if its not 1st time--then update no_of_times
                                 $auctionbidder->no_of_times = $auctionbidder->no_of_times + 1;
@@ -1683,7 +1683,7 @@ class AuctionController extends Controller
                             $latest_bids = '';
                             $last_five_bids = $auction->getAuctionBiddingHistory(5);
 
-                            if (count($last_five_bids)) {
+                            if ($last_five_bids->count()) {
                                 $latest_bids = '<ul class="list-group">';
 
                                 foreach ($last_five_bids as $lb) {

@@ -89,12 +89,21 @@
                                 <span><?php echo e(getPhrase('my_profile')); ?></span>
                             </a>
                         </li>
+                        
                         <li>
                             <a href="<?php echo e(URL_USERS_CHANGE_PASSWORD); ?><?php echo e(Auth::user()->slug); ?>">
                                 <span><?php echo e(getPhrase('change_password')); ?></span>
                             </a>
                         </li>
-                     
+                        <?php if(Auth::user()->role_id == 2): ?>
+                            <li>
+                                <a href="<?php echo e(url('switch/seller')); ?>" class="mt-5 mt-sm-0">
+                                    <span class="title">
+                                        Switch to Bidder Account
+                                    </span>
+                                </a>
+                            </li>                            
+                        <?php endif; ?>
                         <li>
                             <a href="<?php echo e(URL_LOGOUT); ?>">
                                 <span><?php echo e(getPhrase('logout')); ?></span>

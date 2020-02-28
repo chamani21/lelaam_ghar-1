@@ -127,6 +127,7 @@ file.onchange = function(e){
 </script>
 
 <script src="<?php echo e(JS); ?>bootstrap-datepicker.min.js"></script>
+<script src="<?php echo e(JS); ?>custom.js"></script>
 <script>
      $(function () {
         $('#datepicker').datepicker({

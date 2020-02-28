@@ -58,6 +58,7 @@
 
 
 <link href="<?php echo e(CSS_HOME); ?>yellow.css" id="style_theme" rel="stylesheet">
+<link href="<?php echo e(CSS_HOME); ?>flag-icons.min.css" id="style_theme" rel="stylesheet">
 
 <link href="<?php echo e(CSS_HOME); ?>datatables.min.css" rel="stylesheet">
 

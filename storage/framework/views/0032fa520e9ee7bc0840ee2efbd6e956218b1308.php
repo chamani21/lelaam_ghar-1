@@ -24,7 +24,7 @@ $past_records     = Auction::getHomePastAuctions(8);
                 <div class="col-lg-12 col-md-12 col-sm-12 au-deals">
                     <h2 class="text-center"> <?php echo e(getPhrase('bid_products')); ?></h2> 
                   </div>
-
+                  <div id="featured-auctions"></div>
                 <div class="col-lg-12 col-md-12 col-sm-12 au-premium">
                     <nav class="au-tabs">
 
@@ -37,7 +37,7 @@ $past_records     = Auction::getHomePastAuctions(8);
                           <a class="nav-item au-nav-item nav-link animated-button" id="nav-past-tab" data-toggle="tab" href="#past-auctions" role="tab" aria-controls="nav-past" aria-selected="false"> <?php echo e(getPhrase('past')); ?> </a> 
 
                           <?php if($featured_enable=='Yes'): ?> 
-                          <a class="nav-item au-nav-item nav-link animated-button" id="nav-feature-tab" data-toggle="tab" href="#featured-auctions" role="tab" aria-controls="nav-featured" aria-selected="false"> <?php echo e(getPhrase('featured')); ?> </a> 
+                          <a class="nav-item au-nav-item nav-link animated-button" id="nav-feature-tab" data-toggle="tab" href="#featured-auctions" role="tab" aria-controls="nav-featured" aria-selected="false"> <?php echo e(getPhrase('Sunday Auctions')); ?> </a> 
                           <?php endif; ?> 
 
                         </div>
@@ -192,12 +192,6 @@ $past_records     = Auction::getHomePastAuctions(8);
                             <?php endif; ?> 
                           </div>
                           <!--latest auctions tab end-->
-
-
-
-
-
-
 
                         <!--past auctions start-->
                         <div class="tab-pane fade" id="past-auctions" role="tabpanel" aria-labelledby="nav-past-tab"> 

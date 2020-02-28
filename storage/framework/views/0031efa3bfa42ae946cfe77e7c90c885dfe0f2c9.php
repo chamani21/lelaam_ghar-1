@@ -146,4 +146,5 @@ $networks = \App\Settings::getSettingRecord('social_networks');
 
 
 
+
 <?php $__env->stopSection(); ?> 

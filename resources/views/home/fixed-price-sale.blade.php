@@ -5,13 +5,13 @@ $upcoming_auctions = \App\Auction::getHomeUpcomingAuctions();
 
 ?>
 <!--Upcoming Auction-->
-    <section class="au-latest">
+    <section class="au-latest" id="fixed-price-sale">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 au-deals">
 
                     <h2 class="text-center"> 
-                        {{getPhrase('upcoming_auctions')}} 
+                        {{getPhrase('fixed_price_sale')}} 
                     </h2> </div>
             </div>
 
@@ -34,8 +34,8 @@ $upcoming_auctions = \App\Auction::getHomeUpcomingAuctions();
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12">
                     <div class="au-bidding live">
-                        <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" title="Auction Details" class="btn btn-default au-space au-btn-modren login-bttn view-more-btn view-more-btn-animation-1"> {{getPhrase('happening_now')}}</a>
-                        <label>{{getPhrase('live_auction')}}</label>
+                        <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" title="Auction Details" class="btn btn-default au-space au-btn-modren login-bttn view-more-btn view-more-btn-animation-1"> {{getPhrase('Buy Now')}}</a>
+                        {{-- <label>{{getPhrase('live_auction')}}</label> --}}
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@ $upcoming_auctions = \App\Auction::getHomeUpcomingAuctions();
             <div class="row mt-4">
                 <div class="col-lg-12 col-md-12 col-sm-12 au-all-upcoming">
                    <div class="text-center">
-                    <a href="{{URL_HOME_AUCTIONS}}" class="btn btn-primary au-space au-btn-gray login-bttn view-more-btn view-more-btn-animation-1">{{getPhrase('view_all_upcoming_auctions')}}</a>
+                    <a href="{{URL_HOME_AUCTIONS}}" class="btn btn-primary au-space au-btn-gray login-bttn view-more-btn view-more-btn-animation-1">{{getPhrase('view_all_buy_now_sales')}}</a>
                        </div>
                 </div>
             </div>

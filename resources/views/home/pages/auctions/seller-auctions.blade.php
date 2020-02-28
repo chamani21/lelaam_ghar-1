@@ -15,7 +15,7 @@ if (isset($auction) && !empty($auction)) {
 
               <div class="col-lg-12 col-md-12 col-sm-12 au-deals">
               {{-- {{$seller->name}}'s  --}}
-                <h2 class="text-center">{{getPhrase('seller_auctions')}}</h2>
+                <h2 class="text-center">{{$seller->name .'\'s '.getPhrase('auctions')}}</h2>
               </div>
 
                <div class="screenshot-similar-product">

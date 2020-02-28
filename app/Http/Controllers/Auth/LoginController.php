@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Category;
 use App\SubCatogory;
@@ -230,7 +230,28 @@ class LoginController extends Controller
         return view('auth.login', $data);
     }
 
-
+    /**
+     *  This Method will logout user as seller and login him as bidder
+     * 
+     */
+    public function loginAsBidder()
+    {
+        $user = User::where('email', '=', Auth::user()->email)->where('role_id', '=', 3)->first();
+        Auth::logout();
+        Auth::loginUsingId($user->id);
+        return redirect(url('home'));
+    }
+    /**
+     *  This Method will logout user as bidder and login him as seller
+     * 
+     */
+    public function loginAsSeller()
+    {
+        $user = User::where('email', '=', Auth::user()->email)->where('role_id', '=', 2)->first();
+        Auth::logout();
+        Auth::loginUsingId($user->id);
+        return redirect(url('dashboard'));
+    }
     /**
      * This is method is override from Authenticate Users class
      * This validates the user with username or email with the sent password
@@ -242,6 +263,12 @@ class LoginController extends Controller
         $login_status = FALSE;
         if (Auth::attempt(['username' => $request->email, 'password' => $request->password, 'approved' => 1])) {
             // return redirect(PREFIX);
+            if (Auth::user()->is_phonenumber_verified != 1) {
+                $id = Auth::user()->id;
+                flash('Error..', 'Must Verify Phone Number', 'error');
+                Auth::logout();
+                return redirect(url('phone/verify/' . $id));
+            }
             $login_status = TRUE;
         } elseif (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'approved' => 1])) {
             $login_status = TRUE;
@@ -249,7 +276,7 @@ class LoginController extends Controller
 
         if (!$login_status) {
 
-            $message = getPhrase('please_check_your_details_or_contact_admin_to_approve_your_account');
+            $message = getPhrase('please_re-check_your_details_or_contact_admin_to_approve_your_account');
             flash('Ooops...!', $message, 'error');
             return redirect()->back();
 
@@ -331,5 +358,39 @@ class LoginController extends Controller
     {
         $response = new Response();
         return back()->withCookie(cookie('selected_theme', $theme));
+    }
+
+
+    /**
+     * Form to Verify Mobile Number
+     * 
+     * 
+     */
+    public function verify_phone_form($id)
+    {
+        return view('auth.verify_mobile')->with('id', $id);
+    }
+    /**
+     * Form to Verify Mobile Number
+     * 
+     * 
+     */
+    public function verify_phone(Request $request)
+    {
+        $user = User::find($request->input('id'));
+        $allUser = User::where('verification_code', '=', $request->code)->get();
+
+        if ($allUser->first() != NULL) {
+            for ($i = 0; $i < count($allUser); $i++) {
+                $allUser[$i]->is_phonenumber_verified = 1;
+                $allUser[$i]->save();
+            }
+            Auth::loginUsingId($allUser[0]->id);
+            return redirect(url('/'));
+        } else {
+            $message = getPhrase('you_have_entered_invalid_verification_code_please_try_again');
+            flash('Ooops...!', $message, 'error');
+            return redirect()->back();
+        }
     }
 }

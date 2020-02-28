@@ -110,7 +110,15 @@ $user = Auth::user();
                     </ul>
                   </li>
 
-
+                  @if (Auth::user()->role_id == 3)
+                    <li>
+                        <a href="{{url('switch/bidder')}}" title="Switch Account">
+                          <div class="link">
+                            <i class="fa fa-user-o"></i>
+                            {{getPhrase('Switch_to_Seller_Account')}}</div>
+                        </a>
+                    </li>
+                  @endif
 
                   <li>
                     <a href="{{URL_LOGOUT}}" title="Logout">

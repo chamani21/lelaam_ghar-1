@@ -42,6 +42,9 @@ Route::get('test/images', 'PagesController@imageGallary');
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
 $this->post('login', 'Auth\LoginController@postLogin')->name('auth.login');
 
+Route::get('phone/verify/{id}', 'Auth\LoginController@verify_phone_form');
+Route::post('phone/verify', 'Auth\LoginController@verify_phone')->name('phone.verify');
+
 // $this->post('logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 Route::get('logout', function () {
@@ -53,7 +56,8 @@ Route::get('logout', function () {
     return redirect(URL_USERS_LOGIN);
 })->name('auth.logout');
 
-
+Route::get('switch/seller', 'Auth\LoginController@loginAsBidder');
+Route::get('switch/bidder', 'Auth\LoginController@loginAsSeller');
 
 /*Route::get('fire', function () {
     // dd("hello");

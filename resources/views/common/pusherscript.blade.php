@@ -61,7 +61,7 @@
 
      // $('#latestUsers').prepend(htmldata);
 
-      alertify.success("Hi Admin,</br>New Student Joined" );
+      alertify.success("Hi Admin,</br>New User Joined" );
        
 
     });

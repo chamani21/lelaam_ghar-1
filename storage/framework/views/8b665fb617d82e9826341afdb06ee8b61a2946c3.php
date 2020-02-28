@@ -1,6 +1,6 @@
 <?php $__env->startSection('custom_div'); ?>
 
-<?php if(isset($record) && count($record)): ?>
+<?php if(isset($record) && $record != null): ?>
     <div ng-controller="auctionsController" ng-init="initFunctions()">
 <?php else: ?>
     <div ng-controller="auctionsController">

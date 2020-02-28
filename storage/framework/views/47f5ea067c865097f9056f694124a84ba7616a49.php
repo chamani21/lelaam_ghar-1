@@ -15,7 +15,7 @@ if ($loggedInUser) {
             <?php if($loggedInUser && $loggedInUser->role_id == getRoleData('bidder')): ?>
                 <li class="dropdown notify">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o f-bell text-light"></i>
+                        <i class="fa fa-bell-o f-bell text-dark"></i>
                         <?php if($unread_notifications_count): ?>
                         <span class="count-mt active"><?php echo e($unread_notifications_count); ?></span>
                         <?php endif; ?>

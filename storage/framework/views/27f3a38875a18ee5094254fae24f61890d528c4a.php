@@ -11,7 +11,7 @@
 
              <div class="au-who-main">
                 <h2 class="text-center"><?php echo e($title); ?></h2>
-              </div>
+              </div>  
               
           <div class="panel-body form-auth-style">
 
@@ -98,6 +98,166 @@
 
                 </div>
 
+                 <div class="form-group col-lg-12">
+
+
+
+                      <?php echo e(Form::tel('phone_number', old('phone_number'), $attributes =
+
+                      array('class' => 'form-control',
+
+                      'placeholder' => 'Contact Number',
+
+                      'ng-model' => 'phone_number',
+
+                      'required' => 'true',
+
+                      'ng-minlength' => '2',
+
+                      'ng-maxlength' => '15',
+
+                      'ng-class'=>'{"has-error": formValidate.phone_number.$touched && formValidate.phone_number.$invalid}',
+
+                      ))); ?>
+
+
+
+                      <div class="validation-error" ng-messages="formValidate.phone_number.$error" >
+
+                              <?php echo getValidationMessage(); ?>
+
+
+                              <?php echo getValidationMessage('minlength'); ?>
+
+
+                              <?php echo getValidationMessage('maxlength'); ?>
+
+
+                              <?php echo getValidationMessage('pattern'); ?>
+
+
+                      </div>
+
+                   </div>
+
+
+
+                    <div class="form-group col-lg-12">
+
+
+
+
+                    <?php echo e(Form::text('country', old('country'), $attributes =
+
+                    array('class' => 'form-control',
+
+                    'rows'=>'3',
+
+                    'cols'=>'5',
+
+                    'placeholder' => 'Country',
+
+                    'ng-model' => 'country',
+
+                    'required' => 'true',
+
+                    'ng-maxlength' => '20',
+
+                    'ng-class'=>'{"has-error": formValidate.country.$touched && formValidate.country.$invalid}',
+
+                    ))); ?>
+
+
+
+
+                    <div class="validation-error" ng-messages="formValidate.country.$error" >
+
+                      <?php echo getValidationMessage(); ?>
+
+
+                      <?php echo getValidationMessage('maxlength'); ?>
+
+
+                   </div>
+
+                </div>
+
+                <div class="form-group col-lg-12">
+                      <?php echo e(Form::text('city', old('city'), $attributes =
+
+                      array('class' => 'form-control',
+
+                      'placeholder' => 'City',
+
+                      'ng-model' => 'city',
+
+                      'required' => 'true',
+
+                      'ng-minlength' => '2',
+
+                      'ng-maxlength' => '20',
+
+                      'ng-class'=>'{"has-error": formValidate.city.$touched && formValidate.city.$invalid}',
+
+                      ))); ?>
+
+
+
+                      <div class="validation-error" ng-messages="formValidate.city.$error" >
+
+                              <?php echo getValidationMessage(); ?>
+
+
+                              <?php echo getValidationMessage('minlength'); ?>
+
+
+                              <?php echo getValidationMessage('maxlength'); ?>
+
+
+                              <?php echo getValidationMessage('pattern'); ?>
+
+
+                      </div>
+
+                </div>
+                <div class="form-group col-lg-12">
+                      <?php echo e(Form::text('shop', old('shop'), $attributes =
+
+                      array('class' => 'form-control',
+
+                      'placeholder' => 'Shop or Company name',
+
+                      'ng-model' => 'shop',
+
+                      'required' => 'true',
+
+                      'ng-minlength' => '2',
+
+                      'ng-maxlength' => '20',
+
+                      'ng-class'=>'{"has-error": formValidate.shop.$touched && formValidate.shop.$invalid}',
+
+                      ))); ?>
+
+
+
+                      <div class="validation-error" ng-messages="formValidate.shop.$error" >
+
+                              <?php echo getValidationMessage(); ?>
+
+
+                              <?php echo getValidationMessage('minlength'); ?>
+
+
+                              <?php echo getValidationMessage('maxlength'); ?>
+
+
+                              <?php echo getValidationMessage('pattern'); ?>
+
+
+                      </div>
+
+                </div>
 
                  <div class="form-group col-lg-12">
 
@@ -162,7 +322,7 @@
 
                     'required' => 'true',
 
-                    'ng-maxlength' => '200',
+                    'ng-maxlength' => '300',
 
                     'ng-class'=>'{"has-error": formValidate.message.$touched && formValidate.message.$invalid}',
 

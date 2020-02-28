@@ -33,6 +33,7 @@ $date_format = getSetting('date_format','site_settings');
                         <th> {{getPhrase('start_date')}} </th>
                         <th> {{getPhrase('end_date')}} </th>
 
+                        <th> {{getPhrase('Selling_Type')}} </th>
                         <th> {{getPhrase('reserve_price')}} ({{getSetting('currency_code','site_settings')}}) </th>
                         @if (checkRole(['admin']))
                         <th> {{getPhrase('seller')}} </th>
@@ -65,8 +66,20 @@ $date_format = getSetting('date_format','site_settings');
                                 <td> @if ($auction->start_date) <?php echo date(getSetting('date_format','site_settings').' H:i:s', strtotime($auction->start_date));?> @endif </td>
 
                                 <td>  @if ($auction->end_date) <?php echo date(getSetting('date_format','site_settings').' H:i:s', strtotime($auction->end_date));?> @endif </td>
-
-                                <td >{{ $auction->reserve_price }}</td>
+                                <td >
+                                    @if ($auction->reserve_price == null)
+                                        Buy Now
+                                    @else
+                                        Auction
+                                    @endif
+                                </td>
+                                <td >
+                                    @if ($auction->reserve_price != null)
+                                        {{$auction->reserve_price}}
+                                    @else
+                                        Not an Auction
+                                    @endif
+                                </td>
                                 @if (checkRole(['admin']))
                                 <td> <a href="{{URL_USERS_VIEW}}/{{$auction->seller_slug}}" target="_blank" title="Seller Details"> {{ $auction->username }}</td>
                                 @endif

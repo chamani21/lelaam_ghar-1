@@ -2,6 +2,9 @@
 
 // use Zizaco\Entrust\Entrust;
 
+use App\Role;
+use Illuminate\Support\Facades\Auth;
+
 /**
  * Flash Helper
  * @param  string|null  $title
@@ -236,6 +239,8 @@ function getRole($user_id = 0)
     if ($user_id)
         return getUserRecord($user_id)->roles()->first()->name;
     else {
+        // $user = Auth::user()->role_id;
+        // $roles = Role::find($user);
         $roles = Auth::user()->roles()->first();
         if ($roles)
             return $roles->name;

@@ -508,32 +508,110 @@ $google_login = getSetting('google_plus_login','module');
 
                             </div>
 
-
-
-                            <div class="form-group  col-lg-12">
-
+<div class="form-group col-lg-12">
 
 
 
+                                    <?php echo e(Form::tel('phone_number', old('phone_number') , $attributes = array('class'=>'form-control',
+
+                                        'placeholder' => 'Must verify your number',
+
+                                        'ng-model'=>'phone_number',
+
+                                        'required'=> 'true',
+
+                                        'ng-class'=>'{"has-error": registrationForm.phone_number.$touched && registrationForm.phone_number.$invalid}',
+
+                                        'ng-minlength' => '13',
+
+                                    ))); ?>
 
 
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                    <?php echo e(Form::radio('user_type','seller', true, array('id'=>'seller_modal', 'name'=>'user_type'))); ?>
+
+                                    <div class="validation-error" ng-messages="registrationForm.phone_number.$error" >
+
+                                        <?php echo getValidationMessage(); ?>
 
 
-                                        <label for="seller_modal"> <span class="radio-button"> <i class="mdi mdi-check active"></i> </span> <?php echo e(getPhrase('seller')); ?></label>
+                                        <?php echo getValidationMessage('minlength'); ?>
+
+
                                     </div>
-                                    <div class="col-md-6">
-                                    <?php echo e(Form::radio('user_type','bidder', false, array('id'=>'bidder_modal', 'name'=>'user_type'))); ?>
 
-                                        <label for="bidder_modal"> <span class="radio-button"> <i class="mdi mdi-check active"></i> </span> <?php echo e(getPhrase('bidder')); ?>
 
-                                        </label>
-                                    </div>
-                                </div>
 
                             </div>
+                            <div class="form-group col-lg-12">
+
+
+
+                                    <?php echo e(Form::text('cnic', old('cnic') , $attributes = array('class'=>'form-control',
+
+                                        'placeholder' => 'CNIC with dashes e.g 34211-1234567-9',
+
+                                        'ng-model'=>'cnic',
+
+                                        'required'=> 'true',
+
+                                        'ng-class'=>'{"has-error": registrationForm.cnic.$touched && registrationForm.cnic.$invalid}',
+
+                                        'ng-minlength' => '15',
+                                        'ng-maxlength' => '15',
+
+                                    ))); ?>
+
+
+
+                                    <div class="validation-error" ng-messages="registrationForm.cnic.$error" >
+
+                                        <?php echo getValidationMessage(); ?>
+
+
+                                        <?php echo getValidationMessage('minlength'); ?>
+
+                                        <?php echo getValidationMessage('maxlength'); ?>
+
+
+                                    </div>
+
+
+
+                            </div>
+                            <div class="form-group col-lg-12">
+
+
+
+                                    <?php echo e(Form::text('address', old('address') , $attributes = array('class'=>'form-control',
+
+                                        'placeholder' => 'Complete address',
+
+                                        'ng-model'=>'address',
+
+                                        'required'=> 'true',
+
+                                        'ng-class'=>'{"has-error": registrationForm.address.$touched && registrationForm.address.$invalid}',
+
+                                        'ng-minlength' => '10',
+
+                                    ))); ?>
+
+
+
+                                    <div class="validation-error" ng-messages="registrationForm.address.$error" >
+
+                                        <?php echo getValidationMessage(); ?>
+
+
+                                        <?php echo getValidationMessage('minlength'); ?>
+
+
+                                    </div>
+
+
+
+                            </div>
+
+                            
 
 
 

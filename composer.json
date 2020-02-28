@@ -23,6 +23,7 @@
     "pusher/pusher-php-server": "^3.0",
     "softon/indipay": "^1.0",
     "spatie/laravel-medialibrary": "^6.0",
+    "twilio/sdk": "4.0",
     "unisharp/laravel-filemanager": "^1.8",
     "yajra/laravel-datatables-oracle": "^8.0",
     "zenapply/laravel-sms": "^2.1"
