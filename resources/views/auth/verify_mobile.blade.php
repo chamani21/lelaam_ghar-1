@@ -15,7 +15,7 @@
                     <div class="col-md-6 offset-md-3">
                         <label for="">Verification Code</label>
                         <input type="text" placeholder="Enter 6-Digit Verification Code" name="code" class="form-control" minlength="6" maxlength="6" required>
-                        {{-- <a href="{{url('resend/code/'.$id)}}" class="link text-primary">Resend Code?</a> --}}
+                        <a href="{{url('resend/code/'.$id)}}" class="link text-primary">Resend Code?</a>
                     </div>
                 </div>
                 <div class="form-row mt-3">

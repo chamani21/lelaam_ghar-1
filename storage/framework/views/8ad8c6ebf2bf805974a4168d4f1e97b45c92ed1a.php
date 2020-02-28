@@ -49,10 +49,10 @@ $categories = \App\Category::getHomeCategories(6);
             <?php endif; ?>
             <?php if(!Auth::check()): ?>
                 <li>
-                    <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Login" class="nav-link nav-press scroll text-dark" >
-                        <?php echo e(getPhrase('login')); ?>
-
+                    <a href="<?php echo e(url('login')); ?>" title="Login" class="nav-link nav-press scroll text-dark" >
+                        Login
                     </a>
+                    
                 </li>
             <?php endif; ?>
         </ul>

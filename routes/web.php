@@ -44,6 +44,7 @@ $this->post('login', 'Auth\LoginController@postLogin')->name('auth.login');
 
 Route::get('phone/verify/{id}', 'Auth\LoginController@verify_phone_form');
 Route::post('phone/verify', 'Auth\LoginController@verify_phone')->name('phone.verify');
+Route::get('resend/code/{id}', 'Auth\RegisterController@resend_code')->name('resend.code');
 
 // $this->post('logout', 'Auth\LoginController@logout')->name('auth.logout');
 

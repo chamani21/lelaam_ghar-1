@@ -145,9 +145,14 @@ class RegisterController extends Controller
         $this->validate($request, $columns);
 
         $emails = User::where('email', '=', $request->email)->count();
+        $phones = User::where('phone', '=', $request->phone_number)->count();
         // dd($emails);
         if ($emails >= 2) {
             flash('Error', 'Email is already in use', 'error');
+            return redirect()->back();
+        }
+        if ($phones >= 2) {
+            flash('Error', 'Phone Number is already in use', 'error');
             return redirect()->back();
         }
         // $role_id = getRoleData('bidder');
@@ -246,5 +251,29 @@ class RegisterController extends Controller
         flash('Success..', $message, 'success');
         return redirect(url('phone/verify/' . $user->id));
         // return redirect(URL_USERS_LOGIN);
+    }
+
+    /**
+     * Resend Code to Mobile Number
+     * 
+     */
+    public function resend_code($id)
+    {
+        $user = User::find($id);
+        $allUsers = User::where('phone', '=', $user->phone)->get();
+        $code = rand(100000, 999999);
+        $contact_number = $user->phone;
+        $this->sendSms($code, $contact_number);
+
+        for ($i = 0; $i < count($allUsers); $i++) {
+            $allUsers[$i]->verification_code = $code;
+            $allUsers[$i]->is_phonenumber_verified = 0;
+            $allUsers[$i]->save();
+        }
+
+        flash('Success..', 'Code resended to ' . $user->phone, 'success');
+        return redirect(url('phone/verify/' . $user->id));
+        // dd($allUsers);
+        // return view('auth.verify_mobile')->with('id', $id);
     }
 }

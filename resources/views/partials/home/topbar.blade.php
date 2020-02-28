@@ -48,9 +48,12 @@ $categories = \App\Category::getHomeCategories(6);
             @endif
             @if (!Auth::check())
                 <li>
-                    <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Login" class="nav-link nav-press scroll text-dark" >
-                        {{getPhrase('login')}}
+                    <a href="{{url('login')}}" title="Login" class="nav-link nav-press scroll text-dark" >
+                        Login
                     </a>
+                    {{-- <a href="javascript:void(0);" onclick="showModal('loginModal')" title="Login" class="nav-link nav-press scroll text-dark" >
+                        {{getPhrase('login')}}
+                    </a> --}}
                 </li>
             @endif
         </ul>

@@ -364,15 +364,14 @@ class LoginController extends Controller
     /**
      * Form to Verify Mobile Number
      * 
-     * 
      */
     public function verify_phone_form($id)
     {
         return view('auth.verify_mobile')->with('id', $id);
     }
+
     /**
-     * Form to Verify Mobile Number
-     * 
+     *Verify Mobile Number
      * 
      */
     public function verify_phone(Request $request)
