@@ -54,7 +54,8 @@ body {
 }
 
 .au-nav-inner li a:hover {
-    color: #1b190e !important;
+    color: #fdd90e !important;
+    /* color: #1b190e !important; */
 }
 
 .pagination-link--wide:hover {

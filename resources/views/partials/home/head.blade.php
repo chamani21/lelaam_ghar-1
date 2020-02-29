@@ -44,6 +44,7 @@
 <link href="{{CSS}}sweetalert.css" rel="stylesheet" type="text/css">
 
 <link href="{{CSS}}global-admin.css" rel="stylesheet" type="text/css">
+<link href="{{asset('public/country_codes/css/intlTelInput.css')}}" rel="stylesheet" type="text/css">
 
 
 

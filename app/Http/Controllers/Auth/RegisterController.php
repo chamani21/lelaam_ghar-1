@@ -140,13 +140,16 @@ class RegisterController extends Controller
             'password_confirmation'  => 'bail|required|same:password',
             'cnic'  => 'bail|required|min:15|max:15',
             'phone_number'  => 'bail|required',
-            'address'  => 'bail|required',
+            'city'  => 'bail|required',
+            'state'  => 'bail|required',
+            'country'  => 'bail|required',
+            'streetaddress'  => 'bail|required',
         );
         $this->validate($request, $columns);
 
         $emails = User::where('email', '=', $request->email)->count();
         $phones = User::where('phone', '=', $request->phone_number)->count();
-        // dd($emails);
+        // dd($request->input());
         if ($emails >= 2) {
             flash('Error', 'Email is already in use', 'error');
             return redirect()->back();
@@ -177,7 +180,7 @@ class RegisterController extends Controller
         $password       = $request->password;
         $user->phone       = $request->phone_number;
         $user->verification_code       = $code;
-        $user->address       = $request->address;
+        $user->address       = $request->city . ', ' . $request->state . ', ' . $request->country . ', ' . $request->streetaddress;
         $user->password       = bcrypt($password);
         $user->cnic       = $request->cnic;
         $user->role_id        = getRoleData('seller');
@@ -219,7 +222,7 @@ class RegisterController extends Controller
         $password       = $request->password;
         $user->phone       = $request->phone_number;
         $user->verification_code       = $code;
-        $user->address       = $request->address;
+        $user->address       = $request->city . ', ' . $request->state . ', ' . $request->country . ', ' . $request->streetaddress;
         $user->password       = bcrypt($password);
         $user->cnic       = $request->cnic;
         $user->role_id        = getRoleData('bidder');

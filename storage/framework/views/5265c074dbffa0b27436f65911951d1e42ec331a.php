@@ -30,7 +30,9 @@
 
 
 <script src="<?php echo e(JS_HOME); ?>datatables.min.js"></script>
+<script src="<?php echo e(asset('public/country_codes/js/intlTelInput.js')); ?>"></script>
 
+<script src="<?php echo e(JS); ?>custom.js"></script>
 <!-- include alertify script -->
 <script src="<?php echo e(ALERTIFY); ?>/alertify.min.js"></script>
 
@@ -40,29 +42,29 @@
 <?php if(isset($datatable)): ?>
 <script>
 
-
+  
  $(document).ready(function () {
 
-  /* var tableObj = $('.datatable').DataTable({
+   /* var tableObj = $('.datatable').DataTable({
        language: {
            paginate: {
-               next: '<i class="fa fa-fw fa-angle-right">'
+             next: '<i class="fa fa-fw fa-angle-right">'
                , previous: '<i class="fa fa-fw fa-angle-left">'
            }
            , "sLengthMenu": " _MENU_ "
        , }
-
+       
        , "sDom": 'Rfrtlip'
-   });
-   $('#search-inp').on('keyup', function () {
+      });
+      $('#search-inp').on('keyup', function () {
        tableObj.search($(this).val()).draw();
    });*/
-
+   
    $('.datatable').DataTable({
       language: {
            paginate: {
                next: '<i class="fa fa-fw fa-angle-right">'
-               , previous: '<i class="fa fa-fw fa-angle-left">'
+                , previous: '<i class="fa fa-fw fa-angle-left">'
            }
            , "sLengthMenu": " _MENU_ "
        , },

@@ -67,11 +67,11 @@ $active_class='';
 
 
            <?php if(Auth::user()->role_id == 2): ?>
-               <li class="<?php echo e(isActive($active_class,'swicth-account')); ?> mt-5 mt-sm-0">
-                    <a href="<?php echo e(url('switch/seller')); ?>" class="mt-5 mt-sm-0">
-                        <i class="fa fa-user-o"></i>
-                        <span class="title">
-                            Switch to Bidder Account
+               <li class="mt-5 mt-sm-0">
+                    <a href="<?php echo e(url('switch/seller')); ?>" class="btn btn-info text-white">
+                        <i class="fa fa-user-o text-light"></i>
+                        <span class="text-light">
+                             Switch to Bidder Account
                         </span>
                     </a>
                 </li>

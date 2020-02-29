@@ -45,6 +45,7 @@
 <link href="<?php echo e(CSS); ?>sweetalert.css" rel="stylesheet" type="text/css">
 
 <link href="<?php echo e(CSS); ?>global-admin.css" rel="stylesheet" type="text/css">
+<link href="<?php echo e(asset('public/country_codes/css/intlTelInput.css')); ?>" rel="stylesheet" type="text/css">
 
 
 

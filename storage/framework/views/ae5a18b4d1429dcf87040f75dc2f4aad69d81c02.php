@@ -378,55 +378,17 @@ $google_login = getSetting('google_plus_login','module');
                             <div class="form-group col-lg-12">
 
 
-
-                                    <?php echo e(Form::tel('phone_number', old('phone_number') , $attributes = array('class'=>'form-control',
-
-                                        'placeholder' => 'Must verify your number',
-
-                                        'ng-model'=>'phone_number',
-
-                                        'required'=> 'true',
-
-                                        'ng-class'=>'{"has-error": registrationForm.phone_number.$touched && registrationForm.phone_number.$invalid}',
-
-                                        'ng-minlength' => '13',
-
-                                    ))); ?>
-
-
-
-                                    <div class="validation-error" ng-messages="registrationForm.phone_number.$error" >
-
-                                        <?php echo getValidationMessage(); ?>
-
-
-                                        <?php echo getValidationMessage('minlength'); ?>
-
-
-                                    </div>
+                                    <input type="tel" name="phone_number" required class="phone form-control col-12" placeholder="Enter Phonenumber">
+                                    
 
 
 
                             </div>
                             <div class="form-group col-lg-12">
+                                <input type="text" name="cnic" placeholder="Enter CNIC Number 34120-1234569-7" maxlength="15" minlength="15" class="cnic form-control">
 
 
-
-                                    <?php echo e(Form::text('cnic', old('cnic') , $attributes = array('class'=>'form-control',
-
-                                        'placeholder' => 'CNIC with dashes e.g 34211-1234567-9',
-
-                                        'ng-model'=>'cnic',
-
-                                        'required'=> 'true',
-
-                                        'ng-class'=>'{"has-error": registrationForm.cnic.$touched && registrationForm.cnic.$invalid}',
-
-                                        'ng-minlength' => '15',
-                                        'ng-maxlength' => '15',
-
-                                    ))); ?>
-
+                                    
 
 
                                     <div class="validation-error" ng-messages="registrationForm.cnic.$error" >
@@ -448,23 +410,23 @@ $google_login = getSetting('google_plus_login','module');
 
 
 
-                                    <?php echo e(Form::text('address', old('address') , $attributes = array('class'=>'form-control',
+                                    <?php echo e(Form::text('city', old('city') , $attributes = array('class'=>'form-control',
 
-                                        'placeholder' => 'Complete address',
+                                        'placeholder' => 'City name',
 
-                                        'ng-model'=>'address',
+                                        'ng-model'=>'city',
 
                                         'required'=> 'true',
 
-                                        'ng-class'=>'{"has-error": registrationForm.address.$touched && registrationForm.address.$invalid}',
+                                        'ng-class'=>'{"has-error": registrationForm.city.$touched && registrationForm.city.$invalid}',
 
-                                        'ng-minlength' => '10',
+                                        'ng-minlength' => '3',
 
                                     ))); ?>
 
 
 
-                                    <div class="validation-error" ng-messages="registrationForm.address.$error" >
+                                    <div class="validation-error" ng-messages="registrationForm.city.$error" >
 
                                         <?php echo getValidationMessage(); ?>
 
@@ -476,6 +438,97 @@ $google_login = getSetting('google_plus_login','module');
 
 
 
+                            </div>
+                            <div class="form-group col-lg-12">
+
+
+
+                                    <?php echo e(Form::text('state', old('state') , $attributes = array('class'=>'form-control',
+
+                                        'placeholder' => 'State',
+
+                                        'ng-model'=>'state',
+
+                                        'required'=> 'true',
+
+                                        'ng-class'=>'{"has-error": registrationForm.state.$touched && registrationForm.state.$invalid}',
+
+                                        'ng-minlength' => '3',
+
+                                    ))); ?>
+
+
+
+                                    <div class="validation-error" ng-messages="registrationForm.state.$error" >
+
+                                        <?php echo getValidationMessage(); ?>
+
+
+                                        <?php echo getValidationMessage('minlength'); ?>
+
+
+                                    </div>
+
+
+
+                            </div>
+                            <div class="form-group col-lg-12">
+
+
+
+                                    <?php echo e(Form::text('country', old('country') , $attributes = array('class'=>'form-control',
+
+                                        'placeholder' => 'Country',
+
+                                        'ng-model'=>'country',
+
+                                        'required'=> 'true',
+
+                                        'ng-class'=>'{"has-error": registrationForm.country.$touched && registrationForm.country.$invalid}',
+
+                                        'ng-minlength' => '3',
+
+                                    ))); ?>
+
+
+
+                                    <div class="validation-error" ng-messages="registrationForm.country.$error" >
+
+                                        <?php echo getValidationMessage(); ?>
+
+
+                                        <?php echo getValidationMessage('minlength'); ?>
+
+
+                                    </div>
+
+
+
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <?php echo e(Form::text('streetaddress', old('streetaddress') , $attributes = array('class'=>'form-control',
+
+                                    'placeholder' => 'Street Address',
+
+                                    'ng-model'=>'streetaddress',
+
+                                    'required'=> 'true',
+
+                                    'ng-class'=>'{"has-error": registrationForm.streetaddress.$touched && registrationForm.streetaddress.$invalid}',
+
+                                    'ng-minlength' => '10',
+
+                                ))); ?>
+
+                                <div class="validation-error" ng-messages="registrationForm.streetaddress.$error" >
+
+                                    <?php echo getValidationMessage(); ?>
+
+
+                                    <?php echo getValidationMessage('minlength'); ?>
+
+
+                                </div>
                             </div>
 
                             

@@ -17,8 +17,8 @@ $categories = \App\Category::getHomeCategories(6);
             </li>
             <li class="nav-item au-items text-dark">
                 <?php if(Auth::check() && Auth::user()->role_id == 3): ?>
-                    <a href="<?php echo e(url('switch/bidder')); ?>" title="Switch Account" class="nav-link nav-press scroll text-dark">
-                        <?php echo e(getPhrase('| Switch_to_Seller_Account')); ?>
+                    <a href="<?php echo e(url('switch/bidder')); ?>" title="Switch Account" class="btn btn-dark ml-2">
+                        <?php echo e(getPhrase('Switch_to_Seller_Account')); ?>
 
                     </a>
                 <?php endif; ?>
