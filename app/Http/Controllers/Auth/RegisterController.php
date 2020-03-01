@@ -102,11 +102,8 @@ class RegisterController extends Controller
      */
     public function sendSms($code, $contact_number)
     {
-        // $accountSid = config('app.twilio')['TWILIO_ACCOUNT_SID'];
-        // $authToken = config('app.twilio')['TWILIO_AUTH_TOKEN'];
-        $accountSid = 'AC783397243f980641309e40ca3f1f8fc4';
-        $authToken = '84de8d2e8edc2d34e4ac6f4771657ad4';
-        // dd($contact_number);
+        $accountSid = getSetting('twilio_sid', 'sms_settings');
+        $authToken = getSetting('twilio_token', 'sms_settings');
         try {
             $client = new Client(['auth' => [$accountSid, $authToken]]);
             $result = $client->post(

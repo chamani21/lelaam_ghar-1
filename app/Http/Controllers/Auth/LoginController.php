@@ -221,6 +221,8 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
+        // dd(getSetting('twilio_token', 'sms_settings'));
+
         $user = Auth::user();
         if ($user)
             return redirect(PREFIX);

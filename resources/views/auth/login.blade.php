@@ -348,7 +348,7 @@ $google_login = getSetting('google_plus_login','module');
 
 
                             </div>
-
+                            
                             <div class="form-group col-lg-12">
 
 
