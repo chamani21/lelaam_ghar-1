@@ -206,7 +206,7 @@ return [
         Jorenvh\Share\Providers\ShareServiceProvider::class,
         Softon\Indipay\IndipayServiceProvider::class,
 
-        Zenapply\Sms\Providers\SmsServiceProvider::class,
+        LeadThread\Sms\Providers\SmsServiceProvider::class,
 
     ],
 
@@ -273,7 +273,7 @@ return [
         'Indipay' => Softon\Indipay\Facades\Indipay::class,
 
 
-        "Sms" => "Zenapply\Sms\Facades\Sms",
+        "Sms" => "LeadThread\Sms\Facades\Sms",
 
     ],
 
