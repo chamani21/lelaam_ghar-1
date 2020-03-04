@@ -13,6 +13,8 @@ use App\Http\Controllers\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 class ContentPagesController extends Controller
 {
     use FileUploadTrait;
@@ -96,7 +98,7 @@ class ContentPagesController extends Controller
         $title = $request->title;
 
         $record->title = $title;
-        $record->slug            = $record->makeSlug($title, TRUE);
+        $record->slug            = Str::slug($title, TRUE);
         $record->page_text       = $request->page_text;
         $record->status          = $request->status;
 
@@ -176,7 +178,7 @@ class ContentPagesController extends Controller
         * if changed update the slug value based on the new title
         */
         if($title != $record->title)
-            $record->slug = $record->makeSlug($title, TRUE);
+            $record->slug = Str::slug($title, TRUE);
 
 
         $record->title         = $title;

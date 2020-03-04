@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\User;
 
+use Illuminate\Support\Str;
 use Input;
 use Image;
 use App\ImageSettings;
@@ -173,7 +174,7 @@ class AuctionsController extends Controller
         $title = $request->title;
 
         $record->title = $title;
-        $record->slug                   = $record->makeSlug($title, TRUE);
+        $record->slug                   = Str::slug($title, TRUE);
 
 
         if (checkRole(['admin'])) {
@@ -418,7 +419,7 @@ class AuctionsController extends Controller
          * if changed update the slug value based on the new title
          */
         if ($title != $record->title)
-            $record->slug = $record->makeSlug($title, TRUE);
+            $record->slug = Str::slug($title, TRUE);
 
 
         $record->title         = $title;

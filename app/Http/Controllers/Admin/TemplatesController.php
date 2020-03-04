@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 /*use App\Http\Requests\Admin\StoreTemplatesRequest;
 use App\Http\Requests\Admin\UpdateTemplatesRequest;*/
+
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Input;
@@ -98,7 +100,7 @@ class TemplatesController extends Controller
         $title = $request->title;
 
         $record->title = $title;
-        $record->slug            = $record->makeSlug($title, TRUE);
+        $record->slug            = Str::slug($title, TRUE);
 
         $record->type          = $request->type;
         $record->subject       = $request->subject;
@@ -185,7 +187,7 @@ class TemplatesController extends Controller
         * if changed update the slug value based on the new title
         */
         if($title != $record->title)
-            $record->slug = $record->makeSlug($title, TRUE);
+            $record->slug = Str::slug($title, TRUE);
 
 
         $record->title         = $title;

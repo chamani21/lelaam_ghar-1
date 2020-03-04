@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Str;
 use Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -180,7 +181,7 @@ class LoginController extends Controller
         $user             = new User();
         $password         = str_random(8);
         $user->password   = bcrypt($password);
-        $slug             = $user->makeSlug($receivedData->name);
+        $slug             = Str::slug($receivedData->name);
         $user->username   =  $slug;
         $user->slug       = $slug;
 

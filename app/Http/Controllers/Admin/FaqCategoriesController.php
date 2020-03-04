@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreFaqCategoriesRequest;
 use App\Http\Requests\Admin\UpdateFaqCategoriesRequest;
+use Illuminate\Support\Str;
 
 class FaqCategoriesController extends Controller
 {
@@ -82,7 +83,7 @@ class FaqCategoriesController extends Controller
         $title = $request->title;
 
         $record->title           = $title;
-        $record->slug            = $record->makeSlug($title, TRUE);
+        $record->slug            = Str::slug($title, TRUE);
         $record->status          = $request->status;
         
 
@@ -165,7 +166,7 @@ class FaqCategoriesController extends Controller
         * if changed update the slug value based on the new title
         */
         if($title != $record->title)
-            $record->slug = $record->makeSlug($title, TRUE);
+            $record->slug = Str::slug($title, TRUE);
 
 
         $record->title           = $title;

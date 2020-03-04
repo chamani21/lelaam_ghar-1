@@ -6,6 +6,8 @@ use App\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
+
 /*use App\Http\Requests\Admin\StoreCountriesRequest;
 use App\Http\Requests\Admin\UpdateCountriesRequest;*/
 
@@ -95,7 +97,7 @@ class CountriesController extends Controller
 
         $record->shortcode       = $request->shortcode;
         $record->title           = $country;
-        $record->slug            = $record->makeSlug($country, TRUE);
+        $record->slug            = Str::slug($country, TRUE);
         
         $record->save();
 
@@ -175,7 +177,7 @@ class CountriesController extends Controller
         * if changed update the slug value based on the new title
         */
         if($country != $record->title)
-            $record->slug = $record->makeSlug($country, TRUE);
+            $record->slug = Str::slug($country, TRUE);
 
         $record->shortcode       = $request->shortcode;
         $record->title           = $country;

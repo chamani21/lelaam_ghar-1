@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdateStatesRequest;*/
 
 use App\Country;
+use Illuminate\Support\Str;
 
 class StatesController extends Controller
 {
@@ -101,7 +102,7 @@ class StatesController extends Controller
 
         $record->country_id      = $request->country_id;
         $record->state           = $state;
-        $record->slug            = $record->makeSlug($state, TRUE);
+        $record->slug            = Str::slug($state, TRUE);
         
        
         $record->save();
@@ -185,7 +186,7 @@ class StatesController extends Controller
         * if changed update the slug value based on the new title
         */
         if($state != $record->state)
-            $record->slug = $record->makeSlug($state, TRUE);
+            $record->slug = Str::slug($state, TRUE);
 
 
         $record->country_id      = $request->country_id;

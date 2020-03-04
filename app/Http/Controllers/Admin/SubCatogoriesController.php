@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 /*use App\Http\Requests\Admin\StoreSubCatogoriesRequest;
 use App\Http\Requests\Admin\UpdateSubCatogoriesRequest;*/
+
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Input;
@@ -104,7 +106,7 @@ class SubCatogoriesController extends Controller
         $sub_category = $request->sub_category;
 
         $record->sub_category    = $sub_category;
-        $record->slug            = $record->makeSlug($sub_category, TRUE);
+        $record->slug            = Str::slug($sub_category, TRUE);
 
         $record->category_id     = $request->category_id;
         $record->status          = $request->status;
@@ -186,7 +188,7 @@ class SubCatogoriesController extends Controller
         * if changed update the slug value based on the new title
         */
         if($sub_category != $record->sub_category)
-            $record->slug = $record->makeSlug($sub_category, TRUE);
+            $record->slug = Str::slug($sub_category, TRUE);
 
 
         $record->category_id     = $request->category_id;

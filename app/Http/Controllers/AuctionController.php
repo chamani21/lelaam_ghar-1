@@ -23,7 +23,7 @@ use App\AuctionBidder;
 use App\Payment;
 use App\AuctionImages;
 use Auth;
-
+use Illuminate\Support\Str;
 
 
 class AuctionController extends Controller
@@ -1316,7 +1316,7 @@ class AuctionController extends Controller
                                 $auctionbidder->auction_id = $auction_id;
                                 $auctionbidder->bidder_id  = $currentUser->id;
                                 $auctionbidder->no_of_times = 1;
-                                $auctionbidder->slug       = $auctionbidder::makeSlug(getHashCode());
+                                $auctionbidder->slug       = Str::slug(getHashCode());
                                 $auctionbidder->save();
                             }
 
@@ -1644,7 +1644,7 @@ class AuctionController extends Controller
                                 $auctionbidder->auction_id = $auction_id;
                                 $auctionbidder->bidder_id  = $currentUser->id;
                                 $auctionbidder->no_of_times = 1;
-                                $auctionbidder->slug      = $auctionbidder::makeSlug(getHashCode());
+                                $auctionbidder->slug      = Str::slug(getHashCode());
                                 $auctionbidder->save();
                             }
 

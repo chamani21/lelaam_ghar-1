@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Str;
 use Image;
 use App\ImageSettings;
 
@@ -139,7 +140,7 @@ class UsersController extends Controller
     $user->role_id        = $role_id;
 
     $user->login_enabled = 1;
-    $slug               = $user::makeSlug($name);
+    $slug               = Str::slug($name);
     $user->username     = $request->username;
     $user->slug         = $slug;
     $user->phone        = $request->phone;
@@ -428,7 +429,7 @@ class UsersController extends Controller
     $name = $request->name;
     $previous_role_id = $record->role_id;
     if ($name != $record->name)
-      $record->slug = $record::makeSlug($name);
+      $record->slug = Str::slug($name);
 
     $record->name = $name;
     $comission_value = null;

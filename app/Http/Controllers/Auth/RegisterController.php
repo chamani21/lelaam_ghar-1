@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Str;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -170,7 +171,7 @@ class RegisterController extends Controller
         $name           = $request->name;
 
         $user->name     = $name;
-        $user->slug     = $user->makeSlug($user->name);
+        $user->slug     = Str::slug($user->name);
 
         $user->username = $request->username;
         $user->email    = $request->email;
@@ -212,7 +213,7 @@ class RegisterController extends Controller
         $name           = $request->name;
 
         $user->name     = $name;
-        $user->slug     = $user->makeSlug($user->name);
+        $user->slug     = Str::slug($user->name);
 
         $user->username = $request->username;
         $user->email    = $request->email;

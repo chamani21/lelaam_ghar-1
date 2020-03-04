@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 /*use App\Http\Requests\Admin\StoreTestmoniesRequest;
 use App\Http\Requests\Admin\UpdateTestmoniesRequest;*/
+
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Input;
@@ -105,7 +107,7 @@ class TestmoniesController extends Controller
         $testmony = $request->testmony;
 
         $record->testmony = $testmony;
-        // $record->slug            = $record->makeSlug($title, TRUE);
+        // $record->slug            = Str::slug($title, TRUE);
         $record->user_id       = $request->user_id;
         $record->status        = $request->status;
 
@@ -185,7 +187,7 @@ class TestmoniesController extends Controller
         $testmony = $request->testmony;
 
         $record->testmony = $testmony;
-        // $record->slug            = $record->makeSlug($title, TRUE);
+        // $record->slug            = Str::slug($title, TRUE);
         $record->user_id       = $request->user_id;
         $record->status        = $request->status;
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use \App;
 use App\Http\Requests;
 use App\Settings;
+use Illuminate\Support\Str;
 use Yajra\Datatables\Datatables;
 use DB;
 use Input;
@@ -129,7 +130,7 @@ class SettingsController extends Controller
         * if changed update the slug value based on the new title
         */
         if($name != $record->key)
-            $record->slug = $record->makeSlug($name);
+            $record->slug = Str::slug($name);
     	$record->title                 =$request->title;
         $record->key 			        = $name;
         $record->description 			= $request->description;
@@ -178,7 +179,7 @@ class SettingsController extends Controller
         $record->title                  = $request->title;
         $name 					        = $request->key;
         $record->key 					= $name;
-        $record->slug 			        = $record->makeSlug($name);
+        $record->slug 			        = Str::slug($name);
         $record->description 			= $request->description;
         $record->save();
         

@@ -15,6 +15,7 @@ use DB;
 use Auth;
 use App\Paypal;
 use App\Payment;
+use Illuminate\Support\Str;
 use Input;
 use Softon\Indipay\Facades\Indipay;
 use Carbon;
@@ -311,7 +312,7 @@ class PaymentsController extends Controller
 
             $payment = new Payment();
 
-            $payment->slug              = $payment::makeSlug(getHashCode());
+            $payment->slug              = Str::slug(getHashCode());
             $payment->user_id           = $record->bidder_id;
             $payment->auction_id        = $record->auction_id;
             $payment->ab_id             = $record->id;
@@ -349,7 +350,7 @@ class PaymentsController extends Controller
 
                 $payment = new Payment();
 
-                $payment->slug              = $payment::makeSlug(getHashCode());
+                $payment->slug              = Str::slug(getHashCode());
                 $payment->user_id           = $currentUser->id;
                 $payment->auction_id        = $record->id;
                 $payment->ab_id             = null;

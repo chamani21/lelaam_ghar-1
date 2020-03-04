@@ -11,6 +11,7 @@ use App\Http\Requests\Admin\UpdateCitiesRequest;*/
 
 use App\Country;
 use App\State;
+use Illuminate\Support\Str;
 
 class CitiesController extends Controller
 {
@@ -103,7 +104,7 @@ class CitiesController extends Controller
         $record->country_id      = $request->country_id;
         $record->state_id        = $request->state_id;
         $record->city            = $city;
-        $record->slug            = $record->makeSlug($city, TRUE);
+        $record->slug            = Str::slug($city, TRUE);
         $record->status          = $request->status;
 
         
@@ -191,7 +192,7 @@ class CitiesController extends Controller
         * if changed update the slug value based on the new title
         */
         if($city != $record->city)
-            $record->slug = $record->makeSlug($city, TRUE);
+            $record->slug = Str::slug($city, TRUE);
 
 
         $record->country_id      = $request->country_id;

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 /*use App\Http\Requests\Admin\StoreCategoriesRequest;
 use App\Http\Requests\Admin\UpdateCategoriesRequest;*/
+
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Input;
@@ -96,7 +98,7 @@ class CategoriesController extends Controller
         $category = $request->category;
 
         $record->category = $category;
-        $record->slug            = $record->makeSlug($category, TRUE);
+        $record->slug            = Str::slug($category, TRUE);
         $record->description     = $request->description;
         $record->status          = $request->status;
 
@@ -174,7 +176,7 @@ class CategoriesController extends Controller
         * if changed update the slug value based on the new title
         */
         if($category != $record->category)
-            $record->slug = $record->makeSlug($category, TRUE);
+            $record->slug = Str::slug($category, TRUE);
 
 
         $record->category        = $category;

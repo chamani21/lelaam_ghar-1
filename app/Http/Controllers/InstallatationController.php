@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use \App;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Str;
 use PDO;
 use Exception;
 use Input;
@@ -122,7 +123,7 @@ class InstallatationController extends Controller
         $user->role_id  = 1;
         $user->login_enabled  = 1;
         $user->approved=1;
-        $user->slug = $user->makeSlug($name);
+        $user->slug = Str::slug($name);
 
         $user->save();
         $user->roles()->attach($user->role_id);
