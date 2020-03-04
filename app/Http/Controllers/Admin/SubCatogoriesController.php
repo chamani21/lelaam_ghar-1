@@ -12,7 +12,7 @@ use App\Http\Requests\Admin\UpdateSubCatogoriesRequest;*/
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Input;
+
 
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;

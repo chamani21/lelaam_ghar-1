@@ -80,7 +80,7 @@ class CsvImportController extends Controller
         }
 
         $rows = count($insert);
-        $table = str_plural($modelName);
+        $table = Str::plural($modelName);
 
         File::delete($path);
 

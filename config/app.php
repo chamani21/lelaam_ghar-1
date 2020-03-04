@@ -266,8 +266,6 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
-        'Input' => Illuminate\Support\Facades\Input::class,
-
 
         'Share' => Jorenvh\Share\ShareFacade::class,
         'Indipay' => Softon\Indipay\Facades\Indipay::class,

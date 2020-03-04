@@ -10,7 +10,7 @@ use App\Http\Requests\Admin\StoreSocialLoginsRequest;
 use App\Http\Requests\Admin\UpdateSocialLoginsRequest;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Input;
+
 
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -21,11 +21,14 @@ class SocialLoginsController extends Controller
     /**
      * Display a listing of SocialLogin.
      *
+     * @param Request $request
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function index()
+    public function index(Request $request)
     {
-        if ($filterBy = Input::get('filter')) {
+        if ($filterBy = $request->get('filter')) {
             if ($filterBy == 'all') {
                 Session::put('SocialLogin.filter', 'all');
             } elseif ($filterBy == 'my') {
