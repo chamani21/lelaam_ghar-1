@@ -39,14 +39,14 @@ Route::get('change-theme/{slug?}', 'Auth\LoginController@changeTheme');
 Route::get('test/images', 'PagesController@imageGallary');
 
 // Authentication Routes...
-$this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
-$this->post('login', 'Auth\LoginController@postLogin')->name('auth.login');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
+Route::post('login', 'Auth\LoginController@postLogin')->name('auth.login');
 
 Route::get('phone/verify/{id}', 'Auth\LoginController@verify_phone_form');
 Route::post('phone/verify', 'Auth\LoginController@verify_phone')->name('phone.verify');
 Route::get('resend/code/{id}', 'Auth\RegisterController@resend_code')->name('resend.code');
 
-// $this->post('logout', 'Auth\LoginController@logout')->name('auth.logout');
+// Route::post('logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 Route::get('logout', function () {
 
@@ -77,26 +77,26 @@ Route::get('/test', function () {
 
 
 // Change Password Routes...
-/*$this->get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
-$this->patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');*/
+/*Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
+Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');*/
 
 Route::get('users/change-password/{slug}', 'Admin\UsersController@changePassword');
 Route::patch('users/change-password/{slug}', 'Admin\UsersController@updatePassword');
 
 
 // Password Reset Routes...
-/*$this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('auth.password.reset');
-$this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('auth.password.reset');
-$this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-$this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.password.reset');
+/*Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('auth.password.reset');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('auth.password.reset');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.password.reset');
 */
 
 Route::post('users/forgot-password', 'Auth\ForgotPasswordController@resetUsersPassword');
 
 
 // Registration Routes..
-/*$this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('auth.register');
-$this->post('register', 'Auth\RegisterController@register')->name('auth.register');
+/*Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('auth.register');
+Route::post('register', 'Auth\RegisterController@register')->name('auth.register');
 */
 
 

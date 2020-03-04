@@ -163,7 +163,7 @@
 
                                         'ng-class'=>'{"has-error": registrationForm.password.$touched && registrationForm.password.$invalid}',
 
-                                        'ng-minlength' => 5
+                                        'ng-minlength' => 8
 
                                     )) }}
 
@@ -201,7 +201,7 @@
 
                                         'ng-class'=>'{"has-error": registrationForm.password_confirmation.$touched && registrationForm.password_confirmation.$invalid}',
 
-                                        'ng-minlength' => 5,
+                                        'ng-minlength' => 8,
 
                                         'compare-to' =>"registration.password"
 

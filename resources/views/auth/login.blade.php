@@ -88,7 +88,7 @@ $google_login = getSetting('google_plus_login','module');
 
                                         'ng-class'=>'{"has-error": loginForm.password.$touched && loginForm.password.$invalid}',
 
-                                        'ng-minlength' => 5
+                                        'ng-minlength' => 8
 
                                     )) }}
 
@@ -298,7 +298,7 @@ $google_login = getSetting('google_plus_login','module');
 
                                         'ng-class'=>'{"has-error": registrationForm.password.$touched && registrationForm.password.$invalid}',
 
-                                        'ng-minlength' => 5
+                                        'ng-minlength' => 8
 
                                     )) }}
 
@@ -330,7 +330,7 @@ $google_login = getSetting('google_plus_login','module');
 
                                         'ng-class'=>'{"has-error": registrationForm.password_confirmation.$touched && registrationForm.password_confirmation.$invalid}',
 
-                                        'ng-minlength' => 5,
+                                        'ng-minlength' => 8,
 
                                         'compare-to' =>"registration.password"
 

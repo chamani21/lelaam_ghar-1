@@ -8,7 +8,7 @@ use Carbon\Carbon;
 // use App\Traits\FilterByUser;
 
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 
 use App\Category;
 use App\SubCatogory;

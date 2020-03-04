@@ -34,7 +34,7 @@
 
 									'ng-class'=>'{"has-error": changePassword.old_password.$touched && changePassword.old_password.$invalid}',
 
-									'ng-minlength' => 5
+									'ng-minlength' => 8
 
 							)) }}
 
@@ -64,7 +64,7 @@
 
 							'ng-class'=>'{"has-error": changePassword.password.$touched && changePassword.password.$invalid}',
 
-							'ng-minlength' => 5
+							'ng-minlength' => 8
 
 						)) }}
 
@@ -97,7 +97,7 @@
 
 								'compare-to' =>"password",
 
-								'ng-minlength' => 5
+								'ng-minlength' => 8
 
 							)) }}
 

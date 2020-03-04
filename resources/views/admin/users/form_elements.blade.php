@@ -197,7 +197,7 @@
 
                         'ng-class'=>'{"has-error": formValidate.password.$touched && formValidate.password.$invalid}',
 
-                        'ng-minlength' => 5
+                        'ng-minlength' => 8
 
                     )) }}
 
@@ -232,7 +232,7 @@
 
                         'ng-class'=>'{"has-error": formValidate.password_confirmation.$touched && formValidate.password.$invalid}',
 
-                        'ng-minlength' => 5
+                        'ng-minlength' => 8
 
                     )) }}
 
