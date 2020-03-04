@@ -49,7 +49,7 @@ $networks = \App\Settings::getSettingRecord('social_networks');
             <div class="row au-footer-areas">
                 <div class="col-lg-4 col-md-12 col-sm-12 au-body-footer">
                     <h4>{{getPhrase('about_us')}}</h4>
-                    <p> {!! str_limit($aboutus,200,'...') !!} </p>
+                    <p> {!! Illuminate\Support\Str::limit($aboutus,200,'...') !!} </p>
 
 
                     @if ($networks->facebook->value)

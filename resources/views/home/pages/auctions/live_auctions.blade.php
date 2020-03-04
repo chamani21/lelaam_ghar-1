@@ -33,7 +33,7 @@
                 <div class="col-lg-9 col-md-9 col-sm-12 au-no-margin">
                     <div class="media au-auction-media"> <img src="{{getAuctionImage($auction->image)}}" alt="{{$auction->title}}">
                         <div class="media-body au-upcoming-body">
-                             <h4 class="au-card-title pt-3"> {!! str_limit($auction->title,80,'..') !!} </h4>
+                             <h4 class="au-card-title pt-3"> {!! Illuminate\Support\Str::limit($auction->title,80,'..') !!} </h4>
                             <label>{{getPhrase('by')}} {{$auction->username}}</label>
                             <p class="au-card-text"> 
 
@@ -56,7 +56,7 @@
                 <div class="col-lg-9 col-md-9 col-sm-12 au-no-margin">
                     <div class="media au-auction-media"> <img src="{{getAuctionImage($auction->image)}}" alt="{{$auction->title}}">
                         <div class="media-body au-upcoming-body">
-                            <h4 class="au-card-title pt-3">{!! str_limit($auction->title,80,'..') !!}</h4>
+                            <h4 class="au-card-title pt-3">{!! Illuminate\Support\Str::limit($auction->title,80,'..') !!}</h4>
                             <label>{{getPhrase('by')}} {{$auction->username}}</label>
                             <p class="au-card-text"><i class="fa fa-clock-o"></i>{{$auction->live_auction_start_time}} - {{$auction->live_auction_end_time}} | {{$auction->city}}, {{$auction->state}}</p>
                         </div>

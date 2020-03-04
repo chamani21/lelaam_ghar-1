@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use \Auth;
 use DB;
 use Exception;
+use Illuminate\Support\Str;
 
 
 class ForgotPasswordController extends Controller
@@ -51,7 +52,7 @@ class ForgotPasswordController extends Controller
 
          if ($user!=null) {
 
-           $password       = str_random(8);
+           $password       = Str::random(8);
            $user->password = bcrypt($password);
 
            $user->save();

@@ -335,7 +335,7 @@ class NativeController extends Controller
 
 
         $language_strings = array();
-        foreach (Input::all() as $key => $value) {
+        foreach ($request->all() as $key => $value) {
             if($key=='_method' || $key=='_token')
                 continue;
             $language_strings[$key] = $value;

@@ -45,7 +45,7 @@
 
                                 <td>{{$record->username}}</td>
 
-                                <td> {!! str_limit($record->testmony,20) !!} </td>
+                                <td> {!! Illuminate\Support\Str::limit($record->testmony,20) !!} </td>
 
                                 <td>{{$record->status}}</td>
 

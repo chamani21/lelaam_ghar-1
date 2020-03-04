@@ -15,7 +15,7 @@ $today = DATE('Y-m-d');
 
     <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" title="View Auction Details"><img class="img-fluid auction-img" src="{{getAuctionImage($auction->image,'auction')}}" alt="{{$auction->title}}"></a>
     <div class="card-block au-card-block">
-      <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" title="View Auction Details"><h4 class="card-title au-title"> {!! str_limit($auction->title,40,'') !!} </h4></a>
+      <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" title="View Auction Details"><h4 class="card-title au-title"> {!! Illuminate\Support\Str::limit($auction->title,40,'') !!} </h4></a>
     
 
       {{--@if ($auction->auction_status=='open' && $auction->start_date<=$today && $auction->end_date>=$today)--}}

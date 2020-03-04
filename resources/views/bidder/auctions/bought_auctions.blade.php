@@ -56,7 +56,7 @@
                                
                                 <td> <img src="{{getAuctionImage($auction->image)}}" alt="{{$auction->title}}" width="50" /> </td>
 
-                                <td> <span data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom">{!! str_limit($auction->title,20) !!} </span> </td>
+                                <td> <span data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom">{!! Illuminate\Support\Str::limit($auction->title,20) !!} </span> </td>
 
                                 
                                 <td> {{$currency}}{{$auction->reserve_price}}</td>

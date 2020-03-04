@@ -48,7 +48,7 @@
 
                                <td field-key='title'>{{ $record->title }}</td>
 
-                               <td field-key='message'> {!! str_limit($record->message,20) !!} </td>
+                               <td field-key='message'> {!! Illuminate\Support\Str::limit($record->message,20) !!} </td>
 
                                 <td>
                                     @can('create_letter_view')

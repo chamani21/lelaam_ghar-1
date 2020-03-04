@@ -5,6 +5,8 @@ namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
+use Illuminate\Support\Arr;
+
 class Language extends Model
 {
      /**
@@ -119,7 +121,7 @@ class Language extends Model
     
     
 
-		if(array_has($language_phrases, $key)) {
+		if(Arr::has($language_phrases, $key)) {
      //Language key exists, so returns respective language string 		 
 			return $language_phrases[$key];
 		}

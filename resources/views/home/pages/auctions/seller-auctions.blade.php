@@ -37,7 +37,7 @@ if (isset($auction) && !empty($auction)) {
 
                   <div class="card-block au-similar-block text-center">
 
-                      <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"> <h6 class="card-title text-center"> {!! str_limit($auction->title,30,'..') !!}</h6></a>
+                      <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"> <h6 class="card-title text-center"> {!! Illuminate\Support\Str::limit($auction->title,30,'..') !!}</h6></a>
                       
 
                   </div>

@@ -179,7 +179,7 @@ class LoginController extends Controller
     public function registerWithSocialLogin($receivedData = '')
     {
         $user             = new User();
-        $password         = str_random(8);
+        $password         = Str::random(8);
         $user->password   = bcrypt($password);
         $slug             = Str::slug($receivedData->name);
         $user->username   =  $slug;

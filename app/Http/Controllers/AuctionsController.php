@@ -735,7 +735,7 @@ class AuctionsController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $random_name = str_random(15);
+            $random_name = Str::random(15);
 
             $imageObject = new ImageSettings();
 

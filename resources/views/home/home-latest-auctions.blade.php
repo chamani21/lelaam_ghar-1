@@ -25,7 +25,7 @@ $latest_auctions = \App\Auction::getHomeLatestAuctions();
                         <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" title="View Auction Details"> <img src="{{getAuctionImage($auction->image,'auction')}}" alt="{{$auction->title}}" class="img-fluid"> </a>
 
                         </div>
-                        <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" title="Auction Details"> <h4 class="card-title" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom">  {!! str_limit($auction->title,40,'..') !!} </h4> </a>
+                        <a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}" title="Auction Details"> <h4 class="card-title" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom">  {!! Illuminate\Support\Str::limit($auction->title,40,'..') !!} </h4> </a>
 
                         <label class="text-center"> {{$currency_code}}{{$auction->reserve_price}} </label>
                      </div>

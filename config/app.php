@@ -273,7 +273,7 @@ return [
         'Indipay' => Softon\Indipay\Facades\Indipay::class,
 
 
-        "Sms" => "LeadThread\Sms\Facades\Sms",
+        "Sms" => LeadThread\Sms\Facades\Sms::class
 
     ],
 

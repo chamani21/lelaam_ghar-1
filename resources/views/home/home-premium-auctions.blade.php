@@ -61,8 +61,8 @@ $past_records     = Auction::getHomePastAuctions(8);
                                             <img src="{{getAuctionImage($auction->image,'auction')}}" alt="{{$auction->title}}" class="img-thumbnail img-fluid premium-img"></a> </div>
 
                                         <div class="au-acord-secret">
-                                            <h6 class="card-title text-center" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}">{!! str_limit($auction->title,25,'..') !!}</a></h6>
-                                           <!--  <p class="au-card-text text-center"> {!! str_limit($auction->description,60,'...') !!} </p> -->
+                                            <h6 class="card-title text-center" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}">{!! Illuminate\Support\Str::limit($auction->title,25,'..') !!}</a></h6>
+                                           <!--  <p class="au-card-text text-center"> {!! Illuminate\Support\Str::limit($auction->description,60,'...') !!} </p> -->
                                         </div>
 
 
@@ -134,8 +134,8 @@ $past_records     = Auction::getHomePastAuctions(8);
                                     <div class="au-accordina">
                                         <div class="au-thumb"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <img src="{{getAuctionImage($auction->image,'auction')}}" alt="{{$auction->title}}" class="img-thumbnail img-fluid premium-img"></a> </div>
                                         <div class="au-acord-secret">
-                                            <h6 class="card-title text-center" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}">{!! str_limit($auction->title,25,'..') !!}</a></h6>
-                                            <!-- <p class="au-card-text text-center">{!! str_limit($auction->description,60,'...') !!}</p> -->
+                                            <h6 class="card-title text-center" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}">{!! Illuminate\Support\Str::limit($auction->title,25,'..') !!}</a></h6>
+                                            <!-- <p class="au-card-text text-center">{!! Illuminate\Support\Str::limit($auction->description,60,'...') !!}</p> -->
                                         </div>
                               <!--Hover Section-->
                               <ul class="au-list-ietem au-list-ietems">
@@ -208,8 +208,8 @@ $past_records     = Auction::getHomePastAuctions(8);
                                         <div class="au-thumb"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <img src="{{getAuctionImage($auction->image,'auction')}}" alt="{{$auction->title}}" class="img-thumbnail img-fluid premium-img"></a> </div>
 
                                         <div class="au-acord-secret">
-                                            <h6 class="card-title text-center" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}">{!! str_limit($auction->title,25,'..') !!}</a></h6>
-                                           <!--  <p class="au-card-text text-center">{!! str_limit($auction->description,60,'...') !!}</p> -->
+                                            <h6 class="card-title text-center" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}">{!! Illuminate\Support\Str::limit($auction->title,25,'..') !!}</a></h6>
+                                           <!--  <p class="au-card-text text-center">{!! Illuminate\Support\Str::limit($auction->description,60,'...') !!}</p> -->
                                         </div>
                                        
 
@@ -292,8 +292,8 @@ $past_records     = Auction::getHomePastAuctions(8);
                                         <div class="au-thumb"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}"> <img src="{{getAuctionImage($auction->image,'auction')}}" alt="{{$auction->title}}" class="img-thumbnail img-fluid premium-img"></a> </div>
 
                                         <div class="au-acord-secret">
-                                            <h6 class="card-title text-center" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}">{!! str_limit($auction->title,25,'..') !!}</a></h6>
-                                            <!-- <p class="au-card-text text-center">{!! str_limit($auction->description,60,'...') !!}</p> -->
+                                            <h6 class="card-title text-center" data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom"><a href="{{URL_HOME_AUCTION_DETAILS}}/{{$auction->slug}}">{!! Illuminate\Support\Str::limit($auction->title,25,'..') !!}</a></h6>
+                                            <!-- <p class="au-card-text text-center">{!! Illuminate\Support\Str::limit($auction->description,60,'...') !!}</p> -->
                                         </div>
                                        
 

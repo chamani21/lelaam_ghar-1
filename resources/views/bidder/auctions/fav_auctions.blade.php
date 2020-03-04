@@ -52,7 +52,7 @@
                      
                                 <td> <img src="{{getAuctionImage($auction->image)}}" alt="{{$auction->title}}" width="50" /> </td>
 
-                                <td> <span data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom">{!! str_limit($auction->title,10) !!} </span></td>
+                                <td> <span data-toggle="tooltip" title="{{$auction->title}}" data-placement="bottom">{!! Illuminate\Support\Str::limit($auction->title,10) !!} </span></td>
 
                                 <td>  <?php echo date(getSetting('date_format','site_settings').' H:i:s', strtotime($auction->start_date));?> </td>
 

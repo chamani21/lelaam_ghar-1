@@ -55,7 +55,7 @@ class InstallatationController extends Controller
 
         
      	$this->validate($request,$columns);
-          // $dta = Input::all();
+          // $dta = $request->all();
            //Attempt to create database
         if($this->createDatabase($request)==0)
             return redirect(URL_INSTALL_SYSTEM) ;

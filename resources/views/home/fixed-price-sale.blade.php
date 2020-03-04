@@ -26,7 +26,7 @@ $upcoming_auctions = \App\Auction::getHomeUpcomingAuctions();
                 <div class="col-lg-9 col-md-9 col-sm-12 au-no-margin">
                     <div class="media au-auction-media"> <img src="{{getAuctionImage($auction->image)}}" alt="{{$auction->title}}">
                         <div class="media-body au-upcoming-body">
-                             <h4 class="au-card-title pt-3"> {!! str_limit($auction->title,80,'..') !!} </h4>
+                             <h4 class="au-card-title pt-3"> {!! Illuminate\Support\Str::limit($auction->title,80,'..') !!} </h4>
                             <label>{{getPhrase('by')}} {{$auction->username}}</label>
                             <p class="au-card-text"> {{ date('jS M, Y h:i A',strtotime($auction->created_at)) }} | {{$auction->city}}, {{$auction->state}}</p>
                         </div>
@@ -46,7 +46,7 @@ $upcoming_auctions = \App\Auction::getHomeUpcomingAuctions();
                 <div class="col-lg-9 col-md-9 col-sm-12 au-no-margin">
                     <div class="media au-auction-media"> <img src="{{getAuctionImage($auction->image)}}" alt="{{$auction->title}}">
                         <div class="media-body au-upcoming-body">
-                            <h4 class="au-card-title pt-3">{!! str_limit($auction->title,80,'..') !!}</h4>
+                            <h4 class="au-card-title pt-3">{!! Illuminate\Support\Str::limit($auction->title,80,'..') !!}</h4>
                             <label>{{getPhrase('by')}} {{$auction->username}}</label>
                             <p class="au-card-text">{{ date('jS M, Y h:i A',strtotime($auction->created_at)) }} | {{$auction->city}}, {{$auction->state}}</p>
                         </div>
