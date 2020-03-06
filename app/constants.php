@@ -1,12 +1,6 @@
 <?php
-
-$base1 = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
-$base1 .= '://' . $_SERVER['HTTP_HOST'] . str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
-$base = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
-$base .= '://' . $_SERVER['HTTP_HOST'] . str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
-
-
-// $base =  '/';
+ $base =  '/';
+ $base1 =  '/';
 
 define('PREFIX1', $base1 . 'public/');
 define('BASE_PATH', $base . '/');

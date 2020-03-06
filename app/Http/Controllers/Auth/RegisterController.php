@@ -112,7 +112,7 @@ class RegisterController extends Controller
                 ['form_params' => [
                     'Body' => 'Welcome to LeLaamGhar. Please enter the code to verify your phone number' . $contact_number . '. Your verification Code is : ' . $code, //set message body
                     'To' => $contact_number,
-                    'From' => '+12058283632' //we get this number from twilio
+                    'From' => '+17866400415' //we get this number from twilio
                 ]]
             );
             return $result;

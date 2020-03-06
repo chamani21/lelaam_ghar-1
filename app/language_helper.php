@@ -36,15 +36,6 @@ function charCodeAt($str, $index)
     }
 }
 
-function mb_str_split($str, $length = 1) 
-{
-    if ($length < 1) return false;
-    $result = array();
-    for ($i = 0; $i < mb_strlen($str); $i += $length) {
-        $result[] = mb_substr($str, $i, $length);
-    }
-    return $result;
-}
         
 function RL($a, $b)
 {
